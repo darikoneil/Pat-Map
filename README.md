@@ -19,8 +19,16 @@ MLE-Struc
 11/29/2021: Added pre-compiled mex functions with wrapper interface for C++   
 11/29/2021: Removed rounding step in QPBO solver (for now at least)  
 
-### To-Do (Order of Priority)  
+### To-Do (Order of Priority) 
+Vectorize and/or remove loops of log-likelihood calculations      
+Log model convergence     
 Investigate Performance Impacts of Rounding via Boost Library  
 Finish import of old functions to new Analysis GUI  
-Implement structured prediction/secondary analysis into better performing language  
-Integrate Initialization/Analysis into Single Application  
+Parallel QPBO/BK implementation for better performance on larger datasets^      
+Multi-Plane Block-Coordinate Frank Wolfe implementation for better performance on larger datasets^      
+Implement structured prediction/secondary analysis into better performing language (C++)''      
+Integrate Initialization/Analysis into Single Application     
+
+^ *Parallel QPBO/BK (P-QPBO) is probably a more fruitful performance boost because its dreadfully serialized and is currently a primary bottleneck. Not sure if both MP-BCWF & P-QPBO will be implemented and/or play nice.     
+
+'' *Not necessary if parallel-vectorized implementation is fast enough      
