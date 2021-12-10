@@ -15,7 +15,7 @@ ParWaitBar
 MLE-Struc  
 
 ### Changelog: 
-12/10/2021: Added tensor-based/no-loop log-likelihood by frame function (not incorporated)
+12/10/2021: Added tensor-based/no-loop log-likelihood by frame function (not incorporated)      
 12/10/2021: Added no-loop average log-likelihood function (not incorporated)
 11/30/2021: Updated Readme  
 11/29/2021: Added pre-compiled mex functions with wrapper interface for C++   
