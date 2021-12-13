@@ -3,8 +3,11 @@ function [results] = identifyEnsembles(params,best_model)
 % Darik O'Neil 12-13-2021 Rafael Yuste Laboratory
 % Purpose: Find Ensembles
 
-% Just one step of choosing two subfunctions
+%To accomplish this, we have steps
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
+%% (1, Initialize)
     data = params.data;
     UDF = params.UDF;
     num_controls=params.num_controls;
@@ -29,6 +32,7 @@ function [results] = identifyEnsembles(params,best_model)
         LL_frame{i} = zeros(1,num_frame);
     end
 
+    %% (2, Find each neuron's prediction to the model)
     fprintf('\n')
     fprintf('Now Predicting Each Neuron in Turn')
     fprintf('\n')
@@ -94,6 +98,7 @@ function [results] = identifyEnsembles(params,best_model)
         yCrit = 'tpr';
     end
 
+
     if parProc
         wb = parwaitbar(num_stim,'WaitMessage','Generating Performance Curves for each Ensemble','FinalMessage','Performance Curves Complete');
         parfor ii = 1:num_stim
@@ -115,6 +120,7 @@ function [results] = identifyEnsembles(params,best_model)
     fprintf('\n');
     fprintf('Performance Curves Calculated');
     
+    %% (3, Compare to a set of random ensembles)
     %convert
     auc  = cell2mat(auc);
     size_ens = best_model.max_degree;
@@ -156,11 +162,9 @@ function [results] = identifyEnsembles(params,best_model)
         fprintf('Ensembles Identified')
         fprintf('\n')
         
-            %% Convert nodes to neurons
-            fprintf('\n')
-            fprintf('Packaging for Export')
-
-          %% package results
+%% (4, Package for Export)
+    fprintf('\n')
+    fprintf('Packaging for Export')
     results.auc = auc;
     results.auc_ens = auc_ens;
     results.best_model = best_model;
