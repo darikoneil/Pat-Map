@@ -52,6 +52,8 @@ addParameter(p,'Filename','defaultFilename',@(x) ischar(x));
 addParameter(p,'source_directory','defaultDirectory',@(x) ischar(x));
 %Parameter containing experimental results directory
 addParameter(p,'exptdir','defaultDirectory',@(x) ischar(x));
+%Paramter flagging for shuffling data
+addParameter(p,'dataShuffle',true,@(x) islogical(x));
 
 
 %% (3, Generate Structural Learning Parameters): Here we generate the structural learning parameters
@@ -78,7 +80,8 @@ addParameter(p,'merge',true,@(x) islogical(x));
 addParameter(p,'density',1,@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
 %Parameter to describe the selection of edges during density constraint
 addParameter(p,'absolute',true,@(x) islogical(x));
-
+%Parameter to set alpha in GLM
+addParameter(p,'alphaGLM',1,@(x) isnumeric(x) && numel(x)==1 && x>= 0 && x<=1);
 
 %% (4, Generate Parameter Estimation Parameters): Here we generate the parameter estimation parameters
 
@@ -124,12 +127,71 @@ addParameter(p,'overcompleteCrit','11', @(x) ischar(x) && (strcmp(x,'11') || str
 %parse
 parse(p,varargin{:});
 
-%validate
-
-%export
+%send to structure
 params = p.Results;
 
+%secondary validation
+[params.x_train,params.x_test,params.UDF_Count,params.Num_Nodes,params.data,params.UDF] = interalValidate_Dataset(params.data,params.UDF,params.split,params.merge,params.dataShuffle);
+[params.p_lambda_sequence,params.s_lambda_sequence_LASSO,params.LASSO_options] = internal_generateSequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.logPspace,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.logspace);
 
+end
+
+function [x_train,x_test,UDF_Count, Num_Nodes,params.data,params.UDF] = internalValidate_Dataset(data,UDF,split,merge,dataShuffle)
+
+    %Grab Data Size
+    [Num_Samples,Num_Nodes] = size(data);
+    
+    %Grab UDF Size
+    [UDF_samples,UDF_Count] = size(UDF);
+    
+    %Validate UDF
+    assert(Num_Samples==UDF_samples,'Neuronal and UDF nodes must have equal number of samples');
+    
+    %Shuffle if desired
+    if dataShuffle
+        shufIdx = randperm(Num_Samples);
+        data = data([shufIdx],:);
+        UDF = UDF([shufIdx],:);
+    end
+    
+    %Merge UDF & Neuronal Nodes if necessary
+    if merge
+        data = [data UDF];
+    end
+    
+    %Split
+    x_train = data(1:floor(split*Num_Samples),:);
+    x_test = data((floor(split*Num_Samples)+1):Num_Samples,:);
+    
+    %Validate Training DataSet
+    assert(min(sum(x_train))>0,'ALL NEURONAL NODES MUST FIRE AT LEAST ONE SPIKE IN TRAINING SET');
+end
+
+
+function [p_lambda_sequence,s_lambda_sequence_LASSO,LASSO_options] = internal_generateSequences(p_lambda_count,p_lambda_min,p_lambda_max,logPspace,s_lambda_count,s_lambda_min,s_lambda_max,logspace)
+
+%Generate pLambda Sequence
+if logPspace
+    p_lambda_min_exp = log10(p_lambda_min);
+    p_lambda_max_exp = log10(p_lambda_max);
+    p_lambda_sequence = logspace(p_lambda_min_exp, p_lambda_max_exp, p_lambda_count);
+else
+    p_lambda_sequence = linspace(p_lambda_min,p_lambda_max,p_lambda_count);
+end
+
+%Generate sLambda Sequence
+if logspace
+    s_lambda_count = s_lambda_range;
+    s_lambda_min_exp = log10(s_lambda_min);
+    s_lambda_max_exp = log10(s_lambda_max);
+    s_lambda_sequence_LASSO = sort(logspace(s_lambda_min_exp, s_lambda_max_exp, s_lambda_count),'descend');
+else
+    s_lambda_sequence_LASSO = sort(linspace(s_lambda_min,s_lambda_max,s_lambda_count),'descend');
+end
+
+%set options for GLMNet
+opts.lambda = s_lambda_sequence_LASSO;
+LASSO_options = glmnetSet(opts);
 
 end
 
