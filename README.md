@@ -15,6 +15,8 @@ Matlab code for using neighborhood-based regularization for structural learning 
     MLE-Struc  
 
 ### Changelog: 
+    12/13/2021: Incorporated tensor-based/no-loop log-likelihood & support for parallel processing (parProc)
+    12/13/2021: Pushed simplified functions and parameter design
     12/13/2021: Partial push (unincorporated, just to backup)     
     12/10/2021: Added tensor-based/no-loop log-likelihood by frame function (not incorporated)      
     12/10/2021: Added no-loop average log-likelihood function (not incorporated)
