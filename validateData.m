@@ -109,6 +109,10 @@ addParameter(p, 'printInterval',1000,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 addParameter(p, 'printTest',100', @(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter setting upper bound on time to converge
 addParameter(p, 'MaxTime',Inf,@(x) isnumeric(x) && numel(x)==1 && x>=1);
+%Parameter setting chunk size
+addParameter(p,'chunkSize',1,@(x) isnumeric(x) && numel(x)==1 && x>=1);
+%Parameter flagging chunk processing
+addParameter(p,'chunk',false,@(x) islogical(x));
 
 %% Generate Ensemble Identification Parameters
 

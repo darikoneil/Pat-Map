@@ -214,20 +214,3 @@ function [binary_structure] = processStructure(coefficients,density,absolute)
     binary_structure=logical(binary_structure);
     
 end
-
-   
-   
-   
-   
-
-
-
-
-
-
-
-
-
-
-
-
