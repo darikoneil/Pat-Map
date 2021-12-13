@@ -33,4 +33,17 @@ Matlab code for using neighborhood-based regularization for structural learning 
 
 ^ *Parallel QPBO/BK (P-QPBO) is probably a more fruitful performance boost because its dreadfully serialized and is currently a primary bottleneck. Not sure if both MP-BCWF & P-QPBO will be implemented and/or play nice.     
 
-'' *Not necessary if parallel-vectorized implementation is fast enough      
+'' *Not necessary if parallel-vectorized implementation is fast enough              
+
+
+### Instructions
+
+        The "start_up" function will facilitate locating your datafile and relevant paths       
+        From here, send arguments to the "validateData" function to generate and preprocess the dataset
+        To learn structures, use the "structuralLearning" function
+        To estimate parameters, use the "estimateParameters" function
+        To identify ensembles, use the "identifyEnsembles" function
+        To explore the different options, open the "validateData" function and read documentation
+        
+       
+       
