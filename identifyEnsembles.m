@@ -5,7 +5,7 @@ function [results] = identifyEnsembles(params,best_model)
 
 % Just one step of choosing two subfunctions
  
-   data = params.data;
+    data = params.data;
     UDF = params.UDF;
     num_controls=params.num_controls;
     merge=params.merge;
@@ -40,32 +40,33 @@ function [results] = identifyEnsembles(params,best_model)
             if ii <= num_node
                 frame_vec  = X(:,:);
                 frame_vec(:,ii) = 0;
-                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.nodePotentials,best_model.theta.edgePotentials,best_model.theta.logZ,frame_vec); 
+                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.node_potentials,best_model.theta.edge_potentials,best_model.theta.logZ,frame_vec); 
             else
                 frame_vec=X(:,:);
                 frame_vec(:,ii-num_node) = 1;
-                LL_frame{ii} = compute_avg_log_likelihood(best_model.theta.node_potentials,...
+                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.node_potentials,...
                 best_model.theta.edge_potentials,best_model.theta.logZ,frame_vec);
             end
         end
         wb.progress();
     else
         wb = CmdLineProgressBar('Conducting Log-Likelihood Ratio Test on each Neuron in Turn');
+        fprintf('\n');
+        for ii = 1:(num_node*2)
            if ii <= num_node
                 frame_vec  = X(:,:);
                 frame_vec(:,ii) = 0;
-                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.nodePotentials,best_model.theta.edgePotentials,best_model.theta.logZ,frame_vec); 
+                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.node_potentials,best_model.theta.edge_potentials,best_model.theta.logZ,frame_vec); 
            else
                 frame_vec = X(:,:);
                 frame_vec(:,ii-num_node) = 1;
-                LL_frame{ii} = compute_avg_log_likelihood(best_model.theta.node_potentials,...
+                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.node_potentials,...
                 best_model.theta.edge_potentials,best_model.theta.logZ,frame_vec);
            end
             wb.print(ii,num_node*2);
         end
-        
     end
-
+     
     %convert cell to appropriate tensor of the form neurons x frames x state
     LL_frame = reshape(cell2mat(reshape(LL_frame,num_node,2)),num_node,num_frame,2);
     %squeeze
@@ -165,7 +166,6 @@ function [results] = identifyEnsembles(params,best_model)
     results.best_model = best_model;
     results.core_crf = core_crf;
     results.data = logical(data);
-    results.epsum = epsum;
     results.LL_frame = LL_frame;
     results.LL_on = LL_on;
     results.UDF = UDF;

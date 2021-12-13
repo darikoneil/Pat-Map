@@ -1,4 +1,4 @@
-function [params,results,best_model] = generateCRF(varargin)
+function [params,results,best_model] = generateCRF()
 % 
 % Consolidated Function
 % Darik O'Neil 12-13-2021, Rafael Yuste Laboratory
@@ -26,7 +26,7 @@ function [params,results,best_model] = generateCRF(varargin)
 % start-up function to import our data, initialize parameters, and
 % establish paths
 
-[basepath,params] = start_up(); %start-up function
+[params] = start_up(); %start-up function
 
 % (2, Validation): Here we validate the data to make sure it is
 % commensurable with our requirements
@@ -48,6 +48,7 @@ function [params,results,best_model] = generateCRF(varargin)
 % of these ensembles
 [params] = identifyMotifs; %motif identification function
 
+end
 
 
 

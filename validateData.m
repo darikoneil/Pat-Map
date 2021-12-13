@@ -63,7 +63,7 @@ addParameter(p, 'no_same_neuron_edges',true, @(x) islogical(x));
 %Parameter constraining simple edges
 addParameter(p,'edges','simple', @(x) strcmp(x,'simple'));
 %Parameter setting s_lambda range
-addParameter(p,'s_lambda_range',100, @(x) isnumeric(x) && numel(x)==1 && x>=100);
+addParameter(p,'s_lambda_count',100, @(x) isnumeric(x) && numel(x)==1 && x>=100);
 %Parameter setting s_lambda min
 addParameter(p,'s_lambda_min',1e-5,@(x) isnumeric(x) && numel(x)==1 && x<1 && x>0);
 %Parameter setting s_lambda max
@@ -71,9 +71,9 @@ addParameter(p,'s_lambda_max',0.5, @(x) isnumeric(x) && numel(x)==1 && x<=1 && x
 %Parameter setting hyperedge constraints
 addParameter(p,'hyperedge',2, @(x) isnumeric(x) && numel(x)==1 && x>=1 && x <=3);
 %Parameter setting number of structures to feed parameter estimation
-addParameter(p,'num_structure',8,@(x) isnumeric(x) && numel(x)==1 && x>=1);
+addParameter(p,'num_structures',8,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter setting the space of s_lambda
-addParameter(p,'logspace',true,@(x) islogical(x));
+addParameter(p,'logSspace',true,@(x) islogical(x));
 %Parameter settings to dictate the merging of UDF and neuronal nodes
 addParameter(p,'merge',true,@(x) islogical(x));
 %Parameter settings to dictate the density of edges
@@ -135,67 +135,8 @@ parse(p,varargin{:});
 params = p.Results;
 
 %secondary validation
-[params.x_train,params.x_test,params.UDF_Count,params.Num_Nodes,params.data,params.UDF] = interalValidate_Dataset(params.data,params.UDF,params.split,params.merge,params.dataShuffle);
-[params.p_lambda_sequence,params.s_lambda_sequence_LASSO,params.LASSO_options] = internal_generateSequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.logPspace,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.logspace);
-
-end
-
-function [x_train,x_test,UDF_Count, Num_Nodes,params.data,params.UDF] = internalValidate_Dataset(data,UDF,split,merge,dataShuffle)
-
-    %Grab Data Size
-    [Num_Samples,Num_Nodes] = size(data);
-    
-    %Grab UDF Size
-    [UDF_samples,UDF_Count] = size(UDF);
-    
-    %Validate UDF
-    assert(Num_Samples==UDF_samples,'Neuronal and UDF nodes must have equal number of samples');
-    
-    %Shuffle if desired
-    if dataShuffle
-        shufIdx = randperm(Num_Samples);
-        data = data([shufIdx],:);
-        UDF = UDF([shufIdx],:);
-    end
-    
-    %Merge UDF & Neuronal Nodes if necessary
-    if merge
-        data = [data UDF];
-    end
-    
-    %Split
-    x_train = data(1:floor(split*Num_Samples),:);
-    x_test = data((floor(split*Num_Samples)+1):Num_Samples,:);
-    
-    %Validate Training DataSet
-    assert(min(sum(x_train))>0,'ALL NEURONAL NODES MUST FIRE AT LEAST ONE SPIKE IN TRAINING SET');
-end
-
-
-function [p_lambda_sequence,s_lambda_sequence_LASSO,LASSO_options] = internal_generateSequences(p_lambda_count,p_lambda_min,p_lambda_max,logPspace,s_lambda_count,s_lambda_min,s_lambda_max,logspace)
-
-%Generate pLambda Sequence
-if logPspace
-    p_lambda_min_exp = log10(p_lambda_min);
-    p_lambda_max_exp = log10(p_lambda_max);
-    p_lambda_sequence = logspace(p_lambda_min_exp, p_lambda_max_exp, p_lambda_count);
-else
-    p_lambda_sequence = linspace(p_lambda_min,p_lambda_max,p_lambda_count);
-end
-
-%Generate sLambda Sequence
-if logspace
-    s_lambda_count = s_lambda_range;
-    s_lambda_min_exp = log10(s_lambda_min);
-    s_lambda_max_exp = log10(s_lambda_max);
-    s_lambda_sequence_LASSO = sort(logspace(s_lambda_min_exp, s_lambda_max_exp, s_lambda_count),'descend');
-else
-    s_lambda_sequence_LASSO = sort(linspace(s_lambda_min,s_lambda_max,s_lambda_count),'descend');
-end
-
-%set options for GLMNet
-opts.lambda = s_lambda_sequence_LASSO;
-LASSO_options = glmnetSet(opts);
+[params.x_train,params.x_test,params.UDF_Count,params.Num_Nodes,params.data,params.UDF] = internalValidate_Dataset(params.data,params.UDF,params.split,params.merge,params.dataShuffle);
+[params.p_lambda_sequence,params.s_lambda_sequence_LASSO,params.LASSO_options] = internal_generateSequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.logPspace,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.logSspace);
 
 end
 
