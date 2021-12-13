@@ -43,7 +43,6 @@ filename = uigetfile('*.mat','Select Data File');
 %load it
 load(filename);
 
-
 %Data Directory
 %data_directory = uigetdir(pwd,'Select Data Directory');
 data_directory=pwd;
@@ -67,8 +66,17 @@ addpath(tempdir);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 params.data = data;
-params.UDF = UDF;
-params.coords = coords;
+
+%UDFs are optional
+if exists(UDF)
+    params.UDF=UDF;
+end
+
+%coords are optional
+if exists(coords)
+    params.coords = coords;
+end
+
 params.name = name;
 params.data_directory = data_directory;
 params.Filename = filename;
