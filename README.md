@@ -39,6 +39,7 @@ Matlab code for using neighborhood-based regularization for structural learning 
 
 
 ### Instructions
+        "generateCRF" function is one-stop shop
 
         The "start_up" function will facilitate locating your datafile and relevant paths       
         From here, send arguments to the "validateData" function to generate and preprocess the dataset
