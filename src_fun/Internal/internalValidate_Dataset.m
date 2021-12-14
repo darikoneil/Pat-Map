@@ -26,6 +26,6 @@ function [x_train,x_test,UDF_Count, Num_Nodes,data,UDF] = internalValidate_Datas
     x_test = X((floor(split*Num_Samples)+1):Num_Samples,:);
     
     %Validate Training DataSet
-    assert(min(sum(x_train))>0,'ALL NEURONAL NODES MUST FIRE AT LEAST ONE SPIKE IN TRAINING SET');
+    assert(min(sum(x_train))>1,'ALL NEURONAL NODES MUST FIRE AT LEAST TWO SPIKES IN TRAINING SET');
     
 end
