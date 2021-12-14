@@ -27,8 +27,8 @@ addpath(fullfile(basepath,'thirdparty','CmdLineProgressBar')); %Progress Bar wit
 
 % SOURCE FUNCTIONS
 addpath(fullfile(basepath,'src_fun'));
-addpath(fullfile(basepath,'ANALYSIS'));
-addpath(fullfile(basepath,'MLE_Struc'));
+addpath(fullfile(basepath,'src_fun','ANALYSIS'));
+addpath(fullfile(basepath,'src_fun','MLE_Struc'));
 addpath(fullfile(basepath,'src_fun','include')); %Is this archaic or do we still need this even though everything was already cooked?
 addpath(fullfile(basepath,'src_fun','Internal'));
 addpath(fullfile(basepath,'src_fun','Utility'));
