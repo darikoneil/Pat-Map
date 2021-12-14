@@ -15,6 +15,7 @@ Matlab code for using neighborhood-based regularization for structural learning 
     MLE-Struc  
 
 ### Changelog: 
+    12/14/2021: Pushed new parameters and identify motifs function
     12/14/2021: Pushed new compilation of GLMNet to fix crash to desktop issues when using Matlab 2020b
     12/13/2021: Incorporated tensor-based/no-loop log-likelihood & support for parallel processing (parProc)
     12/13/2021: Pushed simplified functions and parameter design
