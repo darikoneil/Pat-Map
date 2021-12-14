@@ -8,11 +8,13 @@ Matlab code for using neighborhood-based regularization for structural learning 
     Precompiled QPBO solvers for Windows and Linux (Source files included for Mac)  
 
 ## Third Party Dependencies  
-    MexCPP (Linux, modified for windows)  
-    QPBO-v1.32 (Kui Tang's implementation with rounding modification in WS precompilation)  
-    GLMNet  
+    MexCPP (I modified this for windows)  
+    QPBO-v1.32 (Kui Tang's implementation. I modified this by removing the rounding step for the WS compilation)
+    GLMNet
     ParWaitBar  
-    MLE-Struc  
+    MLE-Struc
+    CmdLineProgressBar
+    
 
 ### Changelog: 
     12/14/2021: Pushed new parameters and identify motifs function
@@ -48,6 +50,7 @@ Matlab code for using neighborhood-based regularization for structural learning 
         To learn structures, use the "structuralLearning" function
         To estimate parameters, use the "estimateParameters" function
         To identify ensembles, use the "identifyEnsembles" function
+        To identify motifs using the overcomplete edge scores, using "identifyMotifs" functrion
         To explore the different options, open the "validateData" function and read documentation
         
        
