@@ -84,8 +84,8 @@ function [results] = identifyEnsembles(params,best_model)
     fprintf('\n')
     
     %preallocate
-    auc_ens = cell(num_stim);
-    core_crf = cell(num_stim);
+    auc_ens = cell(num_stim,1);
+    core_crf = cell(num_stim,1);
     % calculate AUC
     true_label = UDF';
     auc = cell(num_node,num_stim);
@@ -119,39 +119,64 @@ function [results] = identifyEnsembles(params,best_model)
   
     fprintf('\n');
     fprintf('Performance Curves Calculated');
+    fprintf('\n');
     
     %% (3, Compare to a set of random ensembles)
     %convert
     auc  = cell2mat(auc);
-    size_ens = best_model.max_degree;
+    
+    switch params.sizeEnsCrit
+        case 'max_degree'
+            size_ens = best_model.max_degree;
+            %sanity check
+            assert(size_ens<num_orig_neuron,'Size of random ensembles must be less than all possible nodes');
+        case 'coact'
+            size_ens = max(sum(params.data,2));
+        case 'coactUDF'
+            size_ens = max(sum(params.data(logical(sum(params.UDF,2)),:),2));
+    end
+    
+    if (~(params.incRandEnsUDF))
+         X = X(:,1:num_orig_neuron);
+    else
+       %nil
+    end
     
     if parProc
         wb = parwaitbar(num_stim,'WaitMessage','Generating Performance Curves for Random Ensembles','FinalMessage','Performance Curves for Random Ensembles Complete');
         parfor ii = 1:num_stim
         % Generate random controls for current stimulus
         for jj = 1:num_controls
-            rd_ens = zeros(1, num_node);
+             if (~(params.incRandEnsUDF))
+                rd_ens = zeros(1, num_node-num_stim);
+             else
+                rd_ens = zeros(1,num_node);
+             end
             rd_ens(randperm(length(rd_ens), size_ens)) = 1;
             % Shouldnt this only pass the population vectors from data, i.e. omit the stim nodes?
             sim_core = 1-pdist2(X,rd_ens,'cosine')';
-            [~,~,~,auc_ens{ii}(jj)] = perfcurve(true_label(ii, :), sim_core, 1, 'XCrit', xCrit, 'YCrit', yCrit);
+            [~,~,~,auc_ens{ii,1}(jj)] = perfcurve(true_label(ii, :), sim_core, 1, 'XCrit', xCrit, 'YCrit', yCrit);
         end
-        core_crf{ii} = find(auc(:,ii)>(mean(auc_ens{ii})+std(auc_ens{ii})));
+        core_crf{ii} = find(auc(:,ii)>(mean(auc_ens{ii,1})+std(auc_ens{ii,1})));
         core_crf{ii} = setdiff(core_crf{ii},num_node-num_stim+1:num_node);
         wb.progress();
         end
     else
-        wb = CmdLineProgressBar('Generating Performance Curves for each Ensemble');
+        wb = CmdLineProgressBar('Generating Performance Curves for each Random Ensemble');
         for ii = 1:num_stim
             % Generate random controls for current stimulus
             for jj = 1:num_controls
-                rd_ens = zeros(1, num_node);
+                if (~(params.incRandEnsUDF))
+                    rd_ens = zeros(1, num_node-num_stim);
+                else
+                    rd_ens = zeros(1,num_node);
+                end
                 rd_ens(randperm(length(rd_ens), size_ens)) = 1;
                 % Shouldnt this only pass the population vectors from data, i.e. omit the stim nodes?
                 sim_core = 1-pdist2(X,rd_ens,'cosine')';
-                [~,~,~,auc_ens{ii}(jj)] = perfcurve(true_label(ii, :), sim_core, 1, 'XCrit', xCrit, 'YCrit', yCrit);
+                [~,~,~,auc_ens{ii,1}(jj)] = perfcurve(true_label(ii, :), sim_core, 1, 'XCrit', xCrit, 'YCrit', yCrit);
             end
-            core_crf{ii} = find(auc(:,ii)>(mean(auc_ens{ii})+std(auc_ens{ii})));
+            core_crf{ii} = find(auc(:,ii)>(mean(auc_ens{ii,1})+std(auc_ens{ii,1})));
             core_crf{ii} = setdiff(core_crf{ii},num_node-num_stim+1:num_node);
             wb.print(ii,num_stim);
         end

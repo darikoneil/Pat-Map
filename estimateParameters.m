@@ -26,6 +26,7 @@ if params.chunk
     [model_collection] = runTheModelsBank(models,params,params.chunkSize);
 else
     [model_collection] = LoopyModelCollection(models,params); %Generate Collection
+    fprintf('\n');
     fprintf('Parameter Estimation...\n');
 %Parameter Estimation
        model_collection = model_collection.do_parameter_estimation(...

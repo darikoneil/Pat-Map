@@ -120,11 +120,17 @@ addParameter(p,'chunk',false,@(x) islogical(x));
 addParameter(p,'num_controls',100,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter setting performance curve criterion
 addParameter(p,'curveCrit','AUC',@(x) ischar(x) && (strcmp(x,'AUC') || strcmp(x,'PR')));
+%Parameter setting the criterion for random ensemble size
+addParameter(p,'sizeEnsCrit','coact',@(x) ischar(x) && (strcmp(x,'max_degree') || strcmp(x,'coact') || strcmp(x,'coactUDF')));
+%Parameter flag to drop UDF from random ensembles
+addParameter(p,'incRandEnsUDF',false,@(x) islogical(x));
 
 %% Generate Motif Identification Parameters
 
 %Parameter determing which overcomp score to invoke for motif analysis
 addParameter(p,'overcompleteCrit','11', @(x) ischar(x) && (strcmp(x,'11') || strcmp(x, '00') || strcmp(x,'01') || strcmp(x,'10')));
+%Parameter to constrain motifs to neurons only
+addParameter(p,'neuronOnly',true,@(x) islogical(x));
 
 %% Do the parsing & Export the parameter set
 
@@ -137,6 +143,9 @@ params = p.Results;
 %secondary validation
 [params.x_train,params.x_test,params.UDF_Count,params.Num_Nodes,params.data,params.UDF] = internalValidate_Dataset(params.data,params.UDF,params.split,params.merge,params.dataShuffle);
 [params.p_lambda_sequence,params.s_lambda_sequence_LASSO,params.LASSO_options] = internal_generateSequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.logPspace,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.logSspace);
+
+fprintf('\n');
+fprintf('Data and Parameters Validated...\n');
 
 end
 

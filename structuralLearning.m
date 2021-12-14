@@ -48,7 +48,7 @@ params.rawCoef=cell(1,params.num_structures);
 params.learned_structures=cell(1,params.num_structures);
 
 wb = CmdLineProgressBar('Learning Structures'); %feedback
-
+fprintf('\n');
 for i = 1:params.num_structures
     [params.rawCoef{i}] = learn_structures(params,params.s_lambda_sequence(i)); %learn structures at each s_lambda
     params.learned_structures{i} = processStructure(params.rawCoef{i},params.density,params.absolute); %binarize

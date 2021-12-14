@@ -84,4 +84,6 @@ params.Filename = filename;
 params.source_directory = source_directory;
 params.exptdir=exptdir;
 
+fprintf('\n');
+fprintf('Generating CRFs Now...\n');
 end

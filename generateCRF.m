@@ -1,4 +1,4 @@
-function [params,results,best_model] = generateCRF()
+function [params,best_model,model_collection,results] = generateCRF()
 % 
 % Consolidated Function
 % Darik O'Neil 12-13-2021, Rafael Yuste Laboratory
@@ -38,15 +38,15 @@ function [params,results,best_model] = generateCRF()
 
 % (4, Parameter Estimatino): Here we estimate the parameters that describe
 % the mutual dependencies of our graphical structures
-[params] = estimateParameters(params); %parameter estimation function
+[best_model,model_collection,params] = estimateParameters(params); %parameter estimation function
 
 % (5, Ensemble Indetification): Here we identify the enembles which encode
 % user-defined features
-[params] = identifyEnsembles; %ensemble identification function
+[results] = identifyEnsembles(params,best_model); %ensemble identification function
 
 % (6, Motif Identification): Here we identify motifs within the composition
 % of these ensembles
-[params] = identifyMotifs; %motif identification function
+[results] = identifyMotifs(params,best_model,results); %motif identification function
 
 end
 
