@@ -79,7 +79,7 @@ addParameter(p,'merge',true,@(x) islogical(x));
 %Parameter settings to dictate the density of edges
 addParameter(p,'density',1,@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
 %Parameter to describe the selection of edges during density constraint
-addParameter(p,'absolute',true,@(x) islogical(x));
+addParameter(p,'absolute',false,@(x) islogical(x));
 %Parameter to set alpha in GLM
 addParameter(p,'alphaGLM',1,@(x) isnumeric(x) && numel(x)==1 && x>= 0 && x<=1);
 

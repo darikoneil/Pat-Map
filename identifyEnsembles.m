@@ -72,7 +72,7 @@ function [results] = identifyEnsembles(params,best_model)
     end
      
     %convert cell to appropriate tensor of the form neurons x frames x state
-    LL_frame = reshape(cell2mat(reshape(LL_frame,num_node,2)),num_node,num_frame,2);
+    LL_frame = pagetranspose(cell2mat(permute(reshape(LL_frame,num_node,2),[3,1,2])));
     %squeeze
     LL_on = squeeze(LL_frame(:,:,2)-LL_frame(:,:,1));
 
