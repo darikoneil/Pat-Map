@@ -3,7 +3,7 @@ Matlab code for using neighborhood-based regularization for structural learning 
 
 ## Contains:  
     Initialization GUI (Version 1.0)  
-    Analysis GUI (Version 0.69)  
+    Analysis GUI (Version 0.7)  
     C++ Wrapper for Windows (Version 1.0, just a modified version of MexCPP)  
     Precompiled QPBO solvers for Windows and Linux (Source files included for Mac)  
 
@@ -17,6 +17,9 @@ Matlab code for using neighborhood-based regularization for structural learning 
     
 
 ### Changelog: 
+    12/22/2021: Pushed working draft of ensemble panel of analysis GUI          
+    12/22/2021: Added function for analysis of complete model prediction performance        
+    12/22/2021: Added function for evaluation of ensembles          
     12/16/2021: Fixed bug in tensor reshaping during identify ensembles
     12/14/2021: Pushed new parameters and identify motifs function
     12/14/2021: Pushed new compilation of GLMNet to fix crash to desktop issues when using Matlab 2020b
@@ -51,7 +54,8 @@ Matlab code for using neighborhood-based regularization for structural learning 
         To learn structures, use the "structuralLearning" function
         To estimate parameters, use the "estimateParameters" function
         To identify ensembles, use the "identifyEnsembles" function
-        To identify motifs using the overcomplete edge scores, using "identifyMotifs" functrion
+        To identify motifs using the overcomplete edge scores, using "identifyMotifs" function          
+        To evaluate ensemble and model performance, use the "evaluateEnsembles" function
         To explore the different options, open the "validateData" function and read documentation
         
        
