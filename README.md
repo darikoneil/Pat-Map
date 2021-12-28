@@ -17,6 +17,7 @@ Matlab code for using neighborhood-based regularization for structural learning 
     
 
 ### Changelog: 
+    12/28/2021: Pushed 'aesthetic' ensemble analysis GUI
     12/22/2021: Pushed working draft of ensemble panel of analysis GUI          
     12/22/2021: Added function for analysis of complete model prediction performance        
     12/22/2021: Added function for evaluation of ensembles          
@@ -33,9 +34,9 @@ Matlab code for using neighborhood-based regularization for structural learning 
     11/29/2021: Removed rounding step in QPBO solver (for now at least)  
 
 ### To-Do (Order of Priority)     
+    Finish integrating 'aesthetic' individual GUIs & import into one application
     Log model convergence     
-    Investigate Performance Impacts of Rounding via Boost Library  
-    Finish import of old functions to new Analysis GUI  
+    Investigate Performance Impacts of Rounding via Boost Library   
     Parallel QPBO/BK implementation for better performance on larger datasets^      
     Multi-Plane Block-Coordinate Frank Wolfe implementation for better performance on larger datasets^      
     Implement structured prediction/secondary analysis into better performing language (C++)''      
