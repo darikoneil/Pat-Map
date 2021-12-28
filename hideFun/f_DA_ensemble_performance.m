@@ -30,7 +30,6 @@ function f_DA_ensemble_performance(selectedButton,app)
           app.PerformanceAxes.XLabel.String='False Positive Rate';
           app.PerformanceAxes.YLabel.String='True Positive Rate';
           app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
-          
       case 'ROC (vs. All Stimuli)'
           z=3;
           hold(app.PerformanceAxes,'on');
@@ -70,21 +69,85 @@ function f_DA_ensemble_performance(selectedButton,app)
           app.PerformanceAxes.YLabel.String='True Positive Rate';
           app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
       case 'ROC (vs. Single Tuning)'
+          plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
+          hold(app.PerformanceAxes,'on');
+          fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,results.IndividualNeurons.Xall.ROC{stimNum,stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum,stimNum}),results.IndividualNeurons.Yall.ROC{stimNum,stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum,stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.IndividualNeurons.Xall.ROC{stimNum,stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum,stimNum}),results.IndividualNeurons.Yall.ROC{stimNum,stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum,stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
+           plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
+          hold(app.PerformanceAxes,'off');
+          app.PerformanceAxes.XLabel.String='False Positive Rate';
+          app.PerformanceAxes.YLabel.String='True Positive Rate';
+          app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
       case 'ROC (vs. Ensemble Size)'
+          if numel(results.sizePerf.potentialEnsembleSizes)>size(newcolors,1)
+              newcolors = jet(numel(results.sizePerf.potentialEnsembleSizes));
+          end
+          hold(app.PerformanceAxes,'on');
+          for i = 1:length(results.sizePerf.potentialEnsembleSizes)
+              plot(app.PerformanceAxes,results.sizePerf.FPR.Means(i,:),results.sizePerf.XVals,'Color',[newcolors(i,:) 0.5],'LineStyle','-.','LineWidth',2);
+          end
+          
+         
+          colormap(app.PerformanceAxes,newcolors);
+          percentEns = round((app.results.sizePerf.lowerBound:app.results.sizePerf.stepSize:app.results.sizePerf.upperBound)*100);
+          percentEnsString = {};
+          for i = 1:length(percentEns)
+              percentEnsString = {percentEnsString{:},strcat(num2str(percentEns(i)),'%')};
+          end
+      % Don't know why I have to construct colorbar this way, but it does work???
+      % Darik O'Neil 12-28-2021
+          tmp=colorbar(app.PerformanceAxes);
+          tmp.Ticks = normalize(percentEns,'range');
+          tmp.TickLabels = percentEnsString;
+      %
+      %
+          plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
+          fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
+          hold(app.PerformanceAxes,'off');
+          app.PerformanceAxes.XLabel.String='False Positive Rate';
+          app.PerformanceAxes.YLabel.String='True Positive Rate';
+          app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
       case 'ROC (vs. Complete Model)'
           plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');
           plot(app.PerformanceAxes,results.completePerf.Xcell{stimNum,stimNum},results.completePerf.Ycell{stimNum,stimNum},'LineWidth',2,'Color',newcolors(3,:));
-          plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
           fill(app.PerformanceAxes,results.completePerf.Xcell{stimNum,stimNum},results.completePerf.Ycell{stimNum,stimNum},newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String='False Positive Rate';
           app.PerformanceAxes.YLabel.String='True Positive Rate';
           app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
       case 'ROC (vs. Linear Ensemble)'
-      case 'ROC (vs. Random Ensembles)'
+          plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
+          hold(app.PerformanceAxes,'on');
+          plot(app.PerformanceAxes,results.linearPerf.Xcell{stimNum,stimNum},results.linearPerf.Ycell{stimNum,stimNum},'LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.linearPerf.Xcell{stimNum,stimNum},results.linearPerf.Ycell{stimNum,stimNum},newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
+          hold(app.PerformanceAxes,'off');
+          app.PerformanceAxes.XLabel.String='False Positive Rate';
+          app.PerformanceAxes.YLabel.String='True Positive Rate';
+          app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
+      case 'ROC (vs. Single Tuning 2)'
+          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),'LineWidth',2,'Color',newcolors(3,:));
+          plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
+          hold(app.PerformanceAxes,'on');
+          fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
+          plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
+          hold(app.PerformanceAxes,'off');
+          app.PerformanceAxes.XLabel.String='False Positive Rate';
+          app.PerformanceAxes.YLabel.String='True Positive Rate';
+          app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
       case 'PR (vs. Random)'
           plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           %find baseline to plot
@@ -137,37 +200,86 @@ function f_DA_ensemble_performance(selectedButton,app)
           app.PerformanceAxes.YLabel.String = 'Precision';
           app.PerformanceAxes.Title.String = 'Precision-Recall Curve';
       case 'PR (vs. Single Tuning)'
-           plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
-          %find baseline to plot
+          plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');             
           fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end); 0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.PREC_Ycell{stimNum,stimNum}(end)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);       
-          plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
-          for i = 1:size(app.params.data,2)
-              [X,Y,~,~,~] = perfcurve((app.params.UDF(:,stimNum)'),results.LL_on(i,:),1,'XCrit','tpr','YCrit','prec');
-              plot(app.PerformanceAxes,X,Y,'Color',newcolors(3,:),'LineWidth',2);
-          end
+          plot(app.PerformanceAxes,results.IndividualNeurons.Xall.PR{stimNum,stimNum}(results.IndividualNeurons.boundaries.PR{stimNum,stimNum}),results.IndividualNeurons.Yall.PR{stimNum,stimNum}(results.IndividualNeurons.boundaries.PR{stimNum,stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.IndividualNeurons.Xall.PR{stimNum,stimNum}(results.IndividualNeurons.boundaries.PR{stimNum,stimNum}),results.IndividualNeurons.Yall.PR{stimNum,stimNum}(results.IndividualNeurons.boundaries.PR{stimNum,stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
+          plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
           app.PerformanceAxes.YLabel.String = 'Precision';
           app.PerformanceAxes.Title.String = 'Precision-Recall Curve';
       case 'PR (vs. Ensemble Size)'
+          if numel(results.sizePerf.potentialEnsembleSizes)>size(newcolors,1)
+              newcolors = jet(numel(results.sizePerf.potentialEnsembleSizes));
+          end
+          hold(app.PerformanceAxes,'on');
+          fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          for i = 1:length(results.sizePerf.potentialEnsembleSizes)
+              %figure
+              %plot(results.sizePerf.XVals,results.sizePerf.Precision.Means(i,:),'Color',[newcolors(i,:) 1],'LineStyle','-','LineWidth',2);
+              plot(app.PerformanceAxes,results.sizePerf.XVals,results.sizePerf.Precision.Means(i,:),'Color',[newcolors(i,:) 0.5],'LineStyle','-.','LineWidth',2);
+          end
+          plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
+          plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
+          colormap(app.PerformanceAxes,newcolors);
+          percentEns = round((app.results.sizePerf.lowerBound:app.results.sizePerf.stepSize:app.results.sizePerf.upperBound)*100);
+          percentEnsString = {};
+          for i = 1:length(percentEns)
+              percentEnsString = {percentEnsString{:},strcat(num2str(percentEns(i)),'%')};
+          end
+      % Don't know why I have to construct colorbar this way, but it does work???
+      % Darik O'Neil 12-28-2021
+          tmp=colorbar(app.PerformanceAxes);
+          tmp.Ticks = normalize(percentEns,'range');
+          tmp.TickLabels = percentEnsString;
+      %
+      %
+          hold(app.PerformanceAxes,'off');
+          app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
+          app.PerformanceAxes.YLabel.String = 'Precision';
+          app.PerformanceAxes.Title.String = 'Precision-Recall Curve';
       case 'PR (vs. Complete Model)'
           plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');
           plot(app.PerformanceAxes,results.completePerf.RECALL_Xcell{stimNum,stimNum},results.completePerf.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',newcolors(3,:));
-          plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           fill(app.PerformanceAxes,[results.completePerf.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.completePerf.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
           app.PerformanceAxes.YLabel.String = 'Precision';
           app.PerformanceAxes.Title.String = 'Precision-Recall Curve';
       case 'PR (vs. Linear Ensembles)'
-      case 'PR (vs. Random Ensembles)'
+          plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
+          hold(app.PerformanceAxes,'on');
+          plot(app.PerformanceAxes,results.linearPerf.RECALL_Xcell{stimNum,stimNum},results.linearPerf.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,[results.linearPerf.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.linearPerf.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
+          hold(app.PerformanceAxes,'off');
+          app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
+          app.PerformanceAxes.YLabel.String = 'Precision';
+          app.PerformanceAxes.Title.String = 'Precision-Recall Curve';
+      case 'PR (vs. Single Tuning 2)'
+          plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
+          hold(app.PerformanceAxes,'on');             
+          fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end); 0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.PREC_Ycell{stimNum,stimNum}(end)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);       
+          fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.PR{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum,stimNum}),results.IndividualNeuronsE.Yall.PR{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum,stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.IndividualNeuronsE.Xall.PR{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum,stimNum}),results.IndividualNeuronsE.Yall.PR{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum,stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
+          plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
+          hold(app.PerformanceAxes,'off');
+          app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
+          app.PerformanceAxes.YLabel.String = 'Precision';
+          app.PerformanceAxes.Title.String = 'Precision-Recall Curve';
       case 'Structured Prediction by Frame'
-      case 'Structured Prediction by Epoch'
+          f_DA_structured_frames(app);
   end
   
   app.PerformanceAxes.Box='on';

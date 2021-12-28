@@ -8,11 +8,12 @@ app.TrueNegativeEditField.Value = num2str(results.TrueNegcell{v,v});
 app.FalseNegativeEditField.Value = num2str(results.FalseNegcell{v,v});
 app.AUC_ROC_EditField.Value = num2str(results.AUCcell{v,v});
 app.AUCPR_EditLabel.Value = num2str(results.PR_AUCcell{v,v});
-app.SpecificityEditField.Value = num2str(results.Specificitycell{v,v});
-app.SensitivityEditField.Value = num2str(results.TPRcell{v,v});
-app.PrecEditField.Value = num2str(results.Precisioncell{v,v});
-app.AccuracyEditField.Value = num2str(results.Accuracycell{v,v});
-app.Miss_EditField.Value = num2str(results.FalseNegRatecell{v,v});
+
+app.SpecificityEditField.Value = strcat(num2str(round(results.Specificitycell{v,v}*100,2)),'%');
+app.SensitivityEditField.Value = strcat(num2str(round(results.TPRcell{v,v}*100,2)),'%');
+app.PrecEditField.Value = strcat(num2str(round(results.Precisioncell{v,v}*100,2)),'%');
+app.AccuracyEditField.Value = strcat(num2str(round(results.Accuracycell{v,v}*100,2)),'%');
+app.Miss_EditField.Value = strcat(num2str(round(results.FalseNegRatecell{v,v}*100,2)),'%');
 app.Threshold_Edit_Field.Value = num2str(results.thcell{v,v});
 
 %app.EnsembleNeurons.TextArea.Value = num2str
