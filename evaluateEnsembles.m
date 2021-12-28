@@ -232,6 +232,298 @@ for b = 1:numStim
 end
 
 results.completePerf = completePerf;
+
+%% Evaluate Linear Ensembles (% of ensemble activated)
+
+linearPerf = struct();
+
+%evaluate
+for b = 1:numStim
+    for a = 1:numClass
+    %find ensemble on
+    ensembleOn = transpose(sum(params.data(:,results.core_crf{a}),2));
+    
+    %find auc
+    [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),ensembleOn,1);
+    [TP,TN,~,~,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','tp','YCrit','tn');
+    [FP,FN,~,~,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','fp','YCrit','fn');
+    [RECALL_X,PREC_Y,~,PR_AUC,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','tpr','YCrit','prec');
+    
+    %store
+    linearPerf.Xcell{a,b} = X;
+    linearPerf.Ycell{a,b} = Y;
+    linearPerf.Tcell{a,b} = T;
+    linearPerf.AUCcell{a,b} = AUC;
+    linearPerf.OPTcell{a,b} = OPT;
+    
+    linearPerf.RECALL_Xcell{a,b} = RECALL_X;
+    linearPerf.PREC_Ycell{a,b} = PREC_Y;
+    linearPerf.PR_AUCcell{a,b} = PR_AUC;
+    
+    %find operating point
+    th = T((X==OPT(1))&(Y==OPT(2)));
+    tPt = find(T==th);
+    tPt=tPt(1);
+    if tPt==1
+        tPt=3;
+    end
+    
+    Optimal_Point = [X(tPt);Y(tPt)];
+    
+    %store
+    linearPerf.thcell{a,b}=th;
+    linearPerf.tPtcell{a,b}=tPt;
+    linearPerf.Optimal_Pointcell{a,b} = Optimal_Point;
+    
+    %Find vals at operating point
+    FPR = X(tPt); %1-specificity
+    TPR = Y(tPt); %Sensitivity
+    TruePos = TP(tPt);
+    TrueNeg = TN(tPt);
+    FalsePos = FP(tPt);
+    FalseNeg = FN(tPt);
+    Accuracy = (TruePos+TrueNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+    Precision = (TruePos)/(TruePos+FalsePos);
+    NegPredVal = (TrueNeg)/(TrueNeg+FalseNeg);
+    Specificity = (TrueNeg)/(TrueNeg+FalsePos);
+    FalseNegRate = (FalseNeg)/(TruePos+FalseNeg);
+    RPP = (TruePos+FalsePos)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+    RNP = (TrueNeg+FalseNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+    Hits = TruePos+FalsePos;
+    %store
+    linearPerf.FPRcell{a,b}=FPR;
+    linearPerf.TPRcell{a,b}=TPR;
+    linearPerf.TruePoscell{a,b}=TruePos;
+    linearPerf.TrueNegcell{a,b}=TrueNeg;
+    linearPerf.FalsePoscell{a,b}=FalsePos;
+    linearPerf.FalseNegcell{a,b}=FalseNeg;
+    linearPerf.Accuracycell{a,b}=Accuracy;
+    linearPerf.Precisioncell{a,b}=Precision;
+    linearPerf.NegPredValcell{a,b}=NegPredVal;
+    linearPerf.Specificitycell{a,b}=Specificity;
+    linearPerf.FalseNegRatecell{a,b}=FalseNegRate;
+    linearPerf.RPPcell{a,b}=RPP;
+    linearPerf.RNPcell{a,b}=RNP;
+    linearPerf.Hitscell{a,b} = Hits;
+    end
+end
+
+results.linearPerf = linearPerf;
+
+%% Individual Neurons
+
+IndividualNeurons = struct();
+
+%evaluate
+for b = 1:numStim
+    for a = 1:numClass
+          %preallocate
+            IndividualNeurons.Xall.ROC{a,b} =[];
+            IndividualNeurons.Yall.ROC{a,b} = [];
+            IndividualNeurons.Xall.PR{a,b} = [];
+            IndividualNeurons.Yall.PR{a,b} = [];
+
+        for c = 1:size(params.data,2)
+            LL = results.LL_on(c,:);
+            %find auc
+            [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),LL,1);
+            [TP,TN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tp','YCrit','tn');
+            [FP,FN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','fp','YCrit','fn');
+            [RECALL_X,PREC_Y,~,PR_AUC,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tpr','YCrit','prec');
+            %store
+            IndividualNeurons.Xcell{a,b,c} = X;
+            IndividualNeurons.Ycell{a,b,c} = Y;
+            IndividualNeurons.Tcell{a,b,c} = T;
+            IndividualNeurons.AUCcell{a,b,c} = AUC;
+            IndividualNeurons.OPTcell{a,b,c} = OPT;
+            IndividualNeurons.RECALL_Xcell{a,b,c} = RECALL_X;
+            IndividualNeurons.PREC_Ycell{a,b,c} = PREC_Y;
+            IndividualNeurons.PR_AUCcell{a,b,c} = PR_AUC;
+            %find operating point
+            th = T((X==OPT(1))&(Y==OPT(2)));
+            tPt = find(T==th);
+            tPt=tPt(1);
+            if tPt==1
+                tPt=3;
+            end
+            Optimal_Point = [X(tPt);Y(tPt)];
+            %store
+            IndividualNeurons.thcell{a,b,c}=th;
+            IndividualNeurons.tPtcell{a,b,c}=tPt;
+            IndividualNeurons.Optimal_Pointcell{a,b,c} = Optimal_Point;
+            %Find vals at operating point
+            FPR = X(tPt); %1-specificity
+            TPR = Y(tPt); %Sensitivity
+            TruePos = TP(tPt);
+            TrueNeg = TN(tPt);
+            FalsePos = FP(tPt);
+            FalseNeg = FN(tPt);
+            Accuracy = (TruePos+TrueNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+            Precision = (TruePos)/(TruePos+FalsePos);
+            NegPredVal = (TrueNeg)/(TrueNeg+FalseNeg);
+            Specificity = (TrueNeg)/(TrueNeg+FalsePos);
+            FalseNegRate = (FalseNeg)/(TruePos+FalseNeg);
+            RPP = (TruePos+FalsePos)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+            RNP = (TrueNeg+FalseNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+            Hits = TruePos+FalsePos;
+            
+            %store
+            IndividualNeurons.FPRcell{a,b,c}=FPR;
+            IndividualNeurons.TPRcell{a,b,c}=TPR;
+            IndividualNeurons.TruePoscell{a,b,c}=TruePos;
+            IndividualNeurons.TrueNegcell{a,b,c}=TrueNeg;
+            IndividualNeurons.FalsePoscell{a,b,c}=FalsePos;
+            IndividualNeurons.FalseNegcell{a,b,c}=FalseNeg;
+            IndividualNeurons.Accuracycell{a,b,c}=Accuracy;
+            IndividualNeurons.Precisioncell{a,b,c}=Precision;
+            IndividualNeurons.NegPredValcell{a,b,c}=NegPredVal;
+            IndividualNeurons.Specificitycell{a,b,c}=Specificity;
+            IndividualNeurons.FalseNegRatecell{a,b,c}=FalseNegRate;
+            IndividualNeurons.RPPcell{a,b,c}=RPP;
+            IndividualNeurons.RNPcell{a,b,c}=RNP;
+            IndividualNeurons.Hitscell{a,b,c} = Hits;
+            
+            %concat for boundaries
+            IndividualNeurons.Xall.ROC{a,b} =[IndividualNeurons.Xall.ROC{a,b}; X];
+            IndividualNeurons.Yall.ROC{a,b} = [IndividualNeurons.Yall.ROC{a,b}; Y];
+            IndividualNeurons.Xall.PR{a,b} =[IndividualNeurons.Xall.PR{a,b}; RECALL_X];
+            IndividualNeurons.Yall.PR{a,b} = [IndividualNeurons.Yall.PR{a,b}; PREC_Y];
+        end
+    end
+end
+
+%find boundary
+for d = 1:numStim
+    for e = 1:numClass
+        XnanIndex_ROC = find(isnan(IndividualNeurons.Xall.ROC{d,e}));
+        IndividualNeurons.Xall.ROC{d,e}(XnanIndex_ROC)=[];
+        IndividualNeurons.Yall.ROC{d,e}(XnanIndex_ROC)=[];
+        YnanIndex_ROC = find(isnan(IndividualNeurons.Yall.ROC{d,e}));
+        IndividualNeurons.Xall.ROC{d,e}(YnanIndex_ROC)=[];
+        IndividualNeurons.Yall.ROC{d,e}(YnanIndex_ROC)=[];
+        IndividualNeurons.boundaries.ROC{d,e} = boundary(IndividualNeurons.Xall.ROC{d,e},IndividualNeurons.Yall.ROC{d,e});
+        
+        XnanIndex_PR = find(isnan(IndividualNeurons.Xall.PR{d,e}));
+        IndividualNeurons.Xall.PR{d,e}(XnanIndex_PR)=[];
+        IndividualNeurons.Yall.PR{d,e}(XnanIndex_PR)=[];
+        YnanIndex_PR = find(isnan(IndividualNeurons.Yall.PR{d,e}));
+        IndividualNeurons.Xall.PR{d,e}(YnanIndex_PR)=[];
+        IndividualNeurons.Yall.PR{d,e}(YnanIndex_PR)=[];
+        IndividualNeurons.boundaries.PR{d,e} = boundary(IndividualNeurons.Xall.PR{d,e},IndividualNeurons.Yall.PR{d,e});
+        
+    end
+end
+
+
+results.IndividualNeurons=IndividualNeurons;
+results.completePerf = completePerf;
+
+%% Indiviudal Ext
+%% Individual Neurons
+
+IndividualNeuronsE = struct();
+
+%evaluate
+for b = 1:numStim
+    for a = 1:numClass
+          %preallocate
+            IndividualNeuronsE.Xall.ROC{a,b} =[];
+            IndividualNeuronsE.Yall.ROC{a,b} = [];
+            IndividualNeuronsE.Xall.PR{a,b} = [];
+            IndividualNeuronsE.Yall.PR{a,b} = [];
+
+        for c = 1:size(params.data,2)
+            LL = transpose(params.data(:,c));
+            %find auc
+            [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),LL,1);
+            [TP,TN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tp','YCrit','tn');
+            [FP,FN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','fp','YCrit','fn');
+            [RECALL_X,PREC_Y,~,PR_AUC,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tpr','YCrit','prec');
+            %store
+            IndividualNeuronsE.Xcell{a,b,c} = X;
+            IndividualNeuronsE.Ycell{a,b,c} = Y;
+            IndividualNeuronsE.Tcell{a,b,c} = T;
+            IndividualNeuronsE.AUCcell{a,b,c} = AUC;
+            IndividualNeuronsE.OPTcell{a,b,c} = OPT;
+            IndividualNeuronsE.RECALL_Xcell{a,b,c} = RECALL_X;
+            IndividualNeuronsE.PREC_Ycell{a,b,c} = PREC_Y;
+            IndividualNeuronsE.PR_AUCcell{a,b,c} = PR_AUC;
+            %find operating point
+            th = T((X==OPT(1))&(Y==OPT(2)));
+            tPt = find(T==th);
+            tPt=tPt(1);
+            if tPt==1
+                tPt=3;
+            end
+            Optimal_Point = [X(tPt);Y(tPt)];
+            %store
+            IndividualNeuronsE.thcell{a,b,c}=th;
+            IndividualNeuronsE.tPtcell{a,b,c}=tPt;
+            IndividualNeuronsE.Optimal_Pointcell{a,b,c} = Optimal_Point;
+            %Find vals at operating point
+            FPR = X(tPt); %1-specificity
+            TPR = Y(tPt); %Sensitivity
+            TruePos = TP(tPt);
+            TrueNeg = TN(tPt);
+            FalsePos = FP(tPt);
+            FalseNeg = FN(tPt);
+            Accuracy = (TruePos+TrueNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+            Precision = (TruePos)/(TruePos+FalsePos);
+            NegPredVal = (TrueNeg)/(TrueNeg+FalseNeg);
+            Specificity = (TrueNeg)/(TrueNeg+FalsePos);
+            FalseNegRate = (FalseNeg)/(TruePos+FalseNeg);
+            RPP = (TruePos+FalsePos)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+            RNP = (TrueNeg+FalseNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
+            Hits = TruePos+FalsePos;
+            
+            %store
+            IndividualNeuronsE.FPRcell{a,b,c}=FPR;
+            IndividualNeuronsE.TPRcell{a,b,c}=TPR;
+            IndividualNeuronsE.TruePoscell{a,b,c}=TruePos;
+            IndividualNeuronsE.TrueNegcell{a,b,c}=TrueNeg;
+            IndividualNeuronsE.FalsePoscell{a,b,c}=FalsePos;
+            IndividualNeuronsE.FalseNegcell{a,b,c}=FalseNeg;
+            IndividualNeuronsE.Accuracycell{a,b,c}=Accuracy;
+            IndividualNeuronsE.Precisioncell{a,b,c}=Precision;
+            IndividualNeuronsE.NegPredValcell{a,b,c}=NegPredVal;
+            IndividualNeuronsE.Specificitycell{a,b,c}=Specificity;
+            IndividualNeuronsE.FalseNegRatecell{a,b,c}=FalseNegRate;
+            IndividualNeuronsE.RPPcell{a,b,c}=RPP;
+            IndividualNeuronsE.RNPcell{a,b,c}=RNP;
+            IndividualNeuronsE.Hitscell{a,b,c} = Hits;
+            
+            %concat for boundaries
+            IndividualNeuronsE.Xall.ROC{a,b} =[IndividualNeuronsE.Xall.ROC{a,b}; X];
+            IndividualNeuronsE.Yall.ROC{a,b} = [IndividualNeuronsE.Yall.ROC{a,b}; Y];
+            IndividualNeuronsE.Xall.PR{a,b} =[IndividualNeuronsE.Xall.PR{a,b}; RECALL_X];
+            IndividualNeuronsE.Yall.PR{a,b} = [IndividualNeuronsE.Yall.PR{a,b}; PREC_Y];
+        end
+    end
+end
+
+%find boundary
+for d = 1:numStim
+    for e = 1:numClass
+        XnanIndex_ROC = find(isnan(IndividualNeuronsE.Xall.ROC{d,e}));
+        IndividualNeuronsE.Xall.ROC{d,e}(XnanIndex_ROC)=[];
+        IndividualNeuronsE.Yall.ROC{d,e}(XnanIndex_ROC)=[];
+        YnanIndex_ROC = find(isnan(IndividualNeuronsE.Yall.ROC{d,e}));
+        IndividualNeuronsE.Xall.ROC{d,e}(YnanIndex_ROC)=[];
+        IndividualNeuronsE.Yall.ROC{d,e}(YnanIndex_ROC)=[];
+        IndividualNeuronsE.boundaries.ROC{d,e} = boundary(IndividualNeuronsE.Xall.ROC{d,e},IndividualNeuronsE.Yall.ROC{d,e});
+        
+        XnanIndex_PR = find(isnan(IndividualNeuronsE.Xall.PR{d,e}));
+        IndividualNeuronsE.Xall.PR{d,e}(XnanIndex_PR)=[];
+        IndividualNeuronsE.Yall.PR{d,e}(XnanIndex_PR)=[];
+        YnanIndex_PR = find(isnan(IndividualNeuronsE.Yall.PR{d,e}));
+        IndividualNeuronsE.Xall.PR{d,e}(YnanIndex_PR)=[];
+        IndividualNeuronsE.Yall.PR{d,e}(YnanIndex_PR)=[];
+        IndividualNeuronsE.boundaries.PR{d,e} = boundary(IndividualNeuronsE.Xall.PR{d,e},IndividualNeuronsE.Yall.PR{d,e});
+        
+    end
+end
+
+results.IndividualNeuronsE=IndividualNeuronsE;
 end
 
 
