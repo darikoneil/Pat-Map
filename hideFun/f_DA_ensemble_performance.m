@@ -4,13 +4,14 @@ function f_DA_ensemble_performance(selectedButton,app)
 % Darik O'Neil 12-20-2021 Rafael Yuste Laboratory
 
 %add new colors
-    newcolors = [
+  newcolors = [
       0.47 0.25 0.80
       0.25 0.80 0.54
       0.0745 0.6235 1.00
       1.00 0.0745 0.6510
       0.83 0.14 0.14
       1.00 0.54 0.00
+      0.9600 1.0000 0.4900
       0.6510 0.6510 0.6510];
   
   cla(app.PerformanceAxes,'reset'); %reset axes
@@ -81,17 +82,17 @@ function f_DA_ensemble_performance(selectedButton,app)
           app.PerformanceAxes.YLabel.String='True Positive Rate';
           app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
       case 'ROC (vs. Ensemble Size)'
-          if numel(results.sizePerf.potentialEnsembleSizes)>size(newcolors,1)
-              newcolors = jet(numel(results.sizePerf.potentialEnsembleSizes));
+          if numel(results.sizePerf{stimNum}.sizePerf.potentialEnsembleSizes)>size(newcolors,1)
+              newcolors = jet(numel(results.sizePerf{stimNum}.sizePerf.potentialEnsembleSizes));
           end
           hold(app.PerformanceAxes,'on');
-          for i = 1:length(results.sizePerf.potentialEnsembleSizes)
-              plot(app.PerformanceAxes,results.sizePerf.FPR.Means(i,:),results.sizePerf.XVals,'Color',[newcolors(i,:) 0.5],'LineStyle','-.','LineWidth',2);
+          for i = 1:length(results.sizePerf{stimNum}.sizePerf.potentialEnsembleSizes)
+              plot(app.PerformanceAxes,results.sizePerf{stimNum}.sizePerf.FPR.Means(i,:),results.sizePerf{stimNum}.sizePerf.XVals,'Color',[newcolors(i,:) 0.5],'LineStyle','-.','LineWidth',2);
           end
           
          
           colormap(app.PerformanceAxes,newcolors);
-          percentEns = round((app.results.sizePerf.lowerBound:app.results.sizePerf.stepSize:app.results.sizePerf.upperBound)*100);
+          percentEns = round((app.results.sizePerf{stimNum}.sizePerf.lowerBound:app.results.sizePerf{stimNum}.sizePerf.stepSize:app.results.sizePerf{stimNum}.sizePerf.upperBound)*100);
           percentEnsString = {};
           for i = 1:length(percentEns)
               percentEnsString = {percentEnsString{:},strcat(num2str(percentEns(i)),'%')};
@@ -212,21 +213,21 @@ function f_DA_ensemble_performance(selectedButton,app)
           app.PerformanceAxes.YLabel.String = 'Precision';
           app.PerformanceAxes.Title.String = 'Precision-Recall Curve';
       case 'PR (vs. Ensemble Size)'
-          if numel(results.sizePerf.potentialEnsembleSizes)>size(newcolors,1)
-              newcolors = jet(numel(results.sizePerf.potentialEnsembleSizes));
+          if numel(results.sizePerf{stimNum}.sizePerf.potentialEnsembleSizes)>size(newcolors,1)
+              newcolors = jet(numel(results.sizePerf{stimNum}.sizePerf.potentialEnsembleSizes));
           end
           hold(app.PerformanceAxes,'on');
           fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
-          for i = 1:length(results.sizePerf.potentialEnsembleSizes)
+          for i = 1:length(results.sizePerf{stimNum}.sizePerf.potentialEnsembleSizes)
               %figure
               %plot(results.sizePerf.XVals,results.sizePerf.Precision.Means(i,:),'Color',[newcolors(i,:) 1],'LineStyle','-','LineWidth',2);
-              plot(app.PerformanceAxes,results.sizePerf.XVals,results.sizePerf.Precision.Means(i,:),'Color',[newcolors(i,:) 0.5],'LineStyle','-.','LineWidth',2);
+              plot(app.PerformanceAxes,results.sizePerf{stimNum}.sizePerf.XVals,results.sizePerf{stimNum}.sizePerf.Precision.Means(i,:),'Color',[newcolors(i,:) 0.5],'LineStyle','-.','LineWidth',2);
           end
           plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           colormap(app.PerformanceAxes,newcolors);
-          percentEns = round((app.results.sizePerf.lowerBound:app.results.sizePerf.stepSize:app.results.sizePerf.upperBound)*100);
+          percentEns = round((app.results.sizePerf{stimNum}.sizePerf.lowerBound:app.results.sizePerf{stimNum}.sizePerf.stepSize:app.results.sizePerf{stimNum}.sizePerf.upperBound)*100);
           percentEnsString = {};
           for i = 1:length(percentEns)
               percentEnsString = {percentEnsString{:},strcat(num2str(percentEns(i)),'%')};

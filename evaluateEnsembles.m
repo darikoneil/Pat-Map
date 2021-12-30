@@ -1,20 +1,12 @@
 function [results] = evaluateEnsembles(params,results)
 
 % Function to evalute ensemble performance
-% Darik O'Neil 12-20-2021
+% Darik O'Neil Rafael Yuste Laboratory 12-29-2021
+% We evaluate ensembles as follows:
 
-%set colors
-  newcolors = [
-      0.47 0.25 0.80 %1
-      0.25 0.80 0.54 %2
-      0.83 0.14 0.14 %3
-      1.00 0.54 0.00 %4
-      0.30 0.74 0.93 %5
-      0.00 0.44 0.74 %6
-      0.04 0.58 0.40 %7
-      0.65 0.65 0.65 %8
-      ];
-  
+
+
+%% Standard Evaluation
 numClass = size(params.UDF,2);
 numStim = numClass;
 true_label = params.UDF';

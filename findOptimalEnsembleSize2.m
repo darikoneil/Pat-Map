@@ -1,4 +1,4 @@
-function [results] = findOptimalEnsembleSize2(params,results,lowerBound,upperBound,stepSize,stimNum,numShuffle,XVals)
+function [sizePerf] = findOptimalEnsembleSize2(params,results,lowerBound,upperBound,stepSize,stimNum,numShuffle,XVals)
 
 % Function to determine optimal ensemble size within the specified bounds
 
@@ -191,7 +191,5 @@ end
     sizePerf.stepSize = stepSize;
     sizePerf.numShuffle=numShuffle;
     sizePerf.XVals = XVals;
-    results.sizePerf=sizePerf;
-  
 end
 

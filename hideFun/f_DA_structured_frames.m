@@ -11,6 +11,7 @@ newcolors = [
       1.00 0.0745 0.6510
       0.83 0.14 0.14
       1.00 0.54 0.00
+      0.9600 1.0000 0.4900
       0.6510 0.6510 0.6510];
   
 stimNum = app.SelectStimulus.Value;
@@ -111,7 +112,7 @@ endAdj = startIdx-1;
 % Plot false pos highlights
 LabelFP = ones(size(LL)).*b;
 LabelFP(startIdx:(endAdj+length(nilOne_LL)))=a;
-area(app.PerformanceAxes,X,LabelFP,b,'FaceAlpha',0.25,'FaceColor',newcolors(5,:),'EdgeColor',newcolors(5,:),'EdgeAlpha',0);
+area(app.PerformanceAxes,X,LabelFP,b,'FaceAlpha',0.25,'FaceColor',newcolors(7,:),'EdgeColor',newcolors(5,:),'EdgeAlpha',0);
 line(app.PerformanceAxes,[startIdx startIdx],[b a], 'color','k','LineStyle','--','LineWidth',1);
 startIdx = startIdx+length(nilOne_LL);
 endAdj=startIdx-1;
