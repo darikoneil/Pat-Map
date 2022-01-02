@@ -75,6 +75,7 @@ nS =app.results.epsum(nsIDX);
 G = graph(ensembleEdges);
 %calculate LineWidths
 LWidths = 5*G.Edges.Weight/max(G.Edges.Weight);
+LWidths = normalize(LWidths,'range',[1 5]);
 %plot
 p = plot(app.StructureAxes,G,'Layout','Layered');
 p.LineWidth = LWidths;

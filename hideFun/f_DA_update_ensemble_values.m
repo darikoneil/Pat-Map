@@ -26,7 +26,7 @@ end
 unique_neurons = setdiff(transpose(app.results.core_crf{stimNum,1}),all_neur);
 app.UniqueNeuronsTextArea.Value = num2str(unique_neurons);
 
-prom_neurons = setdiff(app.results.core_crf{stimNum,1},unique_neurons);
+prom_neurons = setdiff(transpose(app.results.core_crf{stimNum,1}),unique_neurons);
 app.PromNeuronsTextArea.Value = num2str(prom_neurons);
 
 perUniq = strcat(num2str(round((numel(unique_neurons)/numel(results.core_crf{stimNum,1})*100),2)),'%');

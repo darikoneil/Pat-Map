@@ -86,7 +86,7 @@ for i = 1:length(potentialEnsembleSizes)
         AUCcell{i,j} = AUC;
         OPTcell{i,j} = OPT;
         
-        fprintf([num2str(i) num2str(j)]);
+        %fprintf([num2str(i) num2str(j)]);
         assert((length(XVals)==length(RECALL_X)),'XVals too Granular!');
         assert((length(XVals)==length(AUC_X)),'XVals too Granular!');
         

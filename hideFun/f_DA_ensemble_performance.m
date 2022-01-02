@@ -4,7 +4,7 @@ function f_DA_ensemble_performance(selectedButton,app)
 % Darik O'Neil 12-20-2021 Rafael Yuste Laboratory
 
 %add new colors
-  newcolors = [
+    newcolors = [
       0.47 0.25 0.80
       0.25 0.80 0.54
       0.0745 0.6235 1.00
@@ -13,6 +13,13 @@ function f_DA_ensemble_performance(selectedButton,app)
       1.00 0.54 0.00
       0.9600 1.0000 0.4900
       0.6510 0.6510 0.6510];
+if size(app.params.UDF,2)>=7
+    newcolors = [
+      newcolors
+      lines((size(app.params.UDF,2)-7))
+      ];
+end
+
   
   cla(app.PerformanceAxes,'reset'); %reset axes
   results = app.results;
@@ -73,9 +80,9 @@ function f_DA_ensemble_performance(selectedButton,app)
           plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');
           fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
-          fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
-          plot(app.PerformanceAxes,results.IndividualNeurons.Xall.ROC{stimNum,stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum,stimNum}),results.IndividualNeurons.Yall.ROC{stimNum,stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum,stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
-          fill(app.PerformanceAxes,results.IndividualNeurons.Xall.ROC{stimNum,stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum,stimNum}),results.IndividualNeurons.Yall.ROC{stimNum,stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum,stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
+          fill(app.PerformanceAxes,results.Xcell{stimNum},results.Ycell{stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,results.IndividualNeurons.Xall.ROC{stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum}),results.IndividualNeurons.Yall.ROC{stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.IndividualNeurons.Xall.ROC{stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum}),results.IndividualNeurons.Yall.ROC{stimNum}(results.IndividualNeurons.boundaries.ROC{stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
            plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String='False Positive Rate';
@@ -115,10 +122,10 @@ function f_DA_ensemble_performance(selectedButton,app)
       case 'ROC (vs. Complete Model)'
           plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');
-          plot(app.PerformanceAxes,results.completePerf.Xcell{stimNum,stimNum},results.completePerf.Ycell{stimNum,stimNum},'LineWidth',2,'Color',newcolors(3,:));
-          fill(app.PerformanceAxes,results.completePerf.Xcell{stimNum,stimNum},results.completePerf.Ycell{stimNum,stimNum},newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,results.completePerf.Xcell{stimNum},results.completePerf.Ycell{stimNum},'LineWidth',2,'Color',newcolors(3,:));
           fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,results.completePerf.Xcell{stimNum},results.completePerf.Ycell{stimNum},newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
           plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String='False Positive Rate';
@@ -127,23 +134,23 @@ function f_DA_ensemble_performance(selectedButton,app)
       case 'ROC (vs. Linear Ensemble)'
           plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');
-          plot(app.PerformanceAxes,results.linearPerf.Xcell{stimNum,stimNum},results.linearPerf.Ycell{stimNum,stimNum},'LineWidth',2,'Color',newcolors(3,:));
-          fill(app.PerformanceAxes,results.linearPerf.Xcell{stimNum,stimNum},results.linearPerf.Ycell{stimNum,stimNum},newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,results.linearPerf.Xcell{stimNum},results.linearPerf.Ycell{stimNum},'LineWidth',2,'Color',newcolors(3,:));
           fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,results.linearPerf.Xcell{stimNum},results.linearPerf.Ycell{stimNum},newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
           plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String='False Positive Rate';
           app.PerformanceAxes.YLabel.String='True Positive Rate';
           app.PerformanceAxes.Title.String='Receiver Operating Characteristic';
       case 'ROC (vs. Single Tuning 2)'
-          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),'LineWidth',2,'Color',newcolors(3,:));
+          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum}),'LineWidth',2,'Color',newcolors(3,:));
           plot(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');
           fill(app.PerformanceAxes,[0 1 1],[0 1 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,results.Xcell{stimNum,stimNum},results.Ycell{stimNum,stimNum},[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
-          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
-          fill(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum,stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
+          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.IndividualNeuronsE.Xall.ROC{stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum}),results.IndividualNeuronsE.Yall.ROC{stimNum}(results.IndividualNeuronsE.boundaries.ROC{stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
           plot(app.PerformanceAxes,[0 1],[0 1],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String='False Positive Rate';
@@ -205,8 +212,8 @@ function f_DA_ensemble_performance(selectedButton,app)
           hold(app.PerformanceAxes,'on');             
           fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end); 0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.PREC_Ycell{stimNum,stimNum}(end)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);       
           fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
-          plot(app.PerformanceAxes,results.IndividualNeurons.Xall.PR{stimNum,stimNum}(results.IndividualNeurons.boundaries.PR{stimNum,stimNum}),results.IndividualNeurons.Yall.PR{stimNum,stimNum}(results.IndividualNeurons.boundaries.PR{stimNum,stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
-          fill(app.PerformanceAxes,results.IndividualNeurons.Xall.PR{stimNum,stimNum}(results.IndividualNeurons.boundaries.PR{stimNum,stimNum}),results.IndividualNeurons.Yall.PR{stimNum,stimNum}(results.IndividualNeurons.boundaries.PR{stimNum,stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
+          plot(app.PerformanceAxes,results.IndividualNeurons.Xall.PR{stimNum}(results.IndividualNeurons.boundaries.PR{stimNum}),results.IndividualNeurons.Yall.PR{stimNum}(results.IndividualNeurons.boundaries.PR{stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.IndividualNeurons.Xall.PR{stimNum}(results.IndividualNeurons.boundaries.PR{stimNum}),results.IndividualNeurons.Yall.PR{stimNum}(results.IndividualNeurons.boundaries.PR{stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
           plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
@@ -246,10 +253,10 @@ function f_DA_ensemble_performance(selectedButton,app)
       case 'PR (vs. Complete Model)'
           plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');
-          plot(app.PerformanceAxes,results.completePerf.RECALL_Xcell{stimNum,stimNum},results.completePerf.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',newcolors(3,:));
-          fill(app.PerformanceAxes,[results.completePerf.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.completePerf.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,results.completePerf.RECALL_Xcell{stimNum},results.completePerf.PREC_Ycell{stimNum},'LineWidth',2,'Color',newcolors(3,:));
           fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,[results.completePerf.RECALL_Xcell{stimNum}(2:end);0],[results.completePerf.PREC_Ycell{stimNum}(2:end);results.prec_baseline(stimNum)],newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
           plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
@@ -258,10 +265,10 @@ function f_DA_ensemble_performance(selectedButton,app)
       case 'PR (vs. Linear Ensembles)'
           plot(app.PerformanceAxes,results.RECALL_Xcell{stimNum,stimNum},results.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
           hold(app.PerformanceAxes,'on');
-          plot(app.PerformanceAxes,results.linearPerf.RECALL_Xcell{stimNum,stimNum},results.linearPerf.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',newcolors(3,:));
-          fill(app.PerformanceAxes,[results.linearPerf.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.linearPerf.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
+          plot(app.PerformanceAxes,results.linearPerf.RECALL_Xcell{stimNum},results.linearPerf.PREC_Ycell{stimNum},'LineWidth',2,'Color',newcolors(3,:));
           fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end);0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.prec_baseline(stimNum)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
           fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
+          fill(app.PerformanceAxes,[results.linearPerf.RECALL_Xcell{stimNum}(2:end);0],[results.linearPerf.PREC_Ycell{stimNum}(2:end);results.prec_baseline(stimNum)],newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.25);
           plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
@@ -272,8 +279,8 @@ function f_DA_ensemble_performance(selectedButton,app)
           hold(app.PerformanceAxes,'on');             
           fill(app.PerformanceAxes,[results.RECALL_Xcell{stimNum,stimNum}(2:end); 0],[results.PREC_Ycell{stimNum,stimNum}(2:end);results.PREC_Ycell{stimNum,stimNum}(end)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);       
           fill(app.PerformanceAxes,[0 0 1 1],[0 results.prec_baseline(stimNum) results.prec_baseline(stimNum) 0],[0.25 0.8 0.54],'EdgeAlpha',0,'FaceAlpha',0.25);
-          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.PR{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum,stimNum}),results.IndividualNeuronsE.Yall.PR{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum,stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
-          fill(app.PerformanceAxes,results.IndividualNeuronsE.Xall.PR{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum,stimNum}),results.IndividualNeuronsE.Yall.PR{stimNum,stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum,stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
+          plot(app.PerformanceAxes,results.IndividualNeuronsE.Xall.PR{stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum}),results.IndividualNeuronsE.Yall.PR{stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum}),'LineStyle','-.','LineWidth',2,'Color',newcolors(3,:));
+          fill(app.PerformanceAxes,results.IndividualNeuronsE.Xall.PR{stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum}),results.IndividualNeuronsE.Yall.PR{stimNum}(results.IndividualNeuronsE.boundaries.PR{stimNum}),newcolors(3,:),'EdgeAlpha',0,'FaceAlpha',0.15);
           plot(app.PerformanceAxes,[0 1],[results.prec_baseline(stimNum) results.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
           hold(app.PerformanceAxes,'off');
           app.PerformanceAxes.XLabel.String = 'Recall (Sensitivity)';
