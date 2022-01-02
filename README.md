@@ -17,6 +17,7 @@ Matlab code for using neighborhood-based regularization for structural learning 
     
 
 ### Changelog: 
+    01/22/2022: Reduced GUI memory load 
     12/30/2021: General tweaks to ensemble panel
     12/30/2021: Pushed ensemble structure plot
     12/30/2021: Fixed bug in storing/plotting size performance of multiple ensembles        
