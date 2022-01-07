@@ -37,9 +37,11 @@ Matlab code to generate log-linear conditional random field models that identify
     11/29/2021: Added pre-compiled mex functions with wrapper interface for C++   
     11/29/2021: Removed rounding step in QPBO solver (for now at least)  
 
-### To-Do (Order of Priority)     
-    Finish integrating 'aesthetic' individual GUIs & import into one application
-    Log model convergence     
+### To-Do (Order of Priority) 
+    Log model convergence       
+    Permit use of integers in pre-compiled code         
+    Fnish integrating 'aesthetic' individual GUIs & import into one application         
+    Permit rescaling for floating point error mitigation   
     Investigate Performance Impacts of Rounding via Boost Library   
     Parallel QPBO/BK implementation for better performance on larger datasets^      
     Multi-Plane Block-Coordinate Frank Wolfe implementation for better performance on larger datasets^      
