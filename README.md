@@ -17,6 +17,8 @@ Matlab code to generate log-linear conditional random field models that identify
     
 
 ### Changelog: 
+    01/10/2022: Fixed bug in alpha parameter
+    01/10/2022: Removed 10-fold cross-validation during neighborhood-wise structural learning at default settings.
     01/10/2022: Adjusted QPBOSolve.m function to remove unnecessary type-checking & reintegrate associated speed-boost
     01/02/2022: Reduced GUI memory load 
     12/30/2021: General tweaks to ensemble panel
