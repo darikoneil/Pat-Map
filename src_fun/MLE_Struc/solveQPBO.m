@@ -7,13 +7,13 @@ function [xNode, xEdge, eBelow] = solveQPBO(gNode, gEdge, edges)
     end
 
     % Dispatch
-    if isa(gNode, 'double') && isa(gEdge, 'double')
+    %if isa(gNode, 'double') && isa(gEdge, 'double')
         [xNode, xEdge, eBelow] = QPBO_double_mex(gNode, gEdge, flipud(edges));
-    elseif isa(gNode, 'single') && isa(gEdge, 'single')
-        [xNode, xEdge, eBelow] = QPBO_single_mex(gNode, gEdge, flipud(edges));
-    else
-        error('gNode, gEdges must be both double or single (or int, could support)');
-    end
+    %elseif isa(gNode, 'single') && isa(gEdge, 'single')
+    %    [xNode, xEdge, eBelow] = QPBO_single_mex(gNode, gEdge, flipud(edges));
+    %else
+     %   error('gNode, gEdges must be both double or single (or int, could support)');
+    %end
 
 %    keyboard;
     xEdge([2 3],:) = xEdge([3 2],:);
