@@ -142,7 +142,7 @@ params = p.Results;
 
 %secondary validation
 [params.x_train,params.x_test,params.UDF_Count,params.Num_Nodes,params.data,params.UDF] = internalValidate_Dataset(params.data,params.UDF,params.split,params.merge,params.dataShuffle);
-[params.p_lambda_sequence,params.s_lambda_sequence_LASSO,params.LASSO_options] = internal_generateSequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.logPspace,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.logSspace);
+[params.p_lambda_sequence,params.s_lambda_sequence_LASSO,params.LASSO_options] = internal_generateSequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.logPspace,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.logSspace,params);
 
 fprintf('\n');
 fprintf('Data and Parameters Validated...\n');
