@@ -14,8 +14,8 @@ for label_node = 1:node_count
         feature_nodes = variable_groups{label_node};
         X = x_train(:,feature_nodes);
         Y = x_train(:,label_node);
-        CVerr = cvglmnet(X,Y,'binomial',options);
-        GLM_array{label_node,1}= CVerr;
+        G = glmnet(X,Y,'binomial',options);
+        GLM_array{label_node,1}= G;
         wb.print(label_node,node_count);
 end
 
