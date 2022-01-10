@@ -1,4 +1,4 @@
-function [p_lambda_sequence,s_lambda_sequence_LASSO,LASSO_options] = internal_generateSequences(p_lambda_count,p_lambda_min,p_lambda_max,logPspace,s_lambda_count,s_lambda_min,s_lambda_max,logSspace)
+function [p_lambda_sequence,s_lambda_sequence_LASSO,LASSO_options] = internal_generateSequences(p_lambda_count,p_lambda_min,p_lambda_max,logPspace,s_lambda_count,s_lambda_min,s_lambda_max,logSspace,params)
 
 %Generate pLambda Sequence
 if logPspace
@@ -20,6 +20,7 @@ end
 
 %set options for GLMNet
 opts.lambda = s_lambda_sequence_LASSO;
+opts.alpha=params.alphaGLM;
 LASSO_options = glmnetSet(opts);
 
 end
