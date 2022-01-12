@@ -1,5 +1,5 @@
-function [model_collection] = runTheModelsBank(models,params.chunkSize)
-
+function [model_collection] = runTheModelsBank(models,params)
+chunkSize = params.chunkSize;
 %This function runs and saves models in chunks to avoid memory leak
 
 modelsBank = models;

@@ -1,4 +1,4 @@
-function [params] = learn_neighborhoods(params)
+function [params] = learn_neighborhoodsFastSL(params)
 
 %grab necessary parameters & pre-allocate
 x_train = params.x_train;
@@ -8,16 +8,18 @@ node_count = size(x_train,2);
 GLM_array=cell(node_count,1);
 
 
-
-wb = CmdLineProgressBar('Learning Neighborhoods');
+tic
+wb = CmdLineProgressBar('Learning Neighborhoods: ');
 for label_node = 1:node_count
         feature_nodes = variable_groups{label_node};
         X = x_train(:,feature_nodes);
         Y = x_train(:,label_node);
-        G = glmnet(X,Y,'binomial',options);
-        GLM_array{label_node,1}= G;
+        CVerr = glmnet(X,Y,'binomial',options);
+        GLM_array{label_node,1}= CVerr;
         wb.print(label_node,node_count);
 end
+
+toc
 
 fprintf('\n');
 fprintf('Neighborhood Learning Complete');

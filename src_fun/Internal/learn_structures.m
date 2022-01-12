@@ -2,7 +2,7 @@ function [coefficients] = learn_structures(params,s_lambda)
 
     node_count = size(params.x_train,2);
     coefficients = zeros(node_count);
-
+    
         for label_node = 1:node_count
             feature_nodes = params.variable_groups{label_node};
             Coef = glmnetCoef(params.GLM_array{label_node},s_lambda);
