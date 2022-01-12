@@ -23,7 +23,7 @@ function [best_model,model_collection,params] = estimateParameters(params)
 %% (2, Estimation): Here we estimate the parameters
 
 if params.chunk
-    [model_collection] = runTheModelsBank(models,params,params.chunkSize);
+    [model_collection] = runTheModelsBank(models,params);
 else
     [model_collection] = LoopyModelCollection(models,params); %Generate Collection
     fprintf('\n');

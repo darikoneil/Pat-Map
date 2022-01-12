@@ -62,7 +62,7 @@ fprintf('\n');
 fprintf('\n')
 fprintf(strcat(num2str(params.num_structures),' Structures Formed'))
 
-save(strcat(params.exptdir,'/','model_parameters.mat','params'));
+save(strcat(params.exptdir,'/','model_parameters.mat'),'params');
 fprintf('\n')
 fprintf('Structures Saved');
 
