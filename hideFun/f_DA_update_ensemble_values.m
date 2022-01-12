@@ -1,38 +1,52 @@
 function f_DA_update_ensemble_values(app,value)
 
-results = app.results;
-v = value;
-app.TruePositiveEditField.Value = num2str(results.TruePoscell{v,v});
-app.FalsePositiveEditField.Value = num2str(results.FalsePoscell{v,v});
-app.TrueNegativeEditField.Value = num2str(results.TrueNegcell{v,v});
-app.FalseNegativeEditField.Value = num2str(results.FalseNegcell{v,v});
-app.AUC_ROC_EditField.Value = num2str(results.AUCcell{v,v});
-app.AUCPR_EditLabel.Value = num2str(results.PR_AUCcell{v,v});
+%% Documentation Contents
+% Darik O'Neil 1-11-2022
+% Function to update ensemble-related text and figures
 
-app.SpecificityEditField.Value = strcat(num2str(round(results.Specificitycell{v,v}*100,2)),'%');
-app.SensitivityEditField.Value = strcat(num2str(round(results.TPRcell{v,v}*100,2)),'%');
-app.PrecEditField.Value = strcat(num2str(round(results.Precisioncell{v,v}*100,2)),'%');
-app.AccuracyEditField.Value = strcat(num2str(round(results.Accuracycell{v,v}*100,2)),'%');
-app.Miss_EditField.Value = strcat(num2str(round(results.FalseNegRatecell{v,v}*100,2)),'%');
-app.Threshold_Edit_Field.Value = num2str(results.thcell{v,v});
-stimNum=v;
-f_DA_ensemble_identity(app);
+%% Function Contents
 
-app.EnsembleNeuronsTextArea.Value = num2str(transpose(results.core_crf{stimNum,1}));
-all_neur = [];
-for i = setdiff([1:size(app.params.UDF,2)],stimNum)
-    all_neur = [all_neur transpose(app.results.core_crf{i,1})]; 
+%update ensemble text fields
+try
+    f_DA_update_ensemble_text(app,value);
+catch
+    catchMsg = 'Error Updating Text Fields';
+    f_DA_update_log(app,catchMsg);
 end
-unique_neurons = setdiff(transpose(app.results.core_crf{stimNum,1}),all_neur);
-app.UniqueNeuronsTextArea.Value = num2str(unique_neurons);
 
-prom_neurons = setdiff(transpose(app.results.core_crf{stimNum,1}),unique_neurons);
-app.PromNeuronsTextArea.Value = num2str(prom_neurons);
+%plot identity figure
+try
+    f_DA_ensemble_identity(app);
+catch
+    catchMsg = 'Appropriate Imaging Data Not Found';
+    f_DA_update_log(app,catchMsg);
+end
 
-perUniq = strcat(num2str(round((numel(unique_neurons)/numel(results.core_crf{stimNum,1})*100),2)),'%');
-app.PercentUniqueVal.Text = perUniq;
+%plot performance figure
+try
+    selectedButton=app.EnsemblePerformanceButtonGroup.SelectedObject;
+    f_DA_ensemble_performance(selectedButton,app);
+catch
+    catchMsg = 'Error Plotting Ensemble Performance';
+    f_DA_update_log(app,catchMsg);
+end
 
-selectedButton=app.EnsemblePerformanceButtonGroup.SelectedObject;
-f_DA_ensemble_performance(selectedButton,app);
-f_DA_plotEnsembleStructure(app);
+%plot structural figure
+try
+    f_DA_plotEnsembleStructure(app);
+catch
+    catchMsg = 'Error Plotting Ensemble Structure';
+    f_DA_update_log(app,catchMsg);
+    try2catchMsg='Trying ROIs Instead';
+    f_DA_update_log(app,try2catchMsg);
+    try
+        f_DA_secondary_identity_plot(app);
+        triedMsg = 'ROIs Plotting In Structural Plot';
+        f_DA_update_log(app,triedMsg);
+    catch
+        caughtMsg = 'Could Not Plot ROIs Either';
+        f_DA_update_log(app,caughtMsg);
+    end      
+end
+
 end
