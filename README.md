@@ -3,9 +3,10 @@ Matlab code to generate log-linear conditional random field models that identify
 
 ## Contains:  
     Initialization GUI (Version 1.0)  
-    Analysis GUI (Version 0.7)  
+    Analysis GUI (Version 0.8)  
     C++ Wrapper for Windows (Version 1.0, just a modified version of MexCPP)  
-    Precompiled QPBO solvers for Windows and Linux (Source files included for Mac)  
+    Precompiled QPBO solvers for Windows and Linux (Source files included for Mac)          
+    Compatible Solvers for Float & Double Precision.
 
 ## Third Party Dependencies  
     MexCPP (I modified this for windows)  
@@ -17,6 +18,9 @@ Matlab code to generate log-linear conditional random field models that identify
     
 
 ### Changelog: 
+    01/12/2022: Pushed float solver (matlab's single precision)
+    01/12/2022: Improved Logging Console
+    01/12/2022: Integrated decoding panel in analysis GUI
     01/10/2022: Fixed bug in alpha parameter
     01/10/2022: Removed 10-fold cross-validation during neighborhood-wise structural learning at default settings.
     01/10/2022: Adjusted QPBOSolve.m function to remove unnecessary type-checking & reintegrate associated speed-boost
@@ -66,7 +70,8 @@ Matlab code to generate log-linear conditional random field models that identify
         To identify ensembles, use the "identifyEnsembles" function
         To identify motifs using the overcomplete edge scores, using "identifyMotifs" function          
         To evaluate ensemble and model performance, use the "evaluateEnsembles" function
-        To explore the different options, open the "validateData" function and read documentation
+        To explore the different options, open the "validateData" function and read documentation       
+        Note that float solver accumulates errors at a more rapid rate than double precision without offering noticeable improvements in iteration time.
         
        
        
