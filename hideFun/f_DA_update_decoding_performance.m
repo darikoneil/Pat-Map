@@ -45,8 +45,6 @@ function f_DA_update_decoding_performance(selectedButton,app)
           app.PerformanceAxes_Decoding.XLabel.String = 'Recall (Sensitivity)';
           app.PerformanceAxes_Decoding.YLabel.String = 'Precision';
           app.PerformanceAxes_Decoding.Title.String = 'Precision-Recall Curve';
-      case 'Multi-Class'
-          %not yet implemented 1-12-2022
   end
   
   app.PerformanceAxes_Decoding.Box='on';
