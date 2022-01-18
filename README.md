@@ -18,6 +18,8 @@ Matlab code to generate log-linear conditional random field models that identify
     
 
 ### Changelog: 
+    01/13/2022: Multiclass classifier analysis panel integrated
+    01/13/2022: Multiclass classifier function pushed
     01/12/2022: Pushed float solver (matlab's single precision)
     01/12/2022: Improved Logging Console
     01/12/2022: Integrated decoding panel in analysis GUI
