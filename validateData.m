@@ -77,7 +77,7 @@ addParameter(p,'logSspace',true,@(x) islogical(x));
 %Parameter settings to dictate the merging of UDF and neuronal nodes
 addParameter(p,'merge',true,@(x) islogical(x));
 %Parameter settings to dictate the density of edges
-addParameter(p,'density',1,@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
+addParameter(p,'density',0.25,@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
 %Parameter to describe the selection of edges during density constraint
 addParameter(p,'absolute',false,@(x) islogical(x));
 %Parameter to set alpha in GLM
