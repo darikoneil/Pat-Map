@@ -20,7 +20,7 @@ function [models] = pre_allocate_models(params)
     end
     
     for i = 1:length(models)
-        if models{i}.max_degree <=0
+        if models{i}.max_degree <=1
             models{:,i}={};
         end
     end
