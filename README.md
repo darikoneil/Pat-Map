@@ -74,7 +74,14 @@ Matlab code to generate log-linear conditional random field models that identify
         To identify motifs using the overcomplete edge scores, using "identifyMotifs" function          
         To evaluate ensemble and model performance, use the "evaluateEnsembles" function
         To explore the different options, open the "validateData" function and read documentation       
-        Note that float solver accumulates errors at a more rapid rate than double precision without offering noticeable improvements in iteration time.
+        Note that float solver accumulates errors at a more rapid rate than double precision without offering noticeable improvements in iteration time.        
         
+  ### Known Issues      
+       Memory leak in ensemble evaluations (relevant in parallel processing)        
+       Need to split ensemble evaluation into multiple functions        
+       Size optimization method may not be appropriate when increasing size
+       Documentation is not appropriately built at Read the Docs        
+       
+       
        
        
