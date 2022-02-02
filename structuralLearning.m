@@ -58,29 +58,29 @@ fprintf('Structural Learning Complete');
 fprintf('\n');
 
 %hotfix Darik 02/01/2022; Where did this check go? Check previous pushes...
-tmpRem = [];
-removeRecurrent = ~(diag(ones(1,size(params.x_train,2))));
-for i = 1:length(params.learned_structures)
-    tmp = params.learned_structures{i}.*removeRecurrent;
-    if sum(tmp)<2
-        tmpRem = [tmpRem i];
-    end
-end
+%tmpRem = [];
+%removeRecurrent = ~(diag(ones(1,size(params.x_train,2))));
+%for i = 1:length(params.learned_structures)
+  %  tmp = params.learned_structures{i}.*removeRecurrent;
+  %  if sum(tmp)<2
+  %      tmpRem = [tmpRem i];
+ %   end
+%end
 
 %% (4, Save our model parameters): Here we simply save the model parameters and structures 
 
 fprintf('\n')
 fprintf(strcat(num2str(params.num_structures),' Structures Formed'))
 
-params.learned_structures(tmpRem) = [];
-params.num_structures = length(params.learned_structures);
+%params.learned_structures(tmpRem) = [];
+%params.num_structures = length(params.learned_structures);
 
 %make sure to remove from other structural sequences (s_lambda and raw Coef)
-params.s_lambda_sequence(tmpRem)=[];
-params.rawCoef(tmpRem)=[];
+%params.s_lambda_sequence(tmpRem)=[];
+%params.rawCoef(tmpRem)=[];
 
-fprintf('\n')
-fprintf(strcat(num2str(numel(tmpRem)),' Invalid Structures Removed '))
+%fprintf('\n')
+%fprintf(strcat(num2str(numel(tmpRem)),' Invalid Structures Removed '))
 
 
 
