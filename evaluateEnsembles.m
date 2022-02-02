@@ -39,7 +39,7 @@ PR_AUCcell = Xcell;
 for b = 1:numStim
     for a = 1:numClass
     %find ensemble contributions
-    ensembleIdx = cell2mat(results.ens_nodes{a});
+    ensembleIdx = results.core_crf{a};
     ensemble_neurons{a}=ensembleIdx;
     LL = results.LL_on(ensembleIdx,:);
     LL = sum(LL);
