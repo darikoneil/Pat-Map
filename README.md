@@ -1,6 +1,5 @@
 # Ensemble and Motif Analysis using Probabilistic Graphical Modeling  
-Matlab code to generate log-linear conditional random field models that identify neuronal nsembles and their motifs. Default motifs are pattern completion neurons and pattern suppression neurons, though it is easy to incorporate additional analysis. The pipeline ues neighborhood-based regularization for structural learning and MLE-Struc for parameter estimation. For improved performance, primary bottlenecks (structural learning, parameter estimation) are implemented in FORTRAN and C++. Secondary bottleneck is the massive amount of matrix multiplication possible in assessing each neuron's contribution to the model; in these cases, make sure to use the parallel processing flag ('parProc').
-
+Matlab code to generate log-linear conditional random field models that identify neuronal ensembles and their motifs. Default motifs are pattern completion neurons and pattern suppression neurons, though it is easy to incorporate additional analysis. The pipeline uses GLM-driven neighborhood-based structural learning and MLE-Struc for parameter estimation. For improved performance, (increasing) aspects of the primary bottlenecks (structural learning, parameter estimation) are implemented in FORTRAN and C++. Secondary bottleneck is the massive amount of matrix multiplication possible in assessing each neuron's contribution to the model; in these cases, make sure to use the parallel processing flag ('parProc'). 
 ## Contains:  
     Initialization GUI (Version 1.0)  
     Analysis GUI (Version 0.8)  
@@ -54,13 +53,11 @@ Matlab code to generate log-linear conditional random field models that identify
     Permit rescaling for floating point error mitigation   
     Investigate Performance Impacts of Rounding via Boost Library   
     Parallel QPBO/BK implementation for better performance on larger datasets^      
-    Multi-Plane Block-Coordinate Frank Wolfe implementation for better performance on larger datasets^      
-    Implement structured prediction/secondary analysis into better performing language (C++)''      
+    Multi-Plane Block-Coordinate Frank Wolfe implementation for better performance on larger datasets^         
     Integrate Initialization/Analysis into Single Application     
 
-^ *Parallel QPBO/BK (P-QPBO) is probably a more fruitful performance boost because its dreadfully serialized and is currently a primary bottleneck. Not sure if both MP-BCWF & P-QPBO will be implemented and/or play nice.     
-
-'' *Not necessary if parallel-vectorized implementation is fast enough              
+^ *Parallel QPBO/BK (P-QPBO) is probably a more fruitful performance boost because its dreadfully serialized and is currently a primary bottleneck. Not sure if both MP-BCWF & P-QPBO will be implemented and/or play nice. Ultimately, distributing the linesearch is probably the best move and is currently nearly ready to push (02/21/22).      
+              
 
 
 ### Instructions
