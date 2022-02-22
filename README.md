@@ -79,6 +79,7 @@ Matlab code to generate log-linear conditional random field models that identify
        Size optimization method may not be appropriate when increasing size
        Documentation is not appropriately built at Read the Docs        
        Infinite/Near-infinite hang i par processing of ensemble ID from one of recent pushes???
+       Random ensembles threshold not appropriate for inhibitory neurons with dense connectivity
        
        
        
