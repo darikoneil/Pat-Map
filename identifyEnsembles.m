@@ -22,14 +22,15 @@ function [results] = identifyEnsembles(params,best_model)
     if merge == 1
         X = [data UDF]; %merge if necessary
     else
+        X = data;
         %don't merge if necessary
     end
     
     %generate cell where rows = number of nodes, columns = on/off state and
     %each cell is 1 x number of frames
-    LL_frame = cell(num_node*2,1);
+    LL_frame = cell(num_node,1);
     for i = 1:num_node
-        LL_frame{i} = zeros(1,num_frame);
+        LL_frame{i} = zeros(num_frame,1);
     end
 
     %% (2, Find each neuron's prediction to the model)
@@ -37,22 +38,24 @@ function [results] = identifyEnsembles(params,best_model)
     fprintf('Now Predicting Each Neuron in Turn')
     fprintf('\n')
     
+    node_potentials = best_model.theta.node_potentials;
+    edge_potentials = best_model.theta.edge_potentials;
+    logZ = best_model.theta.logZ;
     if parProc
         wb = parwaitbar(num_node*2,'WaitMessage','Conducting Log-Likelihood Ratio Test on each Neuron in Turn','FinalMessage','Structured Predictions Complete');
         %compute in parallel
-        parfor ii = 1:(num_node*2)
-            if ii <= num_node
+        parfor ii = 1:(num_node)
                 frame_vec  = X(:,:);
                 frame_vec(:,ii) = 0;
-                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.node_potentials,best_model.theta.edge_potentials,best_model.theta.logZ,frame_vec); 
-            else
+                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(node_potentials, edge_potentials ,logZ, frame_vec); 
+                wb.progress();
+        end
+        parfor ii = (num_node+1):(num_node*2)
                 frame_vec=X(:,:);
                 frame_vec(:,ii-num_node) = 1;
-                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.node_potentials,...
-                best_model.theta.edge_potentials,best_model.theta.logZ,frame_vec);
-            end
+                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(node_potentials, edge_potentials, logZ, frame_vec);
+                wb.progress();
         end
-        wb.progress();
     else
         wb = CmdLineProgressBar('Conducting Log-Likelihood Ratio Test on each Neuron in Turn');
         fprintf('\n');
@@ -60,12 +63,11 @@ function [results] = identifyEnsembles(params,best_model)
            if ii <= num_node
                 frame_vec  = X(:,:);
                 frame_vec(:,ii) = 0;
-                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.node_potentials,best_model.theta.edge_potentials,best_model.theta.logZ,frame_vec); 
+                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(node_potentials, edge_potentials, logZ, frame_vec); 
            else
                 frame_vec = X(:,:);
                 frame_vec(:,ii-num_node) = 1;
-                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(best_model.theta.node_potentials,...
-                best_model.theta.edge_potentials,best_model.theta.logZ,frame_vec);
+                LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(node_potentials, edge_potentials,logZ, frame_vec);
            end
             wb.print(ii,num_node*2);
         end
