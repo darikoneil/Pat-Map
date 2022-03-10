@@ -17,6 +17,7 @@ Matlab code to generate log-linear conditional random field models that identify
     
 
 ### Changelog: 
+    03/10/2022: Single function push to fix memory leak in ensemble identification function
     02/01/2022: Hotfix for blank structures
     01/13/2022: Multiclass classifier analysis panel integrated
     01/13/2022: Multiclass classifier function pushed
@@ -73,12 +74,10 @@ Matlab code to generate log-linear conditional random field models that identify
         To explore the different options, open the "validateData" function and read documentation       
         Note that float solver accumulates errors at a more rapid rate than double precision without offering noticeable improvements in iteration time.        
         
-  ### Known Issues      
-       Memory leak in ensemble evaluations (relevant in parallel processing)        
+  ### Known Issues         
        Need to split ensemble evaluation into multiple functions        
        Size optimization method may not be appropriate when increasing size
        Documentation is not appropriately built at Read the Docs        
-       Infinite/Near-infinite hang i par processing of ensemble ID from one of recent pushes???
        Random ensembles threshold not appropriate for inhibitory neurons with dense connectivity
        
        
