@@ -1,24 +1,10 @@
 function f_DA_app_wrapped_startup(app)
-params = app.params;
-basepath = pwd; %set basepath
+
+params = app.params; %pull current params
+
 filename = app.file_SpikeMatrix;
 [~,name,~] = fileparts(filename);
 
-% THIRDPARTY DEPENDENCIES
-addpath(fullfile(basepath,'thirdparty'));
-addpath(fullfile(basepath,'thirdparty','QPBO-v1.32.src')); %Solver implementation
-addpath(fullfile(basepath,'thirdparty','glmnet_matlab'));
-addpath(fullfile(basepath,'thirdparty','glmnet_matlab','glmnet_matlab')); %GLM implementation
-addpath(fullfile(basepath,'thirdparty','parwaitbar-master')); %Wait Bar Interface for Parallel Processing
-addpath(fullfile(basepath,'thirdparty','CmdLineProgressBar')); %Progress Bar without print spam
-
-% SOURCE FUNCTIONS
-addpath(fullfile(basepath,'src_fun'));
-addpath(fullfile(basepath,'src_fun','ANALYSIS'));
-addpath(fullfile(basepath,'src_fun','MLE_Struc'));
-addpath(fullfile(basepath,'src_fun','include')); %Is this archaic or do we still need this even though everything was already cooked?
-addpath(fullfile(basepath,'src_fun','Internal'));
-addpath(fullfile(basepath,'src_fun','Utility'));
 
 data_directory=pwd;
 data_directory = strcat(data_directory, '/');
@@ -29,7 +15,7 @@ source_directory=pwd;
 source_directory = strcat(source_directory, '/');
 
 %Create Experimental Results Folder
-exptdir = strcat(source_directory, 'expt', '/', name);
+exptdir = strcat(source_directory, 'Experiments', '/', name);
 mkdir(exptdir);
 addpath(exptdir);
 
