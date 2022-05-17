@@ -55,11 +55,11 @@ function [randomPerformance, ensNodes]  = compareRandomEnsembles(params, nodePer
         % Generate random controls for current stimulus
         for jj = 1:num_controls
              rd_ens = zeros(1,num_node);
-             %if (~(params.incRandEnsUDF))
-              %  rd_ens = zeros(1, num_node-num_stim);
-             %else
-              %  rd_ens = zeros(1,num_node);
-             %end
+             if (~(params.incRandEnsUDF))
+                rd_ens = zeros(1, num_node-num_stim);
+             else
+                rd_ens = zeros(1,num_node);
+             end
             rd_ens(randperm(length(rd_ens), size_ens)) = 1;
             % Shouldnt this only pass the population vectors from data, i.e. omit the stim nodes?
             sim_core = 1-pdist2(X,rd_ens,'cosine')';

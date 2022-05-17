@@ -55,7 +55,7 @@ f_DA_update_log(app, 'Now Assessing Individual Node Contributions');
         end
         parfor ii = (num_node+1):(num_node*2)
                 frame_vec=X(:,:);
-                frame_vec(:,ii) = 1;
+                frame_vec(:,ii-num_node) = 1;
                 LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(node_potentials, edge_potentials, logZ, frame_vec);
                 wb.progress();
         end

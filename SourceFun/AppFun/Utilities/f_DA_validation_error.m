@@ -14,5 +14,6 @@ switch answer
         f_DA_update_log(app, 'Please Fix Dataset Before Continuing');
     case 'Reshuffle'
         app.params = validateData(app.params);
-        
+end
+
 end

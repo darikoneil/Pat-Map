@@ -22,7 +22,7 @@ function [LL, num_node] = decodeOnlyUDF5(params, best_model)
     edge_potentials = best_model.theta.edge_potentials;
     logZ = best_model.theta.logZ;
     
-    LL_frame = cell(numStim,1);
+    LL_frame = cell(numStim*2,1);
     stimNodes = [(num_orig_neuron+1):(num_node) (num_node+num_orig_neuron+1):(num_node*2)];
     
 %% 2( No to Find the LL contribs)
@@ -38,7 +38,7 @@ if parProc
         end
         parfor ii = (numStim+1):(length(stimNodes))
                 frame_vec=X(:,:);
-                frame_vec(:,stimNodes(ii)) = 1;
+                frame_vec(:,stimNodes(ii)-num_node) = 1;
                 LL_frame{ii} = compute_log_likelihood_no_loop_by_frame(node_potentials, edge_potentials, logZ, frame_vec);
                 wb.progress();
         end
