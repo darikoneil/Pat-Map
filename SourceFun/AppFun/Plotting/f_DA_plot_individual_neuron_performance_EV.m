@@ -1,5 +1,6 @@
 function f_DA_plot_individual_neuron_performance_EV(app)
-  
+  cla(app.NEURON);
+    app.NEURON.NextPlot='replacechildren';
     neuronalPerformance = app.neuronalPerformance;
     stimNum = app.StimulusEV.Value;
     newcolors = app.newcolors;

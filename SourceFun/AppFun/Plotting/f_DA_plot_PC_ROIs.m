@@ -1,5 +1,8 @@
 function f_DA_plot_PC_ROIs(app)
 
+cla(app.PC1);
+app.PC1.NextPlot='replacechildren';
+
 %grab and format
 rois = app.ROIs;
 numROIs = size(rois,1);

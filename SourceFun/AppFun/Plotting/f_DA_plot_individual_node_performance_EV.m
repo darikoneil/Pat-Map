@@ -1,5 +1,7 @@
 function f_DA_plot_individual_node_performance_EV(app)
         
+cla(app.NODE);
+app.NODE.NextPlot='replacechildren';
 nodePredictions = app.nodePredictions;
 ensPerf = app.ensPerf;
 newcolors = app.newcolors;

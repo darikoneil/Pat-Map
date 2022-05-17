@@ -18,5 +18,7 @@ switch app.params.implementationMode
         f_DA_update_log(app, 'Finished Parameter Estimation');
 end
 
+app.params.stage=5;
 f_DA_update_learned_models(app);
+
 end

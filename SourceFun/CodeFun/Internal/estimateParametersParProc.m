@@ -22,6 +22,10 @@ function [best_model,model_collection,params] = estimateParametersParProc(params
     
 %% (2, Estimation): Here we estimate the parameters
 L = length(models);
+wb = parwaitbar(L,'WaitMessage','Estimating Parameters','FinalMessage','Parameter Estimation Learning Complete');
+%force no feedback
+%params.printInterval = 25000;
+%params.printTest = params.BCFW_max_iterations;
 parfor i = 1:L
     [model_collection] = LoopyModelCollection2(models{i},params); %Generate Collection
      model_collection = model_collection.do_parameter_estimation(...
@@ -31,6 +35,7 @@ parfor i = 1:L
             tmpName = tempname(strcat(params.exptdir,'/tmp'));
             tmpName = strcat(tmpName,'.mat');
             parSave(tmpName,model_collection);
+            wb.progress();
 end
 
 myFiles = dir(fullfile(strcat(params.exptdir,'/tmp'),'*.mat'));

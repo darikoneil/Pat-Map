@@ -1,6 +1,7 @@
 function f_DA_plot_linear_ens(app)
 
-    
+    cla(app.LINEAR);
+    app.LINEAR.NextPlot='replacechildren';
     linearPerf = app.linearPerf;
     newcolors = app.newcolors;
     ensPerf=app.ensPerf;
