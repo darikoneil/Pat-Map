@@ -5,14 +5,24 @@ params = app.params;
 numClass = size(params.UDF,2);
 numStim = numClass;
 true_label = params.UDF';
+[params.bigData, chunks] = checkMemoryRequirements(size(params.x_train,2)*size(params.x_train,2)*size(params.data,1));
 
 %%% SANITY CHECK JUST IN CASE TO AVOID DATA DELETION
  if isempty(app.FrameLikelihoodByNode)
+     if params.bigData
+         params.parProc=false;
+        [LL, num_node] = decodeOnlyUDF5_BIG(params, app.best_model, chunks);
+        app.FrameLikelihoodByNode = nan(num_node, size(params.data,1));
+        for i = 1:numStim
+            app.FrameLikelihoodByNode(num_node-numStim+i,:)=LL(i,:);
+        end
+     else
         [LL, num_node] = decodeOnlyUDF5(app.params, app.best_model);
         app.FrameLikelihoodByNode = nan(num_node, size(params.data,1));
         for i = 1:numStim
             app.FrameLikelihoodByNode(num_node-numStim+i,:)=LL(i,:);
         end
+     end
  end
 
  LL_on = app.FrameLikelihoodByNode;
@@ -88,4 +98,3 @@ end
 
 app.completePerf = completePerf;
 end
-

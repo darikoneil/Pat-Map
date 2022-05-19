@@ -7,7 +7,7 @@ models = app.model_collection.models;
  modelStats=charModels(app.model_collection.models);
  [modelIdx,modelSets] = indexModels(modelStats.p_lambda,models);
  %grab each p lambda
- pLambdas = app.params.p_lambda_sequence;
+ pLambdas = flip(app.params.p_lambda_sequence); %Darik 05/19/2022 to deal with model sorting added 05/18/2022
  numP = modelSets; % did this for clarity, just modelSets
 %how many pairs of samples (i.e., how many sLambda)
 sLambdaPairs = size(modelIdx,1);

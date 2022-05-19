@@ -69,7 +69,7 @@ app.PrintIntervalEditField_PE.Value = double(params.printInterval);
 app.PrintTestEditField_PE.Value = double(params.printTest);
 app.ReweightDenominatorDropDown_PE.Value = params.reweight_denominator;
 app.ComputeTrueLogZEditField_PE.Value = double(params.compute_true_logZ);
-app.ImplementationModeEditField.Value = double(params.implementationMode);
+app.ImplementationModeEditField_PE.Value = double(params.implementationMode);
 app.ParallelProcessingEditField_PE.Value = double(params.parProc);
 
 %evm tab now

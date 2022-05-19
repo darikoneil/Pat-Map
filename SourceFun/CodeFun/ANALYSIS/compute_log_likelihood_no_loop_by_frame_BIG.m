@@ -1,7 +1,7 @@
-function [frame_log_likelihoods] = compute_log_likelihood_no_loop_by_frame_BIG(nodePotentials,edgePotentials,logZ,samples)
+function [frame_log_likelihoods] = compute_log_likelihood_no_loop_by_frame_BIG(nodePotentials,edgePotentials,logZ,samples,chunks)
 %Function to compute frame-wise log_likelihood
 
-chunks=5;
+%chunks=2;
 %Initialize
 [sampleCount,nodeCount] = size(samples);
 L = floor(sampleCount/chunks);
@@ -25,7 +25,7 @@ for i = 1:chunks
         edgeTensor = pagemtimes(edgeTensor,'transpose',edgeTensor,'none'); %node state x node state x sample
         edgeTensor = edgeTensor.*edgePotentials; %edge effect x edge effect x sample (not upper triangular only)
         log_likelihood(1:L) = log_likelihood(1:L) + reshape(sum(sum(edgeTensor,2),1),[],1); %%add edge effects
-        fprintf(num2str(i));
+        %fprintf(num2str(i));
     elseif i<chunks
         idx1 = ((i-1)*L)+1;
         idx2 = i*L;
@@ -35,7 +35,7 @@ for i = 1:chunks
         edgeTensor = pagemtimes(edgeTensor,'transpose',edgeTensor,'none'); %node state x node state x sample
         edgeTensor = edgeTensor.*edgePotentials; %edge effect x edge effect x sample (not upper triangular only)
         log_likelihood(idx1:idx2) = log_likelihood(idx1:idx2) + reshape(sum(sum(edgeTensor,2),1),[],1); %%add edge effects
-        fprintf(num2str(i));
+        %fprintf(num2str(i));
     else
         idx1 = ((i-1)*L)+1;
         chunkSamples = samples(idx1:end, :);
@@ -44,7 +44,7 @@ for i = 1:chunks
         edgeTensor = pagemtimes(edgeTensor,'transpose',edgeTensor,'none'); %node state x node state x sample
         edgeTensor = edgeTensor.*edgePotentials; %edge effect x edge effect x sample (not upper triangular only)
         log_likelihood(idx1:end) = log_likelihood(idx1:end) + reshape(sum(sum(edgeTensor,2),1),[],1); %%add edge effects
-        fprintf(num2str(i));
+        %fprintf(num2str(i));
     end
 end
 

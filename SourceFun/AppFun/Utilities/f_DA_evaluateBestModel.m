@@ -9,4 +9,9 @@ function f_DA_evaluateBestModel(app)
             f_DA_model_value(app);
             f_DA_update_structPred_decoding(app);
             f_DA_update_log(app, 'Finished Assessing Decoding Performance');
+            
+            if app.params.assessClustering
+                app.GlobalEM.Value = find_global_cluster_coeff(app.best_model.structure);
+                app.LocalEM.Value = nanmean(find_local_cluster_coeff(app.best_model.structure));
+            end
 end
