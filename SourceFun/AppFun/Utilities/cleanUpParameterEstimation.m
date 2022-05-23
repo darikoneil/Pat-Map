@@ -14,6 +14,7 @@ end
 f_DA_update_learned_models(app);
 f_DA_update_unlearned_models(app);
 f_DA_update_best_model_text(app);
+f_DA_update_optimization_plots(app);
 
 end
 

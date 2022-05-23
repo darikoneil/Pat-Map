@@ -24,5 +24,5 @@ app.PC3.FontSize=12;
 %app.PC3.ZTick=[];
 %app.PC3.ZTickLabel=[];
 %app.PC3.ZLabel=[];
-app.PC3.Color=[0.94 0.94 0.94];
+%app.PC3.Color=[0.94 0.94 0.94];
 end

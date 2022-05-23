@@ -6,6 +6,11 @@ app.AS.NextPlot='replacechildren';
 ensPerf = app.ensPerf;
 stimNum = app.StimulusEV.Value;
 newcolors = app.newcolors;
+
+if size(newcolors,1)<size(app.UDF,2)
+    newcolors = turbo(size(app.UDF,2)+5);
+end
+
 z=3;
 if app.ROC_EV.Value==1
           hold(app.AS,'on');

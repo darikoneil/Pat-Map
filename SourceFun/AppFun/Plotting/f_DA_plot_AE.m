@@ -4,6 +4,11 @@ ensPerf = app.ensPerf;
 stimNum = app.StimulusEV.Value;
 newcolors = app.newcolors;
 
+if size(newcolors,1)<size(app.UDF,2)
+    newcolors = turbo(size(app.UDF,2)+5);
+end
+
+
 cla(app.AE);
 app.AE.NextPlot='replacechildren';
 z=3; %just to skip the one color, sorry for the bad code im busy

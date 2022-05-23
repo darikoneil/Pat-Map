@@ -1,24 +1,20 @@
-function [LL, num_node] = decodeOnlyUDF5(params, best_model)
+function [LL, num_node] = decodeOnlyUDF5_specific(params, best_model, test)
    
 %% 1(Only Decode UDFs), start by grabbings needs and preallocations
 
-    numNodes = size(params.data,2);
-    data = params.data;
     UDF = params.UDF;
     merge=params.merge;
     parProc=params.parProc;
     [~, numStim] = size(UDF);
     num_node = size(best_model.structure,1); %graph to structure
     num_orig_neuron = size(data,2);
-  
     
-    if merge == 1
-        X = [data UDF]; %merge if necessary
+    if test && merge
+        X = params.x_test;
     else
-        X = data;
-        %don't merge if necessary
+        X = params.x_train;
     end
-    
+
     node_potentials = best_model.theta.node_potentials;
     edge_potentials = best_model.theta.edge_potentials;
     logZ = best_model.theta.logZ;

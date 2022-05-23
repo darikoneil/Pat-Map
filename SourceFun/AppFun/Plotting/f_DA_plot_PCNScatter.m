@@ -1,6 +1,8 @@
 function f_DA_plot_PCNScatter(app)
 
 stimNum = app.Stimulus_PCN.Value;
+cla(app.PC3);
+app.PC3.NextPlot='replacechildren';
 
 % need
 PCNs = app.PCNs{stimNum};
@@ -16,6 +18,8 @@ nsmi = min(NodeScores)-0.5;
 nsma = max(NodeScores)+0.5;
 aucma = 1;
 aucmi = 0;
+
+grayColor = [0.94 0.94 0.94];
 
 % plot the empty points
 scatter(app.PC3, NodeScores, auc(:,stimNum), 50, 'k', 'linewidth', 1, 'MarkerFaceAlpha',0);
@@ -33,12 +37,18 @@ hold(app.PC3,'off');
 % plot the intervals
 hold(app.PC3,'on');
 plot(app.PC3,[nsmi nsma],AucThr(2,stimNum)*[1 1],'k--','LineWidth',1);
-plot(app.PC3,[nsmi nsma],AucThr(1,stimNum)*[1 1],'k--','LineWidth',1);
-plot(app.PC3,[nsmi nsma],AucThr(3,stimNum)*[1 1],'k--','LineWidth',1);
+%plot(app.PC3,[nsmi nsma],AucThr(1,stimNum)*[1 1],'k--','LineWidth',1);
+%plot(app.PC3,[nsmi nsma],AucThr(3,stimNum)*[1 1],'k--','LineWidth',1);
 
 if app.DeviationsEditField.Value>1
-    plot(app.PC3,[nsmi nsma] ,AucThr(4,stimNum)*[1 1],'k--','LineWidth',1);
-    plot(app.PC3,[nsmi nsma], AucThr(5,stimNum)*[1 1],'k--','LineWidth',1);
+    SingleDev = AucThr(3,stimNum)-AucThr(2,stimNum); 
+    AucLowThr = AucThr(2,stimNum)-((app.DeviationsEditField.Value)*SingleDev);
+    AucHighThr = AucThr(2,stimNum)+((app.DeviationsEditField.Value)*SingleDev);
+    plot(app.PC3,[nsmi nsma] ,AucLowThr*[1 1],'k--','LineWidth',1);
+    plot(app.PC3,[nsmi nsma], AucHighThr*[1 1],'k--','LineWidth',1);
+else
+    plot(app.PC3,[nsmi nsma],AucThr(1,stimNum)*[1 1],'k--','LineWidth',1);
+    plot(app.PC3,[nsmi nsma],AucThr(3,stimNum)*[1 1],'k--','LineWidth',1);
 end
 
 if strcmp(app.NodeThresholdDropDown.Value,'Ensemble')
@@ -66,16 +76,17 @@ end
 Y = [AucThr(1,stimNum) AucThr(1,stimNum) AucThr(3,stimNum) AucThr(3,stimNum)];
 
 if app.DeviationsEditField.Value>1
-    Y = [AucThr(5,stimNum) AucThr(5,stimNum) AucThr(4,stimNum) AucThr(4,stimNum)];
+    Y = [AucHighThr AucHighThr AucLowThr AucLowThr];
 end
-patch(app.PC3, X, [0 0 1 1],[0.5 0.5 0.5],'FaceAlpha',0.25,'EdgeColor','none');
+patch(app.PC3, X, [0 0 1 1],grayColor,'FaceAlpha',1,'EdgeColor','none');
 hold(app.PC3, 'off');
  
 hold(app.PC3,'on');
-patch(app.PC3, [nsmi nsma nsma nsmi], Y, [0.5 0.5 0.5],'FaceAlpha',0.25,'EdgeColor','none');
+patch(app.PC3, [nsmi nsma nsma nsmi], Y, grayColor,'FaceAlpha',1,'EdgeColor','none');
 hold(app.PC3, 'off');
 chi = get(app.PC3, 'Children');
 set(app.PC3, 'Children', flipud(chi));
 app.PC3.XLim = [min(NodeScores)-0.1 max(NodeScores)+0.1];
+set(app.PC3,'Layer','top');
 
 end

@@ -66,7 +66,9 @@ model_collection=MDLaccum.model_collection;
 
 
     model_collection=MDLaccum.model_collection;
-    model_collection.models = [model_collection.models input_collection.models];
+    if ~(isempty(input_collection.models))
+        model_collection.models = [model_collection.models input_collection.models];
+    end
    [model_collection.models] = sortModels(model_collection.models);
 
 

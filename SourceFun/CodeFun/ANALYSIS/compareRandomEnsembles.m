@@ -55,7 +55,7 @@ function [randomPerformance, ensNodes]  = compareRandomEnsembles(params, nodePer
         % Generate random controls for current stimulus
         for jj = 1:num_controls
              rd_ens = zeros(1,num_node);
-             if (~(params.incRandEnsUDF))
+             if (~(params.incRandEnsUDF)) && merge
                 rd_ens = zeros(1, num_node-num_stim);
              else
                 rd_ens = zeros(1,num_node);

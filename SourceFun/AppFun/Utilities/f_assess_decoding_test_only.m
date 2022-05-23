@@ -7,6 +7,8 @@ numNodes = size(params.data,2);
 numStim = numClass;
 true_label = params.x_test(:,numNodes+1:numNodes+numStim)';
 [params.bigData, chunks] = checkMemoryRequirements(size(params.x_train,2)*size(params.x_train,2)*size(params.data,1));
+trainL = size(app.params.x_train,1);
+testL = size(app.params.x_test,1);
 
 %%% SANITY CHECK JUST IN CASE TO AVOID DATA DELETION
  if isempty(app.FrameLikelihoodByNode)
@@ -18,8 +20,7 @@ true_label = params.x_test(:,numNodes+1:numNodes+numStim)';
             app.FrameLikelihoodByNode(num_node-numStim+i,:)=LL(i,:);
         end
      else
-         params.parProc=false;
-        [LL, num_node] = decodeOnlyUDF5_BIG_dataset_specific(params, app.best_model, chunks, 1);
+        [LL, num_node] = decodeOnlyUDF5_specific(params, best_model, 1);
         app.FrameLikelihoodByNode = nan(num_node, size(params.x_test,1));
         for i = 1:numStim
             app.FrameLikelihoodByNode(num_node-numStim+i,:)=LL(i,:);
@@ -32,7 +33,7 @@ true_label = params.x_test(:,numNodes+1:numNodes+numStim)';
 %evaluateapp
 for b = 1:numStim
     %find UDF likelihood ratio
-    LL = LL_on(size(params.data,2)+b,:);
+    LL = LL_on(size(params.data,2)+b, trainL+1:end);
     
     %find auc
     [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),LL,1);
