@@ -1133,7 +1133,7 @@ classdef PatMap < matlab.apps.AppBase
         % Value changed function: AssessDecoding
         function AssessDecodingValueChanged(app, event)
             app.params.assessDecoding = logical(app.AssessDecoding.Value);
-            f_DA_update_params(app);
+             f_DA_update_params(app);
         end
 
         % Value changed function: AssessClustering
@@ -1176,9 +1176,7 @@ classdef PatMap < matlab.apps.AppBase
 
         % Value changed function: StimulusEditField
         function StimulusEditFieldValueChanged(app, event)
-            f_DA_plot_AucIdEns(app);
-            f_DA_plot_IDEns_0(app);
-            f_DA_update_ensemble_text(app);
+            f_DA_IDEnsemble_Stim_Changed(app);
         end
 
         % Button pushed function: 
@@ -1258,7 +1256,7 @@ classdef PatMap < matlab.apps.AppBase
 
         % Value changed function: TuningCriterionDropDown_ID
         function TuningCriterionDropDown_IDValueChanged(app, event)
-            app.params.curveCrit_ID = app.TuningCriterionDropDown_ID.Value;
+            app.params.curveCrit = app.TuningCriterionDropDown_ID.Value;
         end
 
         % Value changed function: ReweightDenominatorDropDown_PE
@@ -1306,7 +1304,6 @@ classdef PatMap < matlab.apps.AppBase
         % Value changed function: Stimulus_PCN
         function Stimulus_PCNValueChanged(app, event)
                 f_DA_plot_PCNs(app);
-                f_DA_update_patternCompletionText(app);
         end
 
         % Button pushed function: ExportButton
@@ -4824,6 +4821,9 @@ classdef PatMap < matlab.apps.AppBase
         % Construct app
         function app = PatMap
 
+            %add folders
+            f_DA_init_app(app);
+            
             % Create UIFigure and components
             createComponents(app)
 

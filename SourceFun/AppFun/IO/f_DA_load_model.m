@@ -58,6 +58,14 @@ if foundParams
         %app.ROIs = app.params.coords;
         app.ROIs = ro.ROIs;
         app.ROIsLamp.Color = [0.35 0.80 0.41];
+        
+        if isstruct(app.ROIs)
+            app.roiStyle=2;
+        elseif size(app.ROIs, 2)==2
+            app.roiStyle=1;
+        elseif size(app.ROIs, 2)==3
+            app.roiStyle=0;
+        end
         f_DA_update_log_bulk(app, 'Located ROIs');
         f_DA_preview_ROIs(app);
     catch
@@ -101,6 +109,7 @@ if foundParams && app.params.stage >=4
         f_DA_update_optimization_plots(app);
         f_DA_plot_potentials_distributions(app);
         f_DA_update_learned_models(app);
+        f_DA_update_unlearned_models(app);
     catch
         f_DA_update_log_bulk(app,'Unable to Retrieve Model Collection');
         app.PotentialsLamp.Color = [0.87 0.27 0.27];
@@ -129,27 +138,143 @@ if foundParams && app.params.stage >= 6
     catch
         f_DA_update_log_bulk(app, 'Unable to Retrieve Model Evaluation Data');
     end
-    try fl = load(filename, 'FrameLikelihoodByNode');
+end
+
+if foundParams && app.params.stage >= 7
+     try fl = load(filename, 'FrameLikelihoodByNode');
         app.FrameLikelihoodByNode = fl.FrameLikelihoodByNode;
         f_DA_update_log_bulk(app, 'Located Node Contributions');
         f_DA_model_value(app);
         f_DA_update_structPred_decoding(app);
+        app.NeuronsLamp.Color = [0.35 0.80 0.41];
     catch
         f_DA_update_log_bulk(app, 'Unable to Retrieve Node Contributions');
+        app.NeuronsLamp.Color = [0.87 0.27 0.27];
+        
     end
 end
 
-if foundParams && app.params.stage >= 7
-    
-end
-
 if foundParams && app.params.stage >= 8
-    
+    % we need the following: ensNodes, nodePerformance, randomPerformance, AucThr
+    %ensNodes
+    try fl = load(filename, 'ensNodes');
+        app.ensNodes = fl.ensNodes;
+        f_DA_update_log_bulk(app, 'Located Identified Ensembles');
+        app.EnsemblesLamp.Color=[0.35 0.8 0.41];
+     catch
+        f_DA_update_log_bulk(app, 'Unable to Retrieve Ensembles');
+        app.EnsemblesLamp.Color=[0.87 0.27 0.27];
+    end
+    %nodePerformance
+    try f1 = load(filename, 'nodePerformance');
+        app.nodePerformance = f1.nodePerformance;
+        f_DA_update_log_bulk(app, 'Located Node Performance');
+    catch
+        f_DA_update_log_bulk(app, 'Unable to Retrieve Node Performance');
+    end
+    %randomPerformance
+    try f1 = load(filename, 'randomPerformance');
+        app.randomPerformance = f1.randomPerformance;
+        f_DA_update_log_bulk(app, 'Located Random Ensemble Performance');
+    catch
+        f_DA_update_log_bulk(app, 'Unable to Retrieve Random Ensemble Performance');
+    end
+    %Auc Thr
+    try f1 = load(filename, 'AucThr');
+        app.AucThr = f1.AucThr;
+        f_DA_update_log_bulk(app, 'Located Random Ensemble Thresholds');
+    catch
+        f_DA_update_log_bulk(app, 'Unable to Retrieve Random Ensemble Thresholds');
+        f_DA_IDEnsemble_Stim_Changed(app);
+    end
+      
 end
 
 if foundParams && app.params.stage >= 9
+    % We need to load ensPerf, neuronalPerformance, nodePredictions,
+    % linearPerf, sizePerf
     
+    %ensPerf
+     try fl = load(filename, 'ensPerf');
+        app.ensPerf = fl.ensPerf;
+        f_DA_update_log_bulk(app, 'Located Ensemble Evaluations');
+        f_DA_update_ensemble_eval_text(app);
+        f_DA_plot_evalEnsembles(app);
+     catch
+        f_DA_update_log_bulk(app, 'Unable to Retrieve Ensemble Evaluations');
+     end
+     
+     if app.params.assessNeurons
+        %neuronalPerformance
+         try fl = load(filename, 'neuronalPerformance');
+            app.neuronalPerformance=fl.neuronalPerformance;
+            f_DA_update_log_bulk(app, 'Located Ensemble Evaluations - Neuronal Comparisons');
+            f_DA_plot_individual_neuron_performance_EV(app);
+         catch
+            f_DA_update_log_bulk(app, 'Unable to Retrieve Ensemble Evaluations - Neuronal Comparisons');
+         end
+     end
+     
+     %nodePredictions
+     if app.params.assessNodes
+         try fl = load(filename, 'nodePredictions');
+            app.nodePredictions=fl.nodePredictions;
+            f_DA_plot_individual_node_performance_EV(app);
+            f_DA_update_log_bulk(app, 'Located Ensemble Evaluations - Node Comparisons');
+         catch
+            f_DA_update_log_bulk(app, 'Unable to Retrieve Ensemble Evaluations - Node Comparisons');
+         end
+     end
+
+       %linearPerf
+       if app.params.assessLinearity
+         try fl = load(filename, 'linearPerf');
+            app.linearPerf = fl.linearPerf;
+            f_DA_plot_linear_ens(app);
+            f_DA_update_log_bulk(app, 'Located Ensemble Evaluations - Linear Comparisons');
+         catch
+            f_DA_update_log_bulk(app, 'Unable to Ensemble Evaluations - Linear Comparisons');
+         end
+       end
+       
+       %sizePerf
+       if app.params.assessSize
+         try fl = load(filename, 'sizePerf');
+            app.sizePerf = fl.sizePerf;
+            f_DA_update_log_bulk(app, 'Located Ensemble Evaluations - Size Comparisons');
+         catch
+            f_DA_update_log_bulk(app, 'Unable to Ensemble Evaluations - Size Comparisons');
+         end
+       end
+       
 end
 
+if foundParams && app.params.stage >= 10
+    %We need to load Node Scores, NodeThr, PCNs
+     try fl = load(filename, 'PCNs');
+        app.PCNs = fl.PCNs;
+        f_DA_update_log_bulk(app, 'Located PCNs');
+        app.PCLamp.Color=[0.35 0.8 0.41];
+        f_DA_update_patternCompletionText(app);
+     catch
+        f_DA_update_log_bulk(app, 'Unable to Retrieve PCNs');
+        app.PCLamp.Color=[0.87 0.27 0.27];
+     end
+     try fl = load(filename, 'NodeScores');
+         app.NodeScores = fl.NodeScores;
+         f_DA_update_log_bulk(app, 'Located Node Scores');
+     catch
+         f_DA_update_log_bulk(app, 'Unable to Retrieve Node Scores');
+     end
+     try fl = load(filename, 'NodeThr');
+         app.NodeThr=fl.NodeThr;
+         f_DA_update_log_bulk(app, 'Located Node Thresholds');
+         f_DA_plot_PCNs(app);
+     catch
+         f_DA_update_log_bulk(app, 'Unable to Retrieve Node Thresholds');
+     end
+end
+
+     
 
 

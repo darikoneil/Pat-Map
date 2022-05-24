@@ -30,8 +30,8 @@ f_DA_update_log(app, 'Now Assessing Individual Node Contributions');
      
     %generate cell where rows = number of nodes, columns = on/off state and
     %each cell is 1 x number of frames
-    LL_frame = cell(num_node,1);
-    for i = 1:num_node
+    LL_frame = cell(num_node*2,1);
+    for i = 1:(num_node*2)
         LL_frame{i} = zeros(num_frame,1);
     end
 

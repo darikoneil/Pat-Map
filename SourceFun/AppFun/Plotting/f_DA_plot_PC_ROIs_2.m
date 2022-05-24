@@ -2,7 +2,7 @@ function f_DA_plot_PC_ROIs_2(app)
 
 
 
-v = app.StimulusEditField.Value;
+v = app.Stimulus_PCN.Value;
 ROI_contours = app.ROIs;
 %ROI_bounds = ROI_contours.bounds;
 numROIs = size(ROI_contours.xpix,1);
