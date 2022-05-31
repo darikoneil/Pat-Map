@@ -22,4 +22,6 @@ app.MeanSL.FontSize=8;
 %app.MeanSL.ZTickLabel=[];
 %app.MeanSL.ZLabel=[];
 app.MeanSL.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.MeanSL);
+app.MeanSL.Toolbar=[];
 end

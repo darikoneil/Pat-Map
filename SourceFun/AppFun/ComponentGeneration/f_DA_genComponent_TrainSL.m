@@ -22,4 +22,6 @@ app.TrainSL.FontSize=8;
 %app.TrainSL.ZTickLabel=[];
 %app.TrainSL.ZLabel=[];
 app.TrainSL.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.TrainSL);
+app.TrainSL.Toolbar=[];
 end

@@ -10,6 +10,7 @@ true_label = params.x_test(:,numNodes+1:numNodes+numStim)';
 trainL = size(app.params.x_train,1);
 testL = size(app.params.x_test,1);
 
+%% This glitched if empty (line 36 is then not the right size)
 %%% SANITY CHECK JUST IN CASE TO AVOID DATA DELETION
  if isempty(app.FrameLikelihoodByNode)
      if params.bigData
@@ -20,7 +21,7 @@ testL = size(app.params.x_test,1);
             app.FrameLikelihoodByNode(num_node-numStim+i,:)=LL(i,:);
         end
      else
-        [LL, num_node] = decodeOnlyUDF5_specific(params, best_model, 1);
+        [LL, num_node] = decodeOnlyUDF5_specific(params, app.best_model, 1);
         app.FrameLikelihoodByNode = nan(num_node, size(params.x_test,1));
         for i = 1:numStim
             app.FrameLikelihoodByNode(num_node-numStim+i,:)=LL(i,:);

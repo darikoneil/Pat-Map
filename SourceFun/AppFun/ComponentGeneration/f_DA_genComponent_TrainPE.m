@@ -22,4 +22,6 @@ app.TrainPE.FontSize=8;
 %app.TrainPE.ZTickLabel=[];
 %app.TrainPE.ZLabel=[];
 app.TrainPE.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.TrainPE);
+app.TrainPE.Toolbar=[];
 end

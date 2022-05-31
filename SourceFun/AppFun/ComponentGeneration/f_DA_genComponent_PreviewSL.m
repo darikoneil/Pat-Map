@@ -22,4 +22,6 @@ app.PreviewSL.FontSize=8;
 %app.PreviewSL.ZTickLabel=[];
 %app.PreviewSL.ZLabel=[];
 app.PreviewSL.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.PreviewSL);
+app.PreviewSL.Toolbar=[];
 end

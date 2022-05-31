@@ -22,4 +22,6 @@ app.MedianSL.FontSize=8;
 %app.MedianSL.ZTickLabel=[];
 %app.MedianSL.ZLabel=[];
 app.MedianSL.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.MedianSL);
+app.MedianSL.Toolbar=[];
 end

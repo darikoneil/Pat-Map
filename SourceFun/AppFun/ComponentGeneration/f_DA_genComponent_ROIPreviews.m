@@ -21,5 +21,6 @@ app.ROIPreview.FontSize=12;
 app.ROIPreview.ZTick=[];
 app.ROIPreview.ZTickLabel=[];
 app.ROIPreview.ZLabel=[];
-
+disableDefaultInteractivity(app.ROIPreview);
+app.ROIPreview.Toolbar=[];
 end

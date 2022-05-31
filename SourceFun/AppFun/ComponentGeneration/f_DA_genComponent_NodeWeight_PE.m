@@ -22,4 +22,6 @@ app.NodePE.FontSize=10;
 %app.NodePE.ZTickLabel=[];
 %app.NodePE.ZLabel=[];
 app.NodePE.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.NodePE);
+app.NodePE.Toolbar=[];
 end

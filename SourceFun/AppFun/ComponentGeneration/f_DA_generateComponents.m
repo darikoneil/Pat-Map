@@ -38,7 +38,7 @@ f_DA_genComponent_AE(app);
 f_DA_genComponent_NODE(app);
 f_DA_genComponent_NEURON(app);
 f_DA_genComponent_LINEAR(app);
-f_DA_genComponent_SIZEOPT(app);
+%f_DA_genComponent_SIZEOPT(app);
 
 % IDENTIFY PATTERN COMPLETION
 f_DA_genComponent_PC1(app);

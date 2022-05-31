@@ -22,4 +22,6 @@ app.PreviewPE.FontSize=8;
 %app.PreviewPE.ZTickLabel=[];
 %app.PreviewPE.ZLabel=[];
 app.PreviewPE.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.PreviewPE);
+app.PreviewPE.Toolbar=[];
 end

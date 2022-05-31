@@ -7,4 +7,6 @@ catch
     f_DA_validation_error(app);
 end
 
+app.params.stage = 1;
+
 end

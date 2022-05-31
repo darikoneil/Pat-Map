@@ -22,4 +22,6 @@ app.MaxSL.FontSize=8;
 %app.MaxSL.ZTickLabel=[];
 %app.MaxSL.ZLabel=[];
 app.MaxSL.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.MaxSL);
+app.MaxSL.Toolbar=[];
 end

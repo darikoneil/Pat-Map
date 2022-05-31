@@ -22,4 +22,6 @@ app.ParameterSpace.FontSize=8;
 %app.ParameterSpace.ZTickLabel=[];
 %app.ParameterSpace.ZLabel=[];
 app.ParameterSpace.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.ParameterSpace);
+app.ParameterSpace.Toolbar=[];
 end

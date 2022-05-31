@@ -22,4 +22,6 @@ app.TestSL.FontSize=8;
 %app.TestSL.ZTickLabel=[];
 %app.TestSL.ZLabel=[];
 app.TestSL.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.TestSL);
+app.TestSL.Toolbar=[];
 end

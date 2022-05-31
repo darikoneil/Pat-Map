@@ -22,4 +22,6 @@ app.DataPreview.ZTick=[];
 app.DataPreview.ZTickLabel=[];
 app.DataPreview.ZLabel=[];
 app.DataPreview.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.DataPreview);
+app.DataPreview.Toolbar=[];
 end

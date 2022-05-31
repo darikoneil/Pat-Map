@@ -9,7 +9,7 @@ function f_DA_update_decoding_text(app)
 %duplicate to be safe, vad for memory tho
 %bring results into caller memory
 
-app.completePerf
+%app.completePerf;
 %set value
 v = app.StimulusEM.Value;
 

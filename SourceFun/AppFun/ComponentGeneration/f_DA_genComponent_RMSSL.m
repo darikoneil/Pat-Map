@@ -22,4 +22,6 @@ app.RMSSL.FontSize=8;
 %app.RMSSL.ZTickLabel=[];
 %app.RMSSL.ZLabel=[];
 app.RMSSL.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.RMSSL);
+app.RMSSL.Toolbar=[];
 end

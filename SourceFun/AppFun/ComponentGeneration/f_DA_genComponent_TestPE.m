@@ -22,4 +22,6 @@ app.TestPE.FontSize=8;
 %app.TestPE.ZTickLabel=[];
 %app.TestPE.ZLabel=[];
 app.TestPE.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.TestPE);
+app.TestPE.Toolbar=[];
 end

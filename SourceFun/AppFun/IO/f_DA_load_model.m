@@ -183,9 +183,9 @@ if foundParams && app.params.stage >= 8
     try f1 = load(filename, 'AucThr');
         app.AucThr = f1.AucThr;
         f_DA_update_log_bulk(app, 'Located Random Ensemble Thresholds');
+        f_DA_IDEnsemble_Stim_Changed(app);
     catch
         f_DA_update_log_bulk(app, 'Unable to Retrieve Random Ensemble Thresholds');
-        f_DA_IDEnsemble_Stim_Changed(app);
     end
       
 end

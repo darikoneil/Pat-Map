@@ -22,4 +22,6 @@ app.EdgePE.FontSize=10;
 %app.EdgePE.ZTickLabel=[];
 %app.EdgePE.ZLabel=[];
 app.EdgePE.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.EdgePE);
+app.EdgePE.Toolbar=[];
 end

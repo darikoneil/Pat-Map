@@ -22,4 +22,6 @@ app.ComplexitySL.FontSize=8;
 %app.ComplexitySL.ZTickLabel=[];
 %app.ComplexitySL.ZLabel=[];
 app.ComplexitySL.Color=[0.94 0.94 0.94];
+disableDefaultInteractivity(app.ComplexitySL);
+app.ComplexitySL.Toolbar=[];
 end

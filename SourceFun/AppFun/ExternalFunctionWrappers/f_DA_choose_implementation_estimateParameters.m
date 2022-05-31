@@ -4,6 +4,8 @@ function f_DA_choose_implementation_estimateParameters(app)
 %sort models so the faster ones are first
 [app.models] = sortModels(app.models);
 
+app.params.stage=3; %parameter estimation in progress
+
 % shuttle to the appropriate function
 switch app.params.implementationMode
     case 1
@@ -27,5 +29,6 @@ end
 
 app.params.stage=5;
 f_DA_update_learned_models(app);
+f_DA_update_unlearned_models(app);
 
 end

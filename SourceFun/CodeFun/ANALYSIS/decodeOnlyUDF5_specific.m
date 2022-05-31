@@ -1,5 +1,15 @@
 function [LL, num_node] = decodeOnlyUDF5_specific(params, best_model, test)
    
+% Darik O'Neil 05/31/2022 
+% Function decode cross-validation subsets
+% 
+% Inputs
+% params: Structure of Parameters
+% best_model: Structure of best_model
+% test: Boolean indicating whether use test dataset 
+%(alternative is train only)
+
+
 %% 1(Only Decode UDFs), start by grabbings needs and preallocations
 
     UDF = params.UDF;
@@ -7,7 +17,7 @@ function [LL, num_node] = decodeOnlyUDF5_specific(params, best_model, test)
     parProc=params.parProc;
     [~, numStim] = size(UDF);
     num_node = size(best_model.structure,1); %graph to structure
-    num_orig_neuron = size(data,2);
+    num_orig_neuron = size(params.data,2);
     
     if test && merge
         X = params.x_test;
