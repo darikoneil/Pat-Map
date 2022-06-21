@@ -1,5 +1,6 @@
 function f_assess_decoding_train_only(app)
 
+best_model=app.best_model;
 completePerf = struct();
 params = app.params;
 numClass = size(params.UDF,2);
@@ -14,14 +15,14 @@ testL = size(app.params.x_test,1);
  if isempty(app.FrameLikelihoodByNode)
      if params.bigData
          params.parProc=false;
-        [LL, num_node] = decodeOnlyUDF5_BIG_dataset_specific(params, app.best_model, chunks, 1);
-        app.FrameLikelihoodByNode = nan(num_node, size(params.x_test,1));
+        [LL, num_node] = decodeOnlyUDF5_BIG_dataset_specific(params, app.best_model, chunks, 0);
+        app.FrameLikelihoodByNode = nan(num_node, size(params.x_train,1));
         for i = 1:numStim
             app.FrameLikelihoodByNode(num_node-numStim+i,:)=LL(i,:);
         end
      else
-        [LL, num_node] = decodeOnlyUDF5_specific(params, best_model, 1);
-        app.FrameLikelihoodByNode = nan(num_node, size(params.x_test,1));
+        [LL, num_node] = decodeOnlyUDF5_specific(params, best_model, 0);
+        app.FrameLikelihoodByNode = nan(num_node, size(params.x_train,1));
         for i = 1:numStim
             app.FrameLikelihoodByNode(num_node-numStim+i,:)=LL(i,:);
         end

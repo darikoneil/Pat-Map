@@ -29,3 +29,4 @@ export_fig-3.27
 assessFullPerf.m
 PreviousSave.mat
 plotmultipleROISets.m
+*.mat

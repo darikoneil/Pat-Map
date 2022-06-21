@@ -44,6 +44,7 @@ elseif app.PR_EV.Value==1
                   plot(app.AE,[0 1],[ensPerf.prec_baseline(stimNum) ensPerf.prec_baseline(stimNum)],'LineStyle','--','Color','k','LineWidth',1);
                   fill(app.AE,[ensPerf.RECALL_Xcell{stimNum,stimNum}(1:end); 0],[ensPerf.PREC_Ycell{stimNum,stimNum}(1:end);ensPerf.PREC_Ycell{stimNum,stimNum}(end)],[0.47 0.25 0.8],'EdgeAlpha',0,'FaceAlpha',0.25);
               else
+                  ensPerf.PREC_Ycell{i,stimNum}(isnan(ensPerf.PREC_Ycell{i,stimNum}))=1;
                   plot(app.AE,ensPerf.RECALL_Xcell{i,stimNum},app.ensPerf.PREC_Ycell{i,stimNum},'LineWidth',2,'Color',[newcolors(z,:)]);
                   z=z+1;
                   %fill(app.AE,ensPerf.Xcell{stimNum,i},ensPerf.Ycell{stimNum,i},[newcolors(i,:)],'EdgeAlpha',0,'FaceAlpha',0.25);
