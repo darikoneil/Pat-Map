@@ -1,4 +1,6 @@
 function f_DA_update_params(app)
+f_DA_update_params_num_models(app);
+
 params = app.params;
 app.ShuffleDataEditField.Value = double(params.dataShuffle);
 app.ParallelProcessingEditField.Value = double(params.parProc);

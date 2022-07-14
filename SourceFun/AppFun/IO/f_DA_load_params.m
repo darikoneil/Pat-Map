@@ -6,6 +6,8 @@ try
     app.params = params.params;
     f_DA_update_log(app,'Retrieved Parameters');
     f_DA_parse_params(app);
+    f_DA_update_params_num_models(app);
+
 catch
     f_DA_update_log(app, 'Could Not Retrieve Parameters');
 end

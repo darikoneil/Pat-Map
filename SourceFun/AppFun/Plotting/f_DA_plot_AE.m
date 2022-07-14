@@ -33,6 +33,9 @@ if app.ROC_EV.Value==1
           app.AE.Title.String='Performance vs. All Ensembles';
           chi = get(app.AE, 'Children');
           set(app.AE, 'Children', flipud(chi));
+          
+
+  
 elseif app.PR_EV.Value==1
           ensPerf.PREC_Ycell{stimNum,stimNum}(isnan(ensPerf.PREC_Ycell{stimNum,stimNum}))=1;
           plot(app.AE,ensPerf.RECALL_Xcell{stimNum,stimNum},ensPerf.PREC_Ycell{stimNum,stimNum},'LineWidth',2,'Color',[0.47 0.25 0.8]);
@@ -57,4 +60,6 @@ elseif app.PR_EV.Value==1
           app.AE.Title.String = 'Performance vs. All Ensembles';
           chi = get(app.AE, 'Children');
           set(app.AE, 'Children', flipud(chi));
+          
+
 end

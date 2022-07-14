@@ -29,7 +29,7 @@ if app.ROC_EV.Value==1
           hold(app.AS,'off');
           app.AS.XLabel.String='False Positive Rate';
           app.AS.YLabel.String='True Positive Rate';
-          app.AS.Title.String='Performance vs. All Stimuli';
+          app.AS.Title.String='Performance vs. All UDFs';
           chi = get(app.AS, 'Children');
           set(app.AS, 'Children', flipud(chi));
 elseif app.PR_EV.Value==1
@@ -53,7 +53,7 @@ elseif app.PR_EV.Value==1
           hold(app.AS,'off');
           app.AS.XLabel.String = 'Recall (Sensitivity)';
           app.AS.YLabel.String = 'Precision';
-          app.AS.Title.String = 'Performance vs. All Stimuli';
+          app.AS.Title.String = 'Performance vs. All UDFs';
           chi = get(app.AS, 'Children');
           set(app.AS, 'Children', flipud(chi));
           

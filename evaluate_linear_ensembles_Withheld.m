@@ -1,4 +1,4 @@
-function [linearPerf] = evaluate_linear_ensembles(params,ensNodes, SegTest)
+function [linearPerf] = evaluate_linear_ensembles_Withheld(params,ensNodes, trainLinearPerf)
 
 %% Evaluate Linear Ensembles (% of ensemble activated)
 
@@ -6,24 +6,9 @@ linearPerf = struct();
 numClass = size(params.UDF,2);
 numStim = numClass;
 
-
-
-
-if nargin < 4
-    SegTest=0;
-end
-
-if SegTest == 0
-    numClass = size(params.UDF,2);
-    numStim = numClass;
-    true_label = params.UDF';
-    data = params.data;
-elseif SegTest == 1
-    numClass = size(params.UDF,2);
-    numStim = numClass;
-    true_label = params.x_train(:,end-numStim+1:end)';
-    data = params.x_train;
-end
+true_label = params.x_test(:,end-numStim+1:end)';
+data = params.x_test;
+thresholdClassifiers = trainLinearPerf.thcell;
 
 Xcell = cell(1,numClass);
 Ycell = Xcell;
@@ -59,10 +44,10 @@ for b = 1:numStim
     ensembleOn = transpose(sum(data(:,ensNodes{b}),2));
     
     %find auc
-    [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),ensembleOn,1);
-    [TP,TN,~,~,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','tp','YCrit','tn');
-    [FP,FN,~,~,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','fp','YCrit','fn');
-    [RECALL_X,PREC_Y,~,PR_AUC,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','tpr','YCrit','prec');
+    [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),ensembleOn,1,'TVals',thresholdClassifiers{b});
+    [TP,TN,~,~,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','tp','YCrit','tn','TVals',thresholdClassifiers{b});
+    [FP,FN,~,~,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','fp','YCrit','fn','TVals',thresholdClassifiers{b});
+    [RECALL_X,PREC_Y,~,PR_AUC,~] = perfcurve(true_label(b,:),ensembleOn,1,'XCrit','tpr','YCrit','prec','TVals',thresholdClassifiers{b});
     
     %store
     linearPerf.Xcell{b} = X;
@@ -75,28 +60,13 @@ for b = 1:numStim
     linearPerf.PREC_Ycell{b} = PREC_Y;
     linearPerf.PR_AUCcell{b} = PR_AUC;
     
-    %find operating point
-    th = T((X==OPT(1))&(Y==OPT(2)));
-    tPt = find(T==th);
-    tPt=tPt(1);
-    if tPt==1
-        tPt=3;
-    end
-    
-    Optimal_Point = [X(tPt);Y(tPt)];
-    
-    %store
-    linearPerf.thcell{b}=th;
-    linearPerf.tPtcell{b}=tPt;
-    linearPerf.Optimal_Pointcell{b} = Optimal_Point;
-    
     %Find vals at operating point
-    FPR = X(tPt); %1-specificity
-    TPR = Y(tPt); %Sensitivity
-    TruePos = TP(tPt);
-    TrueNeg = TN(tPt);
-    FalsePos = FP(tPt);
-    FalseNeg = FN(tPt);
+    FPR = X; %1-specificity
+    TPR = Y; %Sensitivity
+    TruePos = TP;
+    TrueNeg = TN;
+    FalsePos = FP;
+    FalseNeg = FN;
     Accuracy = (TruePos+TrueNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
     Precision = (TruePos)/(TruePos+FalsePos);
     NegPredVal = (TrueNeg)/(TrueNeg+FalseNeg);

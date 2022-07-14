@@ -21,9 +21,7 @@ function f_DA_evaluate_Ensembles(app)
         f_DA_update_log(app, 'Finished Conducting Assessment of Linearly Summed Ensembles');
     end
     
-    if app.params.assessSize
-        %%%
-    end
+    
     f_DA_update_ensemble_eval_text(app);
     f_DA_plot_evalEnsembles(app);
     

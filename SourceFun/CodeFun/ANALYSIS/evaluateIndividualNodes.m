@@ -1,4 +1,4 @@
-function [nodePredictions] = evaluateIndividualNodes(params,LL_on)
+function [nodePredictions] = evaluateIndividualNodes(params,LL_on, SegTest)
 
 %% Individual Neurons
 
@@ -6,6 +6,24 @@ nodePredictions = struct();
 numClass = size(params.UDF,2);
 numStim = numClass;
 true_label = params.UDF';
+
+
+if nargin < 4
+    SegTest=0;
+end
+
+if SegTest == 0
+    numClass = size(params.UDF,2);
+    numStim = numClass;
+    true_label = params.UDF';
+elseif SegTest == 1
+    numClass = size(params.UDF,2);
+    numStim = numClass;
+    true_label = params.x_train(:,end-numStim+1:end)';
+    LL_on = LL_on(:,1:size(params.x_train,1));
+end
+
+
 Xcell = cell(1,numClass);
 Ycell = Xcell;
 Tcell = Xcell;

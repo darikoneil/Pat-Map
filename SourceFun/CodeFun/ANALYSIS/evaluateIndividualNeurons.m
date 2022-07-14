@@ -1,8 +1,21 @@
-function [neuronalPerformance] = evaluateIndividualNeurons(params)
+function [neuronalPerformance] = evaluateIndividualNeurons(params, SegTest)
 
-numClass = size(params.UDF,2);
-numStim = numClass;
-true_label = params.UDF';
+if nargin < 4
+    SegTest=0;
+end
+
+if SegTest == 0
+    numClass = size(params.UDF,2);
+    numStim = numClass;
+    true_label = params.UDF';
+    data=params.data;
+elseif SegTest == 1
+    numClass = size(params.UDF,2);
+    numStim = numClass;
+    true_label = params.x_train(:,end-numStim+1:end)';
+    data = params.x_train;
+end
+
 Xcell = cell(1,numClass);
 Ycell = Xcell;
 Tcell = Xcell;
@@ -42,8 +55,8 @@ for b = 1:numStim
             neuronalPerformance.Xall.PR{b} = [];
             neuronalPerformance.Yall.PR{b} = [];
 
-        for c = 1:size(params.data,2)
-            LL = transpose(params.data(:,c));
+        for c = 1:size(data,2)
+            LL = transpose(data(:,c));
             %find auc
             [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),LL,1);
             [TP,TN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tp','YCrit','tn');

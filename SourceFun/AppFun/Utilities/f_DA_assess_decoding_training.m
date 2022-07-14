@@ -1,4 +1,4 @@
-function f_assess_decoding_train_only(app)
+function f_DA_assess_decoding_training(app)
 
 best_model=app.best_model;
 completePerf = struct();
@@ -101,6 +101,6 @@ for b = 1:numStim
 end
 
 %app.completePerf = completePerf;
-trainperf = completePerf;
-end
+app.trainPerf = completePerf;
 
+end

@@ -1,4 +1,4 @@
-function [ensPerf] = evaluateEnsemblePerf(params, ensNodes, LL_on, SegTest)
+function [testEnsPerf] = evaluateEnsemblePerf_Witheld(params, ensNodes, LL_on, trainEnsPerf)
 
 
 
@@ -8,21 +8,14 @@ function [ensPerf] = evaluateEnsemblePerf(params, ensNodes, LL_on, SegTest)
 % We evaluate ensembles as follows:
 
 %%
-if nargin < 4
-    SegTest= 0;
-end
 
-%% GRABBING
-if SegTest == 0
+thresholdClassifiers = trainEnsPerf.thcell;
+
     numClass = size(params.UDF,2);
     numStim = numClass;
-    true_label = params.UDF';
-elseif SegTest == 1
-    numClass = size(params.UDF,2);
-    numStim = numClass;
-    true_label = params.x_train(:,end-numStim+1:end)';
-    LL_on = LL_on(:,1:size(params.x_train,1));
-end
+    true_label = params.x_test(:,end-numStim+1:end)';
+    LL_on = LL_on(:,end-size(params.x_test,1)+1:end);
+
 
 %% PREALLOCATION
 Xcell = cell(1,numClass);
@@ -67,10 +60,10 @@ for b = 1:numStim
     LL_cell{a}=LL;
     
     %find auc
-    [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),LL,1);
-    [TP,TN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tp','YCrit','tn');
-    [FP,FN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','fp','YCrit','fn');
-    [RECALL_X,PREC_Y,~,PR_AUC,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tpr','YCrit','prec');
+    [X,Y,T,AUC,OPT] = perfcurve(true_label(b,:),LL,1,'TVals', thresholdClassifiers{a,b});
+    [TP,TN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tp','YCrit','tn','TVals', thresholdClassifiers{a,b});
+    [FP,FN,~,~,~] = perfcurve(true_label(b,:),LL,1,'XCrit','fp','YCrit','fn','TVals', thresholdClassifiers{a,b});
+    [RECALL_X,PREC_Y,~,PR_AUC,~] = perfcurve(true_label(b,:),LL,1,'XCrit','tpr','YCrit','prec','TVals', thresholdClassifiers{a,b});
     
     %store
     Xcell{a,b} = X;
@@ -83,28 +76,13 @@ for b = 1:numStim
     PREC_Ycell{a,b} = PREC_Y;
     PR_AUCcell{a,b} = PR_AUC;
     
-    %find operating point
-    th = T((X==OPT(1))&(Y==OPT(2)));
-    tPt = find(T==th);
-    tPt=tPt(1);
-    if tPt==1
-        tPt=3;
-    end
-    
-    Optimal_Point = [X(tPt);Y(tPt)];
-    
-    %store
-    thcell{a,b}=th;
-    tPtcell{a,b}=tPt;
-    Optimal_Pointcell{a,b} = Optimal_Point;
-    
     %Find vals at operating point
-    FPR = X(tPt); %1-specificity
-    TPR = Y(tPt); %Sensitivity
-    TruePos = TP(tPt);
-    TrueNeg = TN(tPt);
-    FalsePos = FP(tPt);
-    FalseNeg = FN(tPt);
+    FPR = X; %1-specificity
+    TPR = Y; %Sensitivity
+    TruePos = TP;
+    TrueNeg = TN;
+    FalsePos = FP;
+    FalseNeg = FN;
     Accuracy = (TruePos+TrueNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
     Precision = (TruePos)/(TruePos+FalsePos);
     NegPredVal = (TrueNeg)/(TrueNeg+FalseNeg);
@@ -133,38 +111,38 @@ end
 
 for i = 1:numStim
     prec_baseline(i) = sum(params.UDF(:,i))/length(params.UDF(:,i));
-    ensPerf.Sparsity{i} = sum(true_label(i,:))/(length(true_label(i,:)))*100;
+    testEnsPerf.Sparsity{i} = sum(true_label(i,:))/(length(true_label(i,:)))*100;
 end
 
 %export
-ensPerf.prec_baseline=prec_baseline;
-ensPerf.FPRcell=FPRcell;
-ensPerf.TPRcell=TPRcell;
-ensPerf.TruePoscell=TruePoscell;
-ensPerf.TrueNegcell=TrueNegcell;
-ensPerf.FalsePoscell = FalsePoscell;
-ensPerf.FalseNegcell = FalseNegcell;
-ensPerf.Accuracycell = Accuracycell;
-ensPerf.Precisioncell = Precisioncell;
-ensPerf.NegPredValcell = NegPredValcell;
-ensPerf.Specificitycell = Specificitycell;
-ensPerf.FalseNegRatecell = FalseNegRatecell;
-ensPerf.RPPcell = RPPcell;
-ensPerf.RNPcell = RNPcell;
-ensPerf.Hitscell= Hitscell;
-ensPerf.Xcell=Xcell;
-ensPerf.Ycell=Ycell;
-ensPerf.Tcell=Tcell;
-ensPerf.AUCcell=AUCcell;
-ensPerf.OPTcell=OPTcell;
-ensPerf.thcell = thcell;
-ensPerf.tPtcell = tPtcell;
-ensPerf.Optimal_Pointcell=Optimal_Pointcell;
-ensPerf.ensemble_neurons=ensemble_neurons;
-ensPerf.LL_cell = LL_cell;
+testEnsPerf.prec_baseline=prec_baseline;
+testEnsPerf.FPRcell=FPRcell;
+testEnsPerf.TPRcell=TPRcell;
+testEnsPerf.TruePoscell=TruePoscell;
+testEnsPerf.TrueNegcell=TrueNegcell;
+testEnsPerf.FalsePoscell = FalsePoscell;
+testEnsPerf.FalseNegcell = FalseNegcell;
+testEnsPerf.Accuracycell = Accuracycell;
+testEnsPerf.Precisioncell = Precisioncell;
+testEnsPerf.NegPredValcell = NegPredValcell;
+testEnsPerf.Specificitycell = Specificitycell;
+testEnsPerf.FalseNegRatecell = FalseNegRatecell;
+testEnsPerf.RPPcell = RPPcell;
+testEnsPerf.RNPcell = RNPcell;
+testEnsPerf.Hitscell= Hitscell;
+testEnsPerf.Xcell=Xcell;
+testEnsPerf.Ycell=Ycell;
+testEnsPerf.Tcell=Tcell;
+testEnsPerf.AUCcell=AUCcell;
+testEnsPerf.OPTcell=OPTcell;
+testEnsPerf.thcell = thcell;
+testEnsPerf.tPtcell = tPtcell;
+testEnsPerf.Optimal_Pointcell=Optimal_Pointcell;
+testEnsPerf.ensemble_neurons=ensemble_neurons;
+testEnsPerf.LL_cell = LL_cell;
 
-ensPerf.RECALL_Xcell=RECALL_Xcell;
-ensPerf.PREC_Ycell=PREC_Ycell;
-ensPerf.PR_AUCcell=PR_AUCcell;
+testEnsPerf.RECALL_Xcell=RECALL_Xcell;
+testEnsPerf.PREC_Ycell=PREC_Ycell;
+testEnsPerf.PR_AUCcell=PR_AUCcell;
 
 end
