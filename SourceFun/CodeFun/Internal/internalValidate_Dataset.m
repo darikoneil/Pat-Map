@@ -14,6 +14,8 @@ function [x_train,x_test,UDF_Count, Num_Nodes,data,UDF, shufIdx] = internalValid
         shufIdx = randperm(Num_Samples);
         data = data([shufIdx],:);
         UDF = UDF([shufIdx],:);
+    else
+        shufIdx = [1:Num_Samples];
     end
     
     %Merge UDF & Neuronal Nodes if necessary

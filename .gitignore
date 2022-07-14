@@ -30,3 +30,10 @@ assessFullPerf.m
 PreviousSave.mat
 plotmultipleROISets.m
 *.mat
+DEM2_TIME_ANALYSIS
+DEM2_RET_DWN_DATA_SHUFFLES
+DEM2_ENC_BINS
+OTHER
+UnincorporatedFunctions
+shuffledData
+shuffledModels
