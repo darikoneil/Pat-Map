@@ -19,4 +19,6 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 * CmdLineProgressBar
 
 ##### Installation
-No installation is required. Simply enter PatMap in the terminal
+No installation is required. Simply enter PatMap in the matlab terminal.
+
+
