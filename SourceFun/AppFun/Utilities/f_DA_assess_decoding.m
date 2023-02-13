@@ -79,6 +79,8 @@ for b = 1:numStim
     RPP = (TruePos+FalsePos)/(TruePos+FalseNeg+FalsePos+TrueNeg);
     RNP = (TrueNeg+FalseNeg)/(TruePos+FalseNeg+FalsePos+TrueNeg);
     Hits = TruePos+FalsePos;
+    BalancedAccuracy = (TPR + Specificity)/2;
+
     %store
     completePerf.FPRcell{b}=FPR;
     completePerf.TPRcell{b}=TPR;
@@ -94,6 +96,7 @@ for b = 1:numStim
     completePerf.RPPcell{b}=RPP;
     completePerf.RNPcell{b}=RNP;
     completePerf.Hitscell{b} = Hits;
+    completePerf.BalancedAccuracy{b}=BalancedAccuracy;
 end
 
 app.completePerf = completePerf;

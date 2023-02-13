@@ -24,7 +24,7 @@ app.SpecificityEditField_Decoding.Value = strcat(num2str(round(app.completePerf.
 app.SensitivityEditField_Decoding.Value = strcat(num2str(round(app.completePerf.TPRcell{v}*100,2)),'%');
 app.PrecEditField_Decoding.Value = strcat(num2str(round(app.completePerf.Precisioncell{v}*100,2)),'%');
 app.AccuracyEditField_Decoding.Value = strcat(num2str(round(app.completePerf.Accuracycell{v}*100,2)),'%');
-app.Miss_EditField_Decoding.Value = strcat(num2str(round(app.completePerf.FalseNegRatecell{v}*100,2)),'%');
+app.BalAcc_EditField_Decoding.Value = strcat(num2str(round(app.completePerf.BalancedAccuracy{v}*100,2)),'%');
 app.Threshold_Edit_Field_Decoding.Value = num2str(app.completePerf.thcell{v});
 end
 

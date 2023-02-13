@@ -170,6 +170,13 @@ addParameter(p, 'numSteps', 5, @(x) isnumeric(x) && isscalar(x) && x>=0);
 % Parameter to assess multiclass predictions
 addParameter(p, 'assessMulticlass', false, @(x) islogical(x));
 
+
+%% (8, Generate Monkey-Patched Params (god i hate matlab --sent from my pycharm)
+addParameter(p, 'include_testing_in_identify', 0, @(x) isnumeric(x) && isscalar(x) && x>=0 )
+addParameter(p, 'identify_ensemble_deviations', 3, @(x) isnumeric(x) && isscalar(x) && x>=0 )
+addParameter(p, 'node_threshold_pattern_complete', "Ensemble", @(x) ischar(x) && (strcmp(x,'Entire') || strcmp(x,'Ensemble') || strcmp(x,'Shuffling')))
+
+
 %% Do the parsing & Export the parameter set
 
 %parse

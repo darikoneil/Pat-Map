@@ -128,6 +128,7 @@ for b = 1:numStim
     RPPcell{a,b}=RPP;
     RNPcell{a,b}=RNP;
     Hitscell{a,b} = Hits;
+    BalancedAccuracy{a, b}  = (TPR+Specificity)/2;
     end
 end
 
@@ -162,7 +163,7 @@ ensPerf.tPtcell = tPtcell;
 ensPerf.Optimal_Pointcell=Optimal_Pointcell;
 ensPerf.ensemble_neurons=ensemble_neurons;
 ensPerf.LL_cell = LL_cell;
-
+ensPerf.BalancedAccuracy = BalancedAccuracy;
 ensPerf.RECALL_Xcell=RECALL_Xcell;
 ensPerf.PREC_Ycell=PREC_Ycell;
 ensPerf.PR_AUCcell=PR_AUCcell;
