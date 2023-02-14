@@ -23,7 +23,7 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 ##### Installation
 No installation is required. Simply enter PatMap in the matlab terminal.
 
-#### TODO PatMap v2.0.0
+##### TODO PatMap v2.0.0
 * Refactor for maintainability
 * Incorporate temporal interactions
 * Additional methods for dataset segmentation
