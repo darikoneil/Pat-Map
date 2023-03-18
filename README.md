@@ -23,7 +23,21 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 ##### Installation
 No installation is required. Simply enter PatMap in the matlab terminal.
 
-##### TODO PatMap v2.0.0
-* Refactor for maintainability
-* Incorporate temporal interactions
+##### DEV Roadmaps
+
+##### TODO v1.X.X
+* Integrate into Jetbrains IDE ecosystem
+* Refactor namespaces
+* Version-build runner
+* Incorporate optimization from experimental branch
 * Additional methods for dataset segmentation
+* Enhanced data cleaning
+* Cleaner export formatting
+
+##### TODO v2.0.0
+* Refactor for maintainability
+* Incorporate temporal interactions from experimental branch
+* Additional methods for dataset segmentation
+
+##### TODO vX.X.X
+* cross-platform migration
