@@ -1,4 +1,4 @@
-function f_DA_preview_spikes(app)
+function plot_data_preview(app)
 
 % pull out to make sure we don't manipulate during plotting
 spikeMatrix = app.spikeMatrix;

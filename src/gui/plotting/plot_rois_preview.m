@@ -1,4 +1,4 @@
-function f_DA_preview_ROIs(app)
+function plot_rois_preview(app)
 % Pull Out 
 rois = app.rois;
 

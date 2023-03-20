@@ -248,6 +248,8 @@ parse(p,varargin{:});
 %send to structure
 params = p.Results;
 
+params.num_models = calculate_number_of_models(params);
+
 %secondary validation
 if params.ignore_dataset_ == false
     [params.x_train,params.x_test,params.UDF_Count,params.Num_Nodes,params.data,params.UDF,params.shufIdx] = internalValidate_Dataset(params.data,params.UDF,params.split,params.merge,params.dataShuffle);
