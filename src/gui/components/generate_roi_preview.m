@@ -14,6 +14,7 @@ set_no_tick(app.roi_preview);
 app.roi_preview.XLabel=[];
 app.roi_preview.YLabel=[];
 app.roi_preview.ZLabel=[];
+app.roi_preview.Color=[1 1 1];
 
 
 end
