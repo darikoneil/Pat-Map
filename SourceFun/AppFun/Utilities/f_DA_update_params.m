@@ -102,7 +102,3 @@ app.NodeThresholdDropDown.Value = params.node_threshold_pattern_complete
 
 
 end
-
-
-
-end

@@ -96,7 +96,7 @@ app.RestrictToTrainingEditField.Value = double(params.include_testing_in_identif
 % None
 
 %Identify Pattern Completion
-app.NodeThresholdDropDown.Value = params.node_threshold_pattern_complete
+app.NodeThresholdDropDown.Value = params.node_threshold_pattern_complete;
 
 
 end
