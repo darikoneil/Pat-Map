@@ -38,3 +38,10 @@ UnincorporatedFunctions
 shuffledData
 shuffledModels
 /Dep/
+/Dep/ANALYSIS/
+/Dep/ExternalFunctionWrappers/
+/Dep/Internal/
+/Dep/Plotting/
+/Dep/tensor_toolbox-v3.2.1/
+/Dep/Utilities/
+/Dep/Utility/
