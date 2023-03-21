@@ -36,13 +36,13 @@ parfor i = 1:L
            params.BCFW_max_iterations, params.BCFW_fval_epsilon,...
            params.compute_true_logZ, params.reweight_denominator,...
            params.printInterval, params.printTest, params.MaxTime);
-            tmpName = tempname(strcat(params.exptdir,'/tmp'));
+            tmpName = tempname(strcat(params.experiment_directory,'/tmp'));
             tmpName = strcat(tmpName,'.mat');
             parSave(tmpName,model_collection);
             wb.progress();
 end
 
-myFiles = dir(fullfile(strcat(params.exptdir,'/tmp'),'*.mat'));
+myFiles = dir(fullfile(strcat(params.experiment_directory,'/tmp'),'*.mat'));
 b=1; 
 specFile = myFiles(b).name;
 folFile = fullfile(myFiles(b).folder,specFile);
@@ -59,7 +59,7 @@ for b = 2:length(myFiles)
 end
 
 model_collection=MDLaccum.model_collection;
-[model_collection.models] =sortModels(model_collection.models);
+[model_collection.models] =sort_models(model_collection.models);
 
 %% (3, Assessment): Here we assess the learned models
 
@@ -69,17 +69,17 @@ model_collection=MDLaccum.model_collection;
     if ~(isempty(input_collection))
         model_collection.models = [model_collection.models input_collection.models];
     end
-   [model_collection.models] = sortModels(model_collection.models);
+   [model_collection.models] = sort_models(model_collection.models);
 
 
     [best_model_index] = get_best_model(model_collection);
-    [best_model] = SingleLoopyModel(model_collection, best_model_index);
+    [best_model] = SingleModel(model_collection, best_model_index);
     best_model.best_model_index = best_model_index;
     
     %Convert to Structures for saving
     warning('off','all');
     model_collection=struct(model_collection);
     best_model = struct(best_model);
-    save(strcat(params.exptdir, '/', 'model_collection.mat'), 'model_collection');
-    save(strcat(params.exptdir, '/', 'best_model.mat'), 'best_model');
+    save(strcat(params.experiment_directory, '/', 'model_collection.mat'), 'model_collection');
+    save(strcat(params.experiment_directory, '/', 'best_model.mat'), 'best_model');
 end

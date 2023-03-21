@@ -1,10 +1,10 @@
-function f_DA_plot_TrainSL(app)
+function plot_training_optimization_structural_learning(app)
 
 %need
 models = app.model_collection.models;
 %characterize/index
  modelStats=charModels(app.model_collection.models);
- [modelIdx,modelSets] = indexModels(modelStats.p_lambda,models);
+ [modelIdx,modelSets] = index_models(modelStats.p_lambda,models);
  firstSet = [modelStats.s_lambda(modelIdx(:,1)) modelStats.train_likelihood(modelIdx(:,1))];
  firstSet=sortrows(firstSet);
   

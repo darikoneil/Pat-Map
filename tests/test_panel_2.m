@@ -1,6 +1,4 @@
-function [app] = test_panel_2()
-
-app = test_panel_1();
+function [app] = test_panel_2(app)
 
 perform_structural_learning_button_pushed(app);
 

@@ -11,18 +11,18 @@ app.SLambdaModelEditField.Value = s_lambda;
  weights = reshape(app.model_collection.models{v}.theta.node_potentials,[],1);
  weights(weights==0)=[];
  [f,x] = ksdensity(weights,'Function','pdf','Bandwidth',app.BandwidthEditField.Value,'Kernel','epanechnikov');
- plot(app.node_potentials_distribution, x, f, 'LineWidth', 3);
+ plot(app.node_weight_parameter_estimation, x, f, 'LineWidth', 3);
  
 %% EDGES FIRST
 weights = reshape(app.model_collection.models{v}.theta.edge_potentials,[],1);
 weights(weights==0)=[];
 %[f,x] = ksdensity(weights,'Function','pdf');
  [f,x] = ksdensity(weights,'Function','pdf','Bandwidth',app.BandwidthEditField_2.Value,'Kernel','epanechnikov');
-plot(app.edge_potentials_distribution, x, f, 'LineWidth', 3);
+plot(app.edge_weight_parameter_estimation, x, f, 'LineWidth', 3);
 
 
  %% new colors
  newcolors = app.newcolors;
- app.node_potentials_distribution.ColorOrder=newcolors;
- app.edge_potentials_distribution.ColorOrder=newcolors;
+ app.node_weight_parameter_estimation.ColorOrder=newcolors;
+ app.edge_weight_parameter_estimation.ColorOrder=newcolors;
 end
