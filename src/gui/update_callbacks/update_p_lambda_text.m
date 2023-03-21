@@ -1,4 +1,4 @@
-function f_DA_update_selected_pLambda_text(app)
+function update_p_lambda_text(app)
 
 completeString = [];
 for i = 1:length(app.params.p_lambda_sequence)

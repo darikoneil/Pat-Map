@@ -1,11 +1,11 @@
-function f_DA_plot_TrainPE(app)
+function plot_training_optimization_parameter_estimation(app)
 
 %need
 models = app.model_collection.models;
 
 %characterize/index
- modelStats=charModels(app.model_collection.models);
- [modelIdx,modelSets] = indexModels(modelStats.p_lambda,models);
+ modelStats=char_models(app.model_collection.models);
+ [modelIdx,modelSets] = index_models(modelStats.p_lambda,models);
  %grab each p lambda
  pLambdas = flip(app.params.p_lambda_sequence); %Darik 05/19/2022 see testPE
  numP = modelSets; % did this for clarity, just modelSets

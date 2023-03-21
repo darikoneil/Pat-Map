@@ -1,11 +1,11 @@
-function f_DA_plot_TestSL(app)
+function plot_test_optimization_structural_learning(app)
 
 %need
 models = app.model_collection.models;
 
 %characterize/index
- modelStats=charModels(app.model_collection.models);
- [modelIdx,modelSets] = indexModels(modelStats.p_lambda,models);
+ modelStats=char_models(app.model_collection.models);
+ [modelIdx,modelSets] = index_models(modelStats.p_lambda,models);
  firstSet = [modelStats.s_lambda(modelIdx(:,1)) modelStats.test_likelihood(modelIdx(:,1))];
  firstSet=sortrows(firstSet);
   

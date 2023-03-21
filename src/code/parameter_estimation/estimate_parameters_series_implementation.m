@@ -23,7 +23,7 @@ for a = 1:modelL
             params.printInterval, params.printTest, params.MaxTime);
         
             %Save Collection to Temp Directory
-            tmpName = tempname(strcat(params.exptdir,'/tmp'));
+            tmpName = tempname(strcat(params.experiment_directory,'/tmp'));
             tmpName = strcat(tmpName,'.mat');
             warning('off','all');
             model_collection = struct(model_collection);
@@ -37,7 +37,7 @@ for a = 1:modelL
 end
 
 %Now load them all into one model_collection
-myFiles = dir(fullfile(strcat(params.exptdir,'/tmp'),'*.mat'));
+myFiles = dir(fullfile(strcat(params.experiment_directory,'/tmp'),'*.mat'));
 b=1; 
 specFile = myFiles(b).name;
 folFile = fullfile(myFiles(b).folder,specFile);
@@ -58,14 +58,14 @@ model_collection.models = [model_collection.models input_collection.models];
 [model_collection.models] = sortModels(model_collection.models);
 
     [best_model_index] = get_best_model(model_collection);
-    [best_model] = SingleLoopyModel(model_collection, best_model_index);
+    [best_model] = SingleModel(model_collection, best_model_index);
     best_model.best_model_index = best_model_index;
     
     %Convert to Structures for saving
     warning('off','all');
     model_collection=struct(model_collection);
     best_model = struct(best_model);
-    save(strcat(params.exptdir, '/', 'model_collection.mat'), 'model_collection');
-    save(strcat(params.exptdir, '/', 'best_model.mat'), 'best_model');
+    save(strcat(params.experiment_directory, '/', 'model_collection.mat'), 'model_collection');
+    save(strcat(params.experiment_directory, '/', 'best_model.mat'), 'best_model');
     
 end
