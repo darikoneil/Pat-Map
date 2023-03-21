@@ -1,8 +1,8 @@
-function f_DA_app_wrapped_startup(app)
+function wrapped_startup(app)
 
 params = app.params; %pull current params
 
-filename = app.file_SpikeMatrix;
+filename = app.file_data;
 [~,name,~] = fileparts(filename);
 
 
@@ -15,25 +15,25 @@ source_directory=pwd;
 source_directory = strcat(source_directory, '/');
 
 %Create Experimental Results Folder
-exptdir = strcat(source_directory, 'Experiments', '/', name);
-mkdir(exptdir);
-addpath(exptdir);
+experiment_directory = strcat(source_directory, 'Experiments', '/', name);
+mkdir(experiment_directory);
+addpath(experiment_directory);
 
-tempdir = strcat(exptdir,'/tmp'); %directory for temporary files
-mkdir(tempdir);
-addpath(tempdir);
+temp_directory = strcat(experiment_directory,'/tmp'); %directory for temporary files
+mkdir(temp_directory);
+addpath(temp_directory);
 
 % compile params
-params.data = app.spikeMatrix;
-params.UDF = app.UDF;
+params.data = app.data;
+params.udf = app.udf;
 
 %coords
 
 params.name = name;
 params.data_directory = data_directory;
-params.Filename = filename;
+params.filename = filename;
 params.source_directory = source_directory;
-params.exptdir=exptdir;
+params.experiment_directory=experiment_directory;
 
 %external pass
 app.params = params;

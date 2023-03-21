@@ -34,7 +34,8 @@ p.KeepUnmatched=1;
 addParameter(p,'ignore_dataset_',false, @(x) islogical(x));
 %Parameter describing the partitioning of training/test data
 addParameter(p,'split',0.8,@(x) isnumeric(x) && isscalar(x) && x>0 && x<=1);
-%Parameter flagging parallel processing for general computations
+%Parameter flagging parallel processing for general computations &
+%structural learning
 addParameter(p,'par_proc',false, @(x) islogical(x) && numel(x)==1);
 
 %Parameter containing name
@@ -46,7 +47,7 @@ addParameter(p,'filename','default_filename',@(x) ischar(x));
 %Parameter containing source directory
 addParameter(p,'source_directory','default_source',@(x) ischar(x));
 %Parameter containing experimental results directory
-addParameter(p,'exptdir','default_experiment',@(x) ischar(x));
+addParameter(p,'experiment_directory','default_experiment',@(x) ischar(x));
 
 %Paramter flagging for randomly shuffling data
 addParameter(p,'random_shuffle',true,@(x) islogical(x));
@@ -99,8 +100,6 @@ addParameter(p,'density',0.25,@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
 addParameter(p,'absolute',false,@(x) islogical(x));
 %Parameter to set alpha 
 addParameter(p,'alpha',1,@(x) isnumeric(x) && numel(x)==1 && x>= 0 && x<=1);
-% learn structures in parallel
-addParameter(p, 'par_struct',false, @(x) islogical(x) && numel(x)==1);
 
 
 %EXPERIMENTAL
@@ -236,7 +235,7 @@ addParameter(p, 'nil_idx', zeros(1,1), @(x)validateattributes(x, {'double'},{'2d
 %Parameter containing data
 addParameter(p,'data',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 %Parameter containing UDF
-addParameter(p,'UDF',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
+addParameter(p,'udf',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 %Parameter containing coords
 addParameter(p,'coords',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 
@@ -252,8 +251,8 @@ params.num_models = calculate_number_of_models(params);
 
 %secondary validation
 if params.ignore_dataset_ == false
-    [params.x_train,params.x_test,params.UDF_Count,params.Num_Nodes,params.data,params.UDF,params.shufIdx] = internalValidate_Dataset(params.data,params.UDF,params.split,params.merge,params.dataShuffle);
-    [params.p_lambda_sequence,params.s_lambda_sequence_LASSO,params.LASSO_options] = internal_generateSequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.logPspace,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.logSspace,params);
+    [params.x_train,params.x_test,params.num_udf,params.num_nodes,params.data,params.udf,params.shuffle_index] = data_segmentation(params.data,params.udf,params.split,params.merge,params.random_shuffle);
+    [params.p_lambda_sequence,params.s_lambda_sequence_glm,params.glm_options] = generate_lambda_sequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.p_lambda_distribution,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.s_lambda_distribution,params);
 end
 
 

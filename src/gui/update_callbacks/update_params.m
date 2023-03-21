@@ -4,8 +4,12 @@ function update_params(app)
 % references????
 params = app.params;
 
-% 
+% always validate
+params.ignore_dataset_ = true;
+params = parameterize(params);
+params.ignore_dataset_ = false;
 
+app.params = params;
 
 % Column One Parameters
 app.ShuffleDataEditField.Value = double(params.random_shuffle);

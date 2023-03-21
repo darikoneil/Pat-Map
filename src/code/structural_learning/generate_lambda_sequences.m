@@ -1,4 +1,4 @@
-function [p_lambda_sequence,s_lambda_sequence_glm,glm_options] = internal_generateSequences(p_lambda_count,p_lambda_min,p_lambda_max,p_lambda_distribution,s_lambda_count,s_lambda_min,s_lambda_max,s_lambda_distribution,params)
+function [p_lambda_sequence,s_lambda_sequence_glm,glm_options] = generate_lambda_sequences(p_lambda_count,p_lambda_min,p_lambda_max,p_lambda_distribution,s_lambda_count,s_lambda_min,s_lambda_max,s_lambda_distribution,params)
 
 %Generate pLambda Sequence
 if p_lambda_distribution

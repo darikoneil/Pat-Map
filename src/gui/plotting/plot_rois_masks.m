@@ -1,7 +1,11 @@
-function f_DA_plot_roiStyle_2(app)
+function plot_rois_masks(app)
 
 roi_contours = app.rois;
 
+% don't know why this sometimes turns off but let's do it again
+set_common_plot_settings(app.roi_preview);
+set_no_tick(app.roi_preview);
+app.roi_preview.Color = [1 1 1];
 % Make Colors
 C = jet(size(roi_contours.xpix,2));
 C = flipud(C);

@@ -1,4 +1,4 @@
-function [x_train,x_test,UDF_Count, Num_Nodes,data,UDF, shufIdx] = internalValidate_Dataset(data,UDF,split,merge,dataShuffle)
+function [x_train,x_test,UDF_Count, Num_Nodes,data,UDF, shufIdx] = data_segmentation(data,UDF,split,merge,dataShuffle)
 
     %Grab Data Size
     [Num_Samples,Num_Nodes] = size(data);
