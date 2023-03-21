@@ -1,4 +1,4 @@
-function preview_passed_structures(app)
+function preview_passed_structures_button_pushed(app)
 %needs
 models = app.models;
 numModels = length(models);
@@ -28,6 +28,6 @@ for i = 1:Lunique
     complexityD(i) = sum(sum(models{uidx(i)}.structure));
 end
 
-f_DA_plot_degree_dist(app, uval, maxD, meanD, medianD, rmsD, complexityD);
+plot_structure_connectivity(app, uval, maxD, meanD, medianD, rmsD, complexityD);
 
 end
