@@ -9,15 +9,7 @@ elseif size(rois,2)==2
     app.roi_style = 1;
 elseif isstruct(app.roi_style)
     app.roi_style = 2;
-end
-
-
-if app.roi_style == 0
-    plot_roi_style_0(app);
-elseif app.roi_style == 1
-    plot_roi_style_1(app);
-else
-    plot_roi_style_2(app);
+    plot_rois_masks(app);
 end
 
 end
