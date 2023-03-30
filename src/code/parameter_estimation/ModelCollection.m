@@ -20,13 +20,8 @@ classdef ModelCollection
            self.x_test=params.x_test;
         end
                 
-        function self = do_parameter_estimation(self,...
-                max_iterations, fval_epsilon,...
-                compute_true_logZ,...
-                reweight_denominator,...
-                print_interval,...
-                print_test,...
-                max_time)
+        function self = do_parameter_estimation(self, max_iterations, fval_epsilon, reweight_denominator,...
+                print_interval, max_time)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%PARAMETER ESTIMATION%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,14 +114,11 @@ classdef ModelCollection
 
                 bcfw = BCFW(loopy_model_train_object, ...
                     'print_interval', print_interval, ...
-                    'print_test', print_test, ...
-                    'print_computed_duality_gap',true,...
                     'max_time',max_time,...
                     'max_iterations', max_iterations, ...
                     'fval_epsilon', fval_epsilon);
                 
                 bcfw.run();
-                %bcfw.fastrun();
 
 %We now extract F and G, which score the two neuron states (ON/OFF) and
 %four connectivity states (ON-ON, ON-OFF, OFF-ON, OFF-OFF). These are in
@@ -139,34 +131,20 @@ classdef ModelCollection
                 
                 logZ = bcfw.objective.partition_function(model.theta);
 
-%We now convert F and G into the node and edge potentials of our model, and
-%adjust partition function. Now we have a nice graphical model.
+%Compute edge/node potentials & adjusted partition function. Now we have a nice graphical model.
                 fprintf('Converting F and G to node and edge potentials\n');
-                [node_pot, edge_pot, logZ_pot] = get_node_and_edge_potentials(model.theta.F,...
+                [node_pot, edge_pot, logZ] = get_node_and_edge_potentials(model.theta.F,...
                     model.theta.G, logZ, overcomplete_struct.edges{1}');
                 model.theta.node_potentials = node_pot;
                 model.theta.edge_potentials = edge_pot;
-                model.theta.logZ = logZ_pot;
-                model.theta.logZ_logZ = logZ;
-
-%If you want you can compute exact true_logZ and true_node_marginals, but
-%this is very computationally expensive and you almost certainly shouldn't.
-
-                if self.compute_true_logZ
-                    fprintf('Starting to run JTA to compute true');
-                    fprintf('partition function\n');
-                    [true_node_marginals,~,~,~,~,~,true_logZ] = ...
-                        run_junction_tree(...
-                        node_pot, edge_pot, 'verbose', false);
-                    model.theta.true_logZ = true_logZ;
-                    model.true_node_marginals = true_node_marginals;
-                end           
+                model.theta.logZ = logZ;
+        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%ASSESS MODEL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 
                 % Compute training likelihood
-                    fprintf('Computing training likelihood\n');
+                    fprintf('Computing training & test likelihoods\n');
                     model.train_likelihood = compute_avg_log_likelihood( ...
                         model.theta.node_potentials, ...
                         model.theta.edge_potentials, ...
@@ -174,19 +152,17 @@ classdef ModelCollection
                         self.x_train);
 
                     % Compute test likelihood
-                    fprintf('Computing test likelihood\n');
                     model.test_likelihood = compute_avg_log_likelihood( ...
                         model.theta.node_potentials, ...
                         model.theta.edge_potentials, ...
                         model.theta.logZ, ...
                         self.x_test);
+                    
                     model.pending_parameter_estimation = false;
                     self.models{i} = model;
                 end
             end
-	    fprintf('\n')
-            fprintf('Finished estimating parameters.\n');
-
+            
          end
     end
 end

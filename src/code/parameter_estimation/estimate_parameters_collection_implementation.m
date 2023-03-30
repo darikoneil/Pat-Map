@@ -14,9 +14,7 @@ fprintf('Parameter Estimation...\n');
  
 %Parameter Estimation
 model_collection = model_collection.do_parameter_estimation(...
-    params.max_iterations, params.fval_epsilon,...
-    params.compute_true_logZ, params.reweight_denominator,...
-    params.print_interval, params.print_test, params.max_time);
+    params.max_iterations, params.fval_epsilon, params.reweight_denominator, params.print_interval, params.max_time);
 
 %% (3, Assessment): Here we assess the learned models
   

@@ -11,10 +11,20 @@ params.ignore_dataset_ = false;
 
 app.params = params;
 
-% Column One Parameters
+% GENERAL
 app.ShuffleDataEditField.Value = double(params.random_shuffle);
 app.ParallelProcessingEditField.Value = double(params.par_proc);
 app.TrainingTestingSplitEditField.Value = double(params.split);
+app.NumberofStructuresEditField.Value = double(params.num_structures);
+app.TuningCriterionDropDown.Value = params.perf_curve_criterion;
+app.EnsembleSizeDropDown.Value = params.size_random_ensemble;
+app.IncludeUDFinEnsemblesEditField.Value = double(params.include_UDF_in_random_ensembles);
+app.NumberofRandomControlsEditField.Value = double(params.num_controls);
+app.AssessDecodingEditField.Value = double(params.assess_decoding);
+app.AssessClusteringEditField.Value = double(params.assess_clustering);
+
+% SL
+app.ParallelLearningEditField.Value = double(params.par_struc);
 app.AlphaEditField.Value = double(params.alpha);
 app.DensityEditField.Value = double(params.density);
 app.NumberofsLambdaEditField.Value = double(params.s_lambda_count);
@@ -24,9 +34,9 @@ app.sLambdaDistributionEditField.Value = double(params.s_lambda_distribution);
 app.MergeNodeClassesEditField.Value = double(params.merge);
 app.UDFUDFInteractionsEditField.Value = double(params.hyperedge);
 app.RankAbsoluteValueofCoefficientsEditField.Value = double(params.absolute);
-app.NumberofStructuresEditField.Value = double(params.num_structures);
+% app.NumberofModelsEditField.Value is generated on the fly
 
-% Column Two Parameters
+%PE
 app.NumberofpLambdaEditField.Value = double(params.p_lambda_count);
 app.MinimumpLambdaEditField.Value = double(params.p_lambda_min);
 app.MaximumpLambdaEditField.Value = double(params.p_lambda_max);
@@ -35,19 +45,9 @@ app.fValEpsilonEditField.Value = double(params.fval_epsilon);
 app.MaxIterationsEditField.Value = double(params.max_iterations);
 app.MaximumTimetoConvergenceEditField.Value = double(params.max_time);
 app.PrintIntervalEditField.Value = double(params.print_interval);
-app.PrintTestsEditField.Value = double(params.print_test);
 app.ReweightDenominatorDropDown.Value = params.reweight_denominator;
-app.ComputeTrueLogZEditField.Value = double(params.compute_true_logZ);
 app.ImplementationModeEditField.Value = double(params.implementation_mode);
-% app.NumberofModelsEditField.Value is generated on the fly
 
-% Column Three Parameters
-app.TuningCriterionDropDown.Value = params.perf_curve_criterion;
-app.EnsembleSizeDropDown.Value = params.size_random_ensemble;
-app.IncludeUDFinEnsemblesEditField.Value = double(params.include_UDF_in_random_ensembles);
-app.NumberofRandomControlsEditField.Value = double(params.num_controls);
-app.AssessDecodingEditField.Value = double(params.assess_decoding);
-app.AssessClusteringEditField.Value = double(params.assess_clustering);
 
 %Structural Learning Column One
 app.ParallelProcessingEditField_SL.Value = double(params.par_proc);
@@ -68,7 +68,6 @@ app.RankAbsoluteValueofCoefficientsEditField_SL.Value = double(params.absolute);
 %Parameter Estimation Column One
 app.ParallelProcessingEditField_PE.Value = double(params.par_proc);
 app.fValEpsilonEditField_PE.Value = double(params.fval_epsilon);
-app.ComputeTrueLogZEditField_PE.Value = double(params.compute_true_logZ);
 app.ReweightDenominatorDropDown_PE.Value = params.reweight_denominator;
 
 %Parameter Estimation Column Two
@@ -82,7 +81,6 @@ app.MaxIterEditField_PE.Value = double(params.max_iterations);
 app.MaxTimeEditField_PE.Value = double(params.max_time);
 app.FirstPassStructuresEditField.Value = double(params.num_structures);
 app.PrintIntervalEditField_PE.Value = double(params.print_interval);
-app.PrintTestEditField_PE.Value = double(params.print_test);
 
 %Parameter Estimation Column Four
 app.ImplementationModeEditField.Value = double(params.implementation_mode);
