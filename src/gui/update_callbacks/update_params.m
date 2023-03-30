@@ -31,11 +31,11 @@ app.NumberofpLambdaEditField.Value = double(params.p_lambda_count);
 app.MinimumpLambdaEditField.Value = double(params.p_lambda_min);
 app.MaximumpLambdaEditField.Value = double(params.p_lambda_max);
 app.pLambdaDistributionEditField.Value = double(params.p_lambda_distribution);
-app.fValEpsilonEditField.Value = double(params.BCFW_fval_epsilon);
-app.MaxIterationsEditField.Value = double(params.BCFW_max_iterations);
-app.MaximumTimetoConvergenceEditField.Value = double(params.MaxTime);
-app.PrintIntervalEditField.Value = double(params.printInterval);
-app.PrintTestsEditField.Value = double(params.printTest);
+app.fValEpsilonEditField.Value = double(params.fval_epsilon);
+app.MaxIterationsEditField.Value = double(params.max_iterations);
+app.MaximumTimetoConvergenceEditField.Value = double(params.max_time);
+app.PrintIntervalEditField.Value = double(params.print_interval);
+app.PrintTestsEditField.Value = double(params.print_test);
 app.ReweightDenominatorDropDown.Value = params.reweight_denominator;
 app.ComputeTrueLogZEditField.Value = double(params.compute_true_logZ);
 app.ImplementationModeEditField.Value = double(params.implementation_mode);
@@ -67,7 +67,7 @@ app.RankAbsoluteValueofCoefficientsEditField_SL.Value = double(params.absolute);
 
 %Parameter Estimation Column One
 app.ParallelProcessingEditField_PE.Value = double(params.par_proc);
-app.fValEpsilonEditField_PE.Value = double(params.BCFW_fval_epsilon);
+app.fValEpsilonEditField_PE.Value = double(params.fval_epsilon);
 app.ComputeTrueLogZEditField_PE.Value = double(params.compute_true_logZ);
 app.ReweightDenominatorDropDown_PE.Value = params.reweight_denominator;
 
@@ -78,11 +78,11 @@ app.MaximumpLambdaEditField_PE.Value = double(params.p_lambda_max);
 app.pLambdaDistributionEditField_PE.Value = double(params.p_lambda_distribution);
 
 %Parameter Estimation Column Three
-app.MaxIterEditField_PE.Value = double(params.BCFW_max_iterations);
-app.MaxTimeEditField_PE.Value = double(params.MaxTime);
+app.MaxIterEditField_PE.Value = double(params.max_iterations);
+app.MaxTimeEditField_PE.Value = double(params.max_time);
 app.FirstPassStructuresEditField.Value = double(params.num_structures);
-app.PrintIntervalEditField_PE.Value = double(params.printInterval);
-app.PrintTestEditField_PE.Value = double(params.printTest);
+app.PrintIntervalEditField_PE.Value = double(params.print_interval);
+app.PrintTestEditField_PE.Value = double(params.print_test);
 
 %Parameter Estimation Column Four
 app.ImplementationModeEditField.Value = double(params.implementation_mode);

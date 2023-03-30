@@ -8,15 +8,15 @@ function [best_model ,model_collection,params] = estimate_parameters_collection_
 %% (2, Estimation): Here we estimate the parameters
 
 
-[model_collection] = ModelCollection(models,params); %Generate Collection
+[model_collection] = ModelCollection(models, params); %Generate Collection
 fprintf('\n');
 fprintf('Parameter Estimation...\n');
  
 %Parameter Estimation
 model_collection = model_collection.do_parameter_estimation(...
-    params.BCFW_max_iterations, params.BCFW_fval_epsilon,...
+    params.max_iterations, params.fval_epsilon,...
     params.compute_true_logZ, params.reweight_denominator,...
-    params.printInterval, params.printTest, params.MaxTime);
+    params.print_interval, params.print_test, params.max_time);
 
 %% (3, Assessment): Here we assess the learned models
   

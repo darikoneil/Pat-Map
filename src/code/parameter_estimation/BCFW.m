@@ -3,31 +3,26 @@ classdef BCFW < AbstractFW
     methods
         function th = BCFW(objective, varargin)            
             th = th@AbstractFW(objective, varargin{:});
-            th.algoName = 'BCFW';            
-
-%             p = inputParser;
-%             p.KeepUnmatched = true;            
-%             p.parse(varargin{:});
-%             o = p.Results;            
+            th.algo_name = 'BCFW';                   
         end
         
-        function stepSz = iter(th, t)
-            m = randi(th.obj.M);
-            sm = th.obj.solveLPBlock(m);
-            dm = sm - th.obj.getXBlock(m);
+        function step_size = iter(th, t)
+            m = randi(th.objective.M);
+            sm = th.objective.solve_lp_block(m);
+            dm = sm - th.objective.get_x_block(m);
 
-            backupStepSz = 2*th.obj.M / (2*th.obj.M + t);
-            stepSz = backupStepSz;
+            backup_step_size = 2*th.objective.M / (2*th.objective.M + t);
+            step_size = backup_step_size;
 
-            if th.opts.lineSearchPolicy(th, t)
-                [stepSz, converged] = th.obj.lineSearchBlock(m, dm, 1);
+            if th.opts.line_search_policy(th, t)
+                [step_size, converged] = th.objective.line_search_block(m, dm, 1);
                 if ~converged
                     warning('BCFW:linesearchDidNotConverge', ...
                         'Linesearch did not converge; backing off to 2N / (2N + t).');
-                    stepSz = backupStepSz;
+                    step_size = backup_step_size;
                 end
             end
-            th.obj.moveXBlock(m, stepSz, dm);
+            th.objective.move_x_block(m, step_size, dm);
         end
     end
 end

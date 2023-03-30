@@ -139,15 +139,15 @@ addParameter(p,'compute_true_logZ',false,@(x) islogical(x));
 
 % maintain CamelCase here 
 %Parameter setting upper bound for BCFW iterations
-addParameter(p, 'BCFW_max_iterations',75000,@(x) isnumeric(x) && numel(x)==1 && x>=1);
+addParameter(p, 'max_iterations',75000,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter setting epsilon
-addParameter(p, 'BCFW_fval_epsilon',0.1, @(x) isnumeric(x) && numel(x)==1 && x<=1);
+addParameter(p, 'fval_epsilon',0.1, @(x) isnumeric(x) && numel(x)==1 && x<=1);
 %Parameter setting print interval
-addParameter(p, 'printInterval',1000,@(x) isnumeric(x) && numel(x)==1 && x>=1);
+addParameter(p, 'print_interval',1000,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter setting print test
-addParameter(p, 'printTest',100, @(x) isnumeric(x) && numel(x)==1 && x>=1);
+addParameter(p, 'print_test',100, @(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter setting upper bound on time to converge
-addParameter(p, 'MaxTime',Inf,@(x) isnumeric(x) && numel(x)==1 && x>=1);
+addParameter(p, 'max_time',Inf,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter setting chunk size for param estimation implementation
 addParameter(p,'chunk_size',1,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter flagging chunk processing 
