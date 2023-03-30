@@ -1,8 +1,6 @@
 classdef BCFWObjective < handle
     % BCFWObjective  Interface for block-coordinate Frank Wolfe problems.
-    %
-    % the Block methods should be thread-safe... global state should
-    % somehow be factored to enable distribution... to think about later.
+    % Thread-safe
     
     properties
         M, xwavg
@@ -10,34 +8,34 @@ classdef BCFWObjective < handle
     
     methods (Abstract)        
 
-        stepSz = lineSearch(th, dir, maxStep)
-        stepSzm = lineSearchBlock(th, m, dir, maxStep)
+        step_size = line_search(th, dir, max_step);
         
-        [s, dualityGap] = solveLP(th)
-        sm = solveLPBlock(th);
-        % Are you sure you want to implement all of this? To think about.
+        step_size_m = line_search_block(th, m, dir, max_step);
         
-        % Training error, by whatever measure you want.
-        err = trainErr(th);
+        [s, duality_gap] = solve_lp(th);
+        
+        sm = solve_lp_block(th);
+        
+        err = training_error(th);
     end
     
     methods (Abstract, Access = protected)
-        y = ix(th, m)                 % access indices for block m       
-        updateIntermediateValues(th); % called after x changes
+        y = ix(th, m);                 % access indices for block m       
+        update_intermediate_values(th); % called after x changes
     end
     
     methods
-        function moveX(th, stepSz, dir)
-            th.x = th.x + stepSz*dir;
-            th.updateIntermediateValues();            
+        function move_x(th, step_size, dir)
+            th.x = th.x + step_size*dir;
+            th.update_intermediate_values();            
         end
         
-        function moveXBlock(th, m, stepSz, dir)
-            th.x(th.ix(m)) = th.x(th.ix(m)) + stepSz*dir;
-            th.updateIntermediateValues();
+        function move_x_block(th, m, step_size, dir)
+            th.x(th.ix(m)) = th.x(th.ix(m)) + step_size*dir;
+            th.update_intermediate_values();
         end
         
-        function xm = getXBlock(th, m)
+        function xm = get_x_block(th, m)
             xm = th.x(th.ix(m));
         end
         

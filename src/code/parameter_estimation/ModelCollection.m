@@ -3,22 +3,25 @@ classdef ModelCollection
     properties
         %Properties & Definitions
        
-        models;
-        x_train; x_test;
-        computed_true_logZ;%archaic
-        hidden_model;%arhaic
+        models; % individual models in collection
+        x_train; % training dataset
+        x_test; % testing dataset
+        compute_true_logZ; %deprecated
+        hidden_model; %deprecated
       
     end
 
     methods
         function self = ModelCollection(models,params)
+            % initialization function
+            % fill models directly and grab datasets from params
            self.models = models;
            self.x_train=params.x_train;
            self.x_test=params.x_test;
         end
                 
-        function self = do_parameter_estimation(self, BCFW_max_iterations, BCFW_fval_epsilon,...
-                computed_true_logZ, reweight_denominator, printInterval, printTest, MaxTime)
+        function self = do_parameter_estimation(self, max_iterations, fval_epsilon, reweight_denominator,...
+                print_interval, max_time)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%PARAMETER ESTIMATION%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -26,16 +29,16 @@ classdef ModelCollection
 
            %Iterate through non-modeled models and estimate parameters
            %(lol, tongue twister)
-           L = numel(self.models);
-            for i = 1:L
+           model_idx = numel(self.models);
+            for i = 1:model_idx
                 if self.models{i}.pending_parameter_estimation == true
                     model = self.models{i};
                     fprintf('\n')
                     fprintf(strcat(num2str(i),' of'))
                     fprintf(' ');
-                    fprintf(num2str(L))
-                    fprintf('\n')
-                    fprintf('\nParameter Estimation: s_lambda=%e; p_lambda=%e\n',...
+                    fprintf(num2str(model_idx))
+                    fprintf('\nParameter Estimation:')
+                    fprintf('s_lambda=%e; p_lambda=%e\n',...
                     model.s_lambda, model.p_lambda);
                
                 
@@ -52,8 +55,10 @@ classdef ModelCollection
                 
                 
                
-                if i == 1 || any(any(self.models{i-1}.structure ~= model.structure))
-                    overcomplete_struct = samples_to_overcomplete(self.x_train, model.structure);
+                if i == 1 || any(any(self.models{i-1}.structure...
+                        ~= model.structure))
+                    overcomplete_struct = samples_to_overcomplete(...
+                        self.x_train, model.structure);
                 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,7 +101,7 @@ classdef ModelCollection
                     overcomplete_struct.Ns, ...
                     overcomplete_struct.edges, ...
                     model.p_lambda, ...
-                    'checkStuck', false, ...
+                    'check_stuck', false, ...
                     'reweight', reweight);
              
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,72 +113,56 @@ classdef ModelCollection
 %First we create/run the BCFW on our object
 
                 bcfw = BCFW(loopy_model_train_object, ...
-                    'printInterval', printInterval, ...
-                    'printTest', printTest, ...
-                    'printComputedDualityGap',true,...
-                    'MaxTime',MaxTime,...
-                    'MaxIter', BCFW_max_iterations, ...
-                    'fvalEpsilon', BCFW_fval_epsilon);
+                    'print_interval', print_interval, ...
+                    'max_time',max_time,...
+                    'max_iterations', max_iterations, ...
+                    'fval_epsilon', fval_epsilon);
                 
                 bcfw.run();
-                %bcfw.fastrun();
 
 %We now extract F and G, which score the two neuron states (ON/OFF) and
 %four connectivity states (ON-ON, ON-OFF, OFF-ON, OFF-OFF). These are in
 %the format of 2xNode 4xEdge by the way. These are the Phi's. 
 
-                model.theta = bcfw.obj.computeParams();
+                model.theta = bcfw.objective.compute_params();
 
 %We now approx. the partion function which globally
 %normalizes our scores
                 
-                logZ = bcfw.obj.partition_function(model.theta);
+                logZ = bcfw.objective.partition_function(model.theta);
 
-%We now convert F and G into the node and edge potentials of our model, and
-%adjust partition function. Now we have a nice graphical model.
+%Compute edge/node potentials & adjusted partition function. Now we have a nice graphical model.
                 fprintf('Converting F and G to node and edge potentials\n');
-                [node_pot, edge_pot, logZ_pot] = get_node_and_edge_potentials(model.theta.F,...
+                [node_pot, edge_pot, logZ] = get_node_and_edge_potentials(model.theta.F,...
                     model.theta.G, logZ, overcomplete_struct.edges{1}');
                 model.theta.node_potentials = node_pot;
                 model.theta.edge_potentials = edge_pot;
-                model.theta.logZ = logZ_pot;
-                model.theta.logZ_logZ = logZ;
-
-%If you want you can compute exact true_logZ and true_node_marginals, but
-%this is very computationally expensive and you almost certainly shouldn't.
-
-                if self.computed_true_logZ
-                    fprintf('Starting to run JTA to compute true partition function\n');
-                    [true_node_marginals,~,~,~,~,~,true_logZ] = run_junction_tree(node_pot, edge_pot, 'verbose', true);
-                    model.theta.true_logZ = true_logZ;
-                    model.true_node_marginals = true_node_marginals;
-                end           
+                model.theta.logZ = logZ;
+        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%ASSESS MODEL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 
                 % Compute training likelihood
-                    fprintf('Computing training likelihood\n');
-                    model.train_likelihood = compute_avg_log_likelihood_no_loop( ...
+                    fprintf('Computing training & test likelihoods\n');
+                    model.train_likelihood = compute_avg_log_likelihood( ...
                         model.theta.node_potentials, ...
                         model.theta.edge_potentials, ...
                         model.theta.logZ, ...
                         self.x_train);
 
                     % Compute test likelihood
-                    fprintf('Computing test likelihood\n');
-                    model.test_likelihood = compute_avg_log_likelihood_no_loop( ...
+                    model.test_likelihood = compute_avg_log_likelihood( ...
                         model.theta.node_potentials, ...
                         model.theta.edge_potentials, ...
                         model.theta.logZ, ...
                         self.x_test);
+                    
                     model.pending_parameter_estimation = false;
                     self.models{i} = model;
                 end
             end
-	    fprintf('\n')
-            fprintf('Finished estimating parameters.\n');
-
+            
          end
     end
 end

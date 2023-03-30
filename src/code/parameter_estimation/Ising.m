@@ -52,15 +52,11 @@ classdef Ising < BCFWObjective
             p.addRequired('lambda', @isscalar);            
             
             p.addParamValue('reweight', 0.5, @isscalar); % 0.5 is TRW.
-            % Optionally add test set, and I will compute the Hamming error
-            % wrt MAP estimates.
-            p.addParamValue('test', {}, @(x) all(isfield(x, {'YN', 'YE', 'Ut', 'Vt', 'edges'})));
-            p.addParamValue('TolGap', 1e-10);
-            p.addParamValue('debug', true);            
+            p.addParamValue('TolGap', 1e-10);          
             p.addParamValue('initLabelProp', 0);
             p.addParamValue('errNegDualityGap', false);
             p.addParamValue('lineSearchOpts', optimset('TolX', 1e-7));
-            p.addParamValue('checkStuck', true);
+            p.addParamValue('check_stuck', true);
 
             p.parse(YN, YE, Ut, Vt, Ns, edges, lambda, varargin{:});
             th.opts = p.Results;
@@ -77,17 +73,7 @@ classdef Ising < BCFWObjective
             % The bulk move callbacks will put (X_N, X_E) into one long
             % vector. The lastNodeRow field stores where to split.
             th.lastNodeRow = 2*sum(Ns);
-            
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %% Set up bookkeeping for test set, if exists
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%            
-            if ~isempty(th.opts.test)
-                testNEdges = cellfun(@(x) size(x, 2), th.opts.test.edges);                
-                [th.opts.test.ixNode, th.opts.test.ixEdge] = ...
-                    computeUVIx(th.opts.test.Ns, testNEdges);
-            end            
-            
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
             %% Set up initial feasible point, mixing uniform and label.
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                         
             p = th.opts.initLabelProp;            
@@ -101,9 +87,9 @@ classdef Ising < BCFWObjective
             % TODO: Possibly suboptimal; bsxfun may be faster?
             th.RN = zeros(size(YN));
             th.RE = zeros(size(YE));                       
-            fprintf('Debug: Ising edgeRhos');
+            % fprintf('Debug: Ising edgeRhos');
             for p = 1:th.M
-                fprintf('+')
+                % fprintf('+')
                 % Expand our constant rhos to a general edge-vector rhos (a
                 % constant vector of size nEdges).                
                 edgeRhos = th.opts.reweight * ones(th.nEdges(p), 1);
@@ -111,7 +97,7 @@ classdef Ising < BCFWObjective
                 [th.RN(th.ixN(p),:), th.RE(th.ixE(p),:)] = ...
                     makeRhoMatOvercomplete(edgeRhos, edges{p}, Ns(p), 2);
             end
-            fprintf('\n');
+            %fprintf('\n');
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %% Copy labels and compute first intermediate values
@@ -133,48 +119,48 @@ classdef Ising < BCFWObjective
             th.YNflat(Ni) = Nj;
             th.YNflat(find(YN(:,1) == 0.5)) = 1.5;
             
-            th.updateIntermediateValues();
+            th.update_intermediate_values();
         end  
         
         function v = get.x(th)
             v = vertcat(vec(th.TN'), vec(th.TE'));
         end
                         
-        function xm = getXBlock(th, m)            
+        function xm = get_x_block(th, m)            
             xmN = th.TN(th.ixN(m),:);
             xmE = th.TE(th.ixE(m),:);
             % TODO: Clean up all this gratuitous use of .'
             xm = vectorizeNE(xmN, xmE);
         end
         
-        function moveX(th, stepSz, d)
+        function move_x(th, step_size, d)
             [dN, dE] = th.unpack(d);
             
-            th.TN = th.TN + stepSz * dN;
-            th.TE = th.TE + stepSz * dE;
+            th.TN = th.TN + step_size * dN;
+            th.TE = th.TE + step_size * dE;
            
-            th.updateIntermediateValues();
+            th.update_intermediate_values();
         end
         
-        function moveXBlock(th, m, stepSz, dm)
-            [dmN, dmE] = th.unpackBlock(m, dm);
+        function move_x_block(th, m, step_size, dm)
+            [dmN, dmE] = th.unpack_block(m, dm);
             
             miN = th.ixN(m);miE = th.ixE(m);
             
-            th.TN(miN,:) = th.TN(miN,:) + stepSz * dmN;
-            th.TE(miE,:) = th.TE(miE,:) + stepSz * dmE;
+            th.TN(miN,:) = th.TN(miN,:) + step_size * dmN;
+            th.TE(miE,:) = th.TE(miE,:) + step_size * dmE;
                         
             % Update our state variables. This update only accesses the
             % rows of U, V corresponding to sample m. This is because all
             % other inner products with the block-coordinate step dm will
             % be zero. See derivation for details.
-            th.UtTimesW = th.UtTimesW + stepSz*th.Ut(:,miN) * dmN;
-            th.VtTimesW = th.VtTimesW + stepSz*th.Vt(:,miE) * dmE;
+            th.UtTimesW = th.UtTimesW + step_size*th.Ut(:,miN) * dmN;
+            th.VtTimesW = th.VtTimesW + step_size*th.Vt(:,miE) * dmE;
             
-            th.updateSumSquares();
+            th.update_sum_squares();
         end
         
-        function [s, dualityGap] = solveLP(th)
+        function [s, duality_gap] = solve_lp(th)
             [GN, GE] = th.grad();
             sN = zeros(size(th.TN));
             sE = zeros(size(th.TE));            
@@ -194,16 +180,16 @@ classdef Ising < BCFWObjective
 
             dgN = frobProd(GN, th.TN - sN);
             dgE = frobProd(GE, th.TE - sE);            
-            dualityGap = dgN + dgE;
+            duality_gap = dgN + dgE;
         end
         
-        function sm = solveLPBlock(th, m)
-            [gNode, gEdge] = th.gradBlock(m);
+        function sm = solve_lp_block(th, m)
+            [gNode, gEdge] = th.grad_block(m);
             [smNode, smEdge, eBelow] = solveQPBO(gNode.', gEdge.', th.edges{m});
             sm = packOvercomplete(smNode, smEdge);
         end
         
-        function [stepSz, converged] = lineSearch(th, dir, maxStep)
+        function [step_size, converged] = line_search(th, dir, max_step)
             [dN, dE] = th.unpack(dir);
             % Now this part is actually simpler because we don't have to do
             % so much goddamned indexing
@@ -226,13 +212,13 @@ classdef Ising < BCFWObjective
                 frobProd((1 - RN) .* (TN + eta*dN), log(TN + eta*dN)) + ...                
                 frobProd(RE .* (TE + eta*dE),       log(TE + eta*dE));
             
-            [stepSz, dirHtMin, exitflag] = fminbnd(dirHt, 0, maxStep, th.opts.lineSearchOpts);        
+            [step_size, dirHtMin, exit_flag] = fminbnd(dirHt, 0, max_step, th.opts.lineSearchOpts);        
             % DOUBLE CHECK: Correct sign.
-            if exitflag ~= 1
+            if exit_flag ~= 1
                 converged = false;
             end            
 
-            if th.opts.checkStuck && dirHt(0) < dirHtMin
+            if th.opts.check_stuck && dirHt(0) < dirHtMin
                 warning('ht(0) was smaller than htMin: %g < %g', dirHt(0), dirHtMin);
                 converged = false;
             end                                    
@@ -242,8 +228,8 @@ classdef Ising < BCFWObjective
         % REFACTOR: All the crap actually calling fminbnd should be handled
         % by the parent class. (Nah, parent class would have a fully
         % numeric linesearch.)
-        function [stepSzm, converged] = lineSearchBlock(th, m, d, maxStep)            
-            [dN, dE] = th.unpackBlock(m, d);
+        function [step_size_m, converged] = line_search_block(th, m, d, max_step)            
+            [dN, dE] = th.unpack_block(m, d);
 
             % Row indices and variable blocks.
             miN = th.ixN(m); TNm = th.TN(miN,:);
@@ -277,21 +263,21 @@ classdef Ising < BCFWObjective
                 vecOneMinusRhoNm * ((vecTNm + eta*vecdN) .* log(vecTNm + eta*vecdN)) + ...
                 vecRhoEm * ((vecTEm + eta*vecdE) .* log(vecTEm + eta*vecdE));
             
-            [stepSzm, dirHtMin, exitflag] = fminbnd(dirHt, 0, maxStep, th.opts.lineSearchOpts);        
-            if exitflag ~= 1
+            [step_size_m, dirHtMin, exit_flag] = fminbnd(dirHt, 0, max_step, th.opts.lineSearchOpts);        
+            if exit_flag ~= 1
                 converged = false;
             end            
             
 %             % TESTING CODE
-%             [stepSzmFast, myObj] = th.lineSearchBlockFast(m, d, maxStep);
-%             assertElementsAlmostEqual(dirHt(stepSzm), dirHt(stepSzmFast));
+%             [stepSzmFast, myObj] = th.line_search_block_fast(m, d, max_step);
+%             assertElementsAlmostEqual(dirHt(step_size_m), dirHt(stepSzmFast));
 
 %             fprintf('fminbnd got %g; newton got %g; dirtHt diff = %g, newtonObjDiff = %g\n', ...
-%                 stepSzm, stepSzmFast, ...
-%                 dirHt(stepSzm) - dirHt(stepSzmFast), ...
-%                 myObj(stepSzm) - myObj(stepSzmFast));
+%                 step_size_m, stepSzmFast, ...
+%                 dirHt(step_size_m) - dirHt(stepSzmFast), ...
+%                 myObj(step_size_m) - myObj(stepSzmFast));
 %             
-            if th.opts.checkStuck && dirHt(0) < dirHtMin
+            if th.opts.check_stuck && dirHt(0) < dirHtMin
                 warning('ht(0) was smaller than htMin: %g < %g', dirHt(0), dirHtMin);
                 converged = false;
             end                                    
@@ -299,8 +285,8 @@ classdef Ising < BCFWObjective
             converged = true;
         end        
         
-        function [stepSzm, myObj] = lineSearchBlockFast(th, m, d, maxStep)
-            [dN, dE] = th.unpackBlock(m, d);
+        function [step_size_m, myObj] = line_search_block_fast(th, m, d, max_step)
+            [dN, dE] = th.unpack_block(m, d);
             
             % Row indices and variable blocks.
             miN = th.ixN(m); TNm = th.TN(miN,:);
@@ -372,13 +358,13 @@ classdef Ising < BCFWObjective
                 [f, g, h] = obj(eta);
                 fprintf('Newton LS: iter = %g, eta = %g, f = %g, g = %g, h = %g, g / h = %g\n', iter, eta, f, g, h, g/h);
                 eta = eta - g / h;
-                if eta <= 0 || eta >= maxStep                    
+                if eta <= 0 || eta >= max_step                    
                     fprintf('Newton went out of bounds to %g; randomly restarting.\n', eta);
-                    eta = maxStep * rand;
+                    eta = max_step * rand;
                 end
                 iter = iter + 1;
             end
-            stepSzm = eta;            
+            step_size_m = eta;            
             myObj = @obj;            
         end        
                
@@ -390,7 +376,7 @@ classdef Ising < BCFWObjective
                       frobProd(th.RE,     th.TE .* log(th.TE));
         end  
         
-        function params = computeParams(th)                        
+        function params = compute_params(th)                        
             % KT, 10/21 -- Confirmed this is the correct sign (reworked the
             % math on paper.)
             params.F = -(1/th.lambda) * th.UtTimesW.';
@@ -399,16 +385,16 @@ classdef Ising < BCFWObjective
         end        
 	
         function s = score(th) 
-            params = th.computeParams();
-            s = th.fval() + (th.lambda/2)*(frobProd(params.F,params.F) + frobProd(params.G,params.G));
+            params = th.compute_params();
+            s = th.fval() + (th.lambda/2)*(frobProd(params.F, params.F) + frobProd(params.G, params.G));
         end             
 
-        function logZ = partition_function(th,params)
+        function logZ = partition_function(th, params)
            % compute partition function (linear term minus score divided by number of samples)
-           logZ = (th.linearTerm(params) - th.score()) / th.M;
+           logZ = (th.linear_term(params) - th.score()) / th.M;
         end
         
-        function thetaTx = linearTerm(th,params)
+        function thetaTx = linear_term(th,params)
             thetaN = (params.F*th.Ut)';
             thetaE = (params.G*th.Vt)';
             linearN = vec(thetaN .* th.YN);
@@ -416,23 +402,13 @@ classdef Ising < BCFWObjective
             thetaTx = (sum(linearN)) + (sum(linearE));
         end
         
-        function err = trainErr(th)
+        function err = training_error(th)
             % Compute Hamming error of *maximum posterior marginals.*
             [~, predNflat] = max(th.TN, [], 2);
             Nerr = (floor(th.YNflat) ~= predNflat) & (ceil(th.YNflat) ~= predNflat);
             err = mean(Nerr);
         end
-        
-        function err = trainMAPErr(th)            
-            params = th.computeParams();
-            err    = computeMAPErr(params.F, params.G, th.Ut, th.Vt, th.YN, th.ixNode, th.ixEdge, th.edges);
-        end
-        
-        function err = testMAPErr(th)
-            params = th.computeParams();
-            err    = computeMAPErr(params.F, params.G, th.opts.test.Ut, th.opts.test.Vt, th.opts.test.YN, ...
-                                   th.opts.test.ixNode, th.opts.test.ixEdge, th.opts.test.edges);
-        end        
+               
     end
     
     methods (Access = protected)
@@ -447,7 +423,7 @@ classdef Ising < BCFWObjective
             vE = reshape(v(th.lastNodeRow+1:end), fliplr(size(th.TE)))';
         end
         
-        function [vN, vE] = unpackBlock(th, m, v)
+        function [vN, vE] = unpack_block(th, m, v)
             % Unpack overcomplete vector for one sample into node and edge
             % matrices conforming to th.TN(th.ixN(m),:), th.TE(th.ixE(m),:).
             %
@@ -470,7 +446,7 @@ classdef Ising < BCFWObjective
         end
                 
         function [GN, GE] = grad(th)
-            % Actually just like gradBlock, but with less indexing.
+            % Actually just like grad_block, but with less indexing.
             gHNode = (1 - th.RN) .* (1 + log(th.TN));
             gHEdge = th.RE       .* (1 + log(th.TE));
             
@@ -478,7 +454,7 @@ classdef Ising < BCFWObjective
             GE = (1/th.lambda) * (th.Vt.'*th.VtTimesW) + gHEdge;
         end
         
-        function [gNode, gEdge] = gradBlock(th, m)            
+        function [gNode, gEdge] = grad_block(th, m)            
             gHNode = (1 - th.RN(th.ixN(m),:)) .* (1 + log(th.TN(th.ixN(m),:)));
             gHEdge = th.RE(th.ixE(m),:)       .* (1 + log(th.TE(th.ixE(m),:)));                        
             
@@ -486,16 +462,16 @@ classdef Ising < BCFWObjective
             gEdge = (1/th.lambda) * (th.Vt(:,th.ixE(m)).'*th.VtTimesW) + gHEdge;
         end
         
-        function updateIntermediateValues(th)
+        function update_intermediate_values(th)
             % Update all state variables. Tricks don't yield any savings
             % here, so we just straightforwardly transcribe the math.
             th.UtTimesW = th.Ut*(th.TN - th.YN);
             th.VtTimesW = th.Vt*(th.TE - th.YE);
             
-            th.updateSumSquares();
+            th.update_sum_squares();
         end
         
-        function updateSumSquares(th)
+        function update_sum_squares(th)
             th.UtTimesWSumSq = frobProd(th.UtTimesW, th.UtTimesW);
             th.VtTimesWSumSq = frobProd(th.VtTimesW, th.VtTimesW);
         end
