@@ -1,4 +1,4 @@
-function [model_stats] = char_models(models)
+function [model_stats] = characterize_learned_models(models)
 
 last_model = models{end};
 last_model = rmfield(last_model, "structure");

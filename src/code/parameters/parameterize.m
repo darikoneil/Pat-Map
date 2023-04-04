@@ -55,13 +55,26 @@ addParameter(p,'source_directory','default_source',@(x) ischar(x));
 %Parameter containing experimental results directory
 addParameter(p,'experiment_directory','default_experiment',@(x) ischar(x));
 
-
 %Paramter flagging for randomly shuffling data
 addParameter(p,'random_shuffle',true,@(x) islogical(x));
 
 %shuffle index
 addParameter(p,'shuffle_index', zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 
+
+% CONTAINERS FOR MEASURES, CALCULATIONS, ETC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%scalar with number of ORIGINAL nodes (aka neurons)
+addParameter(p, 'num_nodes', 0, @(x) isscalar(x) && x>=0);
+
+%scalar with number of udf
+addParameter(p, 'num_udf', 0, @(x) isscalar(x) && x>=0);
+
+%training dataset
+addParameter(p, 'x_train', []);
+
+%testing dataset
+addParameter(p, 'x_test', []);
 
 %EXPERIMENTAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,6 +132,28 @@ addParameter(p,'alpha',1,@(x) isnumeric(x) && numel(x)==1 && x>= 0 && x<=1);
 %Parameter to structural learn in parallel
 addParameter(p, 'par_struc', false, @(x) islogical(x));
 
+
+% CONTAINERS FOR MEASURES, CALCULATIONS, ETC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% cell array with glm data
+addParameter(p, 'glm_array',{}, @(x) iscell(x));
+
+%cell array with learned structures
+addParameter(p, 'learned_structures', {}, @(x) iscell(x));
+
+%cell array with raw coefficients of glm
+addParameter(p, 'raw_coef', {}, @(x) iscell(x));
+
+%vector of s lambda sequence
+addParameter(p, 's_lambda_sequence', []);
+
+%vector of s lambda sequence for glm training
+addParameter(p, 's_lambda_sequence_glm', []);
+
+%cell array containing all variables vs all others (all but me)
+addParameter(p, 'variable_groups', {}, @(x) iscell(x));
+
+
 %EXPERIMENTAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % minimum density
@@ -154,6 +189,7 @@ addParameter(p,'p_lambda_min',1000, @(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter describing the maximum p_lambda
 addParameter(p,'p_lambda_max',100000, @(x) isnumeric(x) && numel(x)==1 && x>=1);
 
+%Parameter 
 %Parameter describing reweight used see bethe
 addParameter(p,'reweight_denominator','mean_degree',@(x) ischar(x) && (strcmp(x,'mean_degree') || strcmp(x,'median_degree') || strcmp(x,'max_degree') || strcmp(x,'rms_degree')));
 
@@ -185,6 +221,11 @@ addParameter(p, 'implementation_mode', 1, @(x) isnumeric(x) && numel(x)==1 && x<
 % ratio of train-test for model selection
 
 addParameter(p, 'train_test_ratio', 1, @(x) isnumeric(x) && isscalar(x) && x>=0 && x<=1);
+
+% CONTAINERS FOR MEASURES, CALCULATIONS, ETC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% sequence of p_lambda
+addParameter(p, 'p_lambda_sequence', []);
 
 %% (5, Generate Ensemble Identification Parameters): 
 
@@ -284,7 +325,7 @@ parse(p,varargin{:});
 %send to structure
 params = p.Results;
 
-params.num_models = calculate_number_of_models(params);
+params = calculate_number_of_models(params);
 
 %secondary validation
 if params.ignore_dataset_ == false

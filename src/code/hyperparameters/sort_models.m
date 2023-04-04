@@ -1,11 +1,11 @@
 function [models] = sort_models(models)
 
 
-modelStats = char_models(models);
-model_params = [modelStats.s_lambda modelStats.p_lambda];
+model_stats = collect_models(models);
+model_params = [model_stats.s_lambda; model_stats.p_lambda]';
 
-[~, sortedModelsIdx] = sortrows(model_params,'descend');
+[~, sorted_models_idx] = sortrows(model_params,'descend');
 
-models = models(sortedModelsIdx);
+models = models(sorted_models_idx);
 end
 

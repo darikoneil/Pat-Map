@@ -1,12 +1,10 @@
 function plot_training_optimization_structural_learning(app)
 
-app.training_optimization_structural_learning = figure;
-
 
 %need
 models = app.model_collection.models;
 
-model_stats=char_models(app.model_collection.models);
+model_stats=characterize_learned_models(app.model_collection.models);
  
 interpolated_s_lambda =  linspace(min(model_stats.s_lambda), max(model_stats.s_lambda), 100);
 interpolated_p_lambda = linspace(min(model_stats.p_lambda), max(model_stats.p_lambda), 100);
@@ -16,18 +14,18 @@ likelihood = griddata(model_stats.s_lambda, model_stats.p_lambda, model_stats.tr
 
 newcolors = app.newcolors; 
  
-app.training_optimization_structural_learning.NextPlot = 'replacechildren';
+app.optimization_plot.NextPlot = 'replacechildren';
   
-mesh(app.training_optimization_structural_learning, mesh_s_lambda, mesh_p_lambda, likelihood)
+mesh(app.optimization_plot, mesh_s_lambda, mesh_p_lambda, likelihood)
 
-axis(app.training_optimization_structural_learning,'tight');
+axis(app.optimization_plot,'tight');
 
-hold(app.training_optimization_structural_learning, 'on');
+hold(app.optimization_plot, 'on');
 
-plot3(app.training_optimization_structural_learning, mesh_s_lambda, mesh_p_lambda, likelihood, '.', 'MarkerSize', 1);
+plot3(app.optimization_plot, mesh_s_lambda, mesh_p_lambda, likelihood, '.', 'MarkerSize', 1);
 
-hold(app.training_optimization_structural_learning, 'off');
+hold(app.optimization_plot, 'off');
 
-app.training_optimization_structural_learning.ColorOrder=newcolors;
+app.optimization_plot.ColorOrder=newcolors;
 
 end

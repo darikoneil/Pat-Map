@@ -35,6 +35,9 @@ app.MergeNodeClassesEditField.Value = double(params.merge);
 app.UDFUDFInteractionsEditField.Value = double(params.hyperedge);
 app.RankAbsoluteValueofCoefficientsEditField.Value = double(params.absolute);
 % app.NumberofModelsEditField.Value is generated on the fly
+app.params = calculate_number_of_models(params);
+params = app.params;
+app.NumberofModelsEditField.Value = double(params.number_of_models);
 
 %PE
 app.NumberofpLambdaEditField.Value = double(params.p_lambda_count);
@@ -50,7 +53,7 @@ app.ImplementationModeEditField.Value = double(params.implementation_mode);
 
 
 %Structural Learning Column One
-app.ParallelProcessingEditField_SL.Value = double(params.par_proc);
+app.ParallelProcessingEditField_SL.Value = double(params.par_struc);
 app.AlphaEditField_SL.Value = double(params.alpha);
 app.MergeNodeClassesEditField_SL.Value = double(params.merge);
 
@@ -84,6 +87,7 @@ app.PrintIntervalEditField_PE.Value = double(params.print_interval);
 
 %Parameter Estimation Column Four
 app.ImplementationModeEditField.Value = double(params.implementation_mode);
+app.FirstPassModelsEditField.Value = double(params.number_of_models);
 
 %Evaluate Model Column One
 app.TrTstWeighting.Value = double(params.train_test_ratio);

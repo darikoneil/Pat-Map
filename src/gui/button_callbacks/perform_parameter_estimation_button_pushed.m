@@ -1,6 +1,6 @@
 function perform_parameter_estimation_button_pushed(app)
     estimate_parameters_implementation_specific_call(app);
-    plot_optimizations(app);
+    plot_optimization(app, "s_lambda", "p_lambda", "test_likelihood");
     update_p_lambda_text(app);
     update_best_model_text(app);
     plot_potentials(app);

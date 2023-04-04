@@ -12,6 +12,10 @@ function perform_structural_learning_button_pushed(app)
     
     update_s_lambda_text(app);
     
+    update_p_lambda_text(app);
+    
     update_log(app, 'Structural Learning Complete');
+    
+    app.params.stage = 2;
     
 end
