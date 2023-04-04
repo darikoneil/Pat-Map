@@ -1,19 +1,23 @@
-function [modelIdx,modelSets] = index_models(modelSets1,modelVector)
+function [model_idx,model_sets] = index_models(model_sets_input, model_vector)
+
+% returns models such that each column is a unique value of
+% model_sets_input and each row is a unique combination of parameters
+% containing said value
 
 %how many parameters are there
-modelSets = length(unique(modelSets1));
+model_sets = length(unique(model_sets_input));
 
 %from idx1 to idx2 by modelsets
 idx1 = 1;
-idx2 = length(modelVector);
+idx2 = length(model_vector);
 
 %disp(idx2/modelSets);
 %preallocate
-modelIdx = nan((idx2/modelSets),modelSets);
+model_idx = nan((idx2/model_sets),model_sets);
 
 %index for each 
-for a = 1:modelSets
-    modelIdx(:,a) = (idx1+(a-1)):modelSets:idx2;
+for a = 1:model_sets
+    model_idx(:,a) = (idx1+(a-1)):model_sets:idx2;
 end
 
 end

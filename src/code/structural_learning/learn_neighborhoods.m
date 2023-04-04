@@ -5,7 +5,7 @@ x_train = params.x_train;
 variable_groups=params.variable_groups;
 options = params.glm_options;
 node_count = size(x_train,2);
-GLM_array=cell(node_count,1);
+glm_array=cell(node_count,1);
 
 
 
@@ -15,14 +15,14 @@ for label_node = 1:node_count
         X = x_train(:,feature_nodes);
         Y = x_train(:,label_node);
         G = glmnet(X,Y,'binomial',options);
-        GLM_array{label_node,1}= G;
+        glm_array{label_node,1}= G;
         wb.print(label_node,node_count);
 end
 
 fprintf('\n');
 fprintf('Neighborhood Learning Complete');
 
-params.GLM_array = GLM_array;
+params.glm_array = glm_array;
 
 %remove warm start
 params.s_lambda_sequence = [params.s_lambda_sequence_glm(fix(0.2*length(params.s_lambda_sequence_glm))) params.s_lambda_sequence_glm(length(params.s_lambda_sequence_glm))];

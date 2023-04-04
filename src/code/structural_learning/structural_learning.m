@@ -33,7 +33,7 @@ function [params] = structural_learning(params)
 % MATLAB
 
 %First check if parallel processing permitted
-if params.par_proc
+if params.par_struc
     [params] = learn_neighborhoods_par(params); %Learn in parallel
 else
     [params] = learn_neighborhoods(params); %Learn Serially
