@@ -7,7 +7,7 @@ PatMap contains code and a simple graphical user interface for detecting pattern
 Memory: scales with dataset size; a minimum of 8GB required. 
 
 ##### Licensed Software:
-Matlab 2020b (Recommended)
+Matlab 2020b (Recommended), >=Matlab 2019a (Required)
 
 ##### Operating System:
 PatMap is functional on Windows, Linux, and Mac operating systems.
@@ -17,7 +17,6 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 * QPBO v1.32
 * GLMNet
 * ParWaitBar
-* MLE-Struc
 * CmdLineProgressBar
 
 ##### Installation
