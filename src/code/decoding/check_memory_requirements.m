@@ -1,4 +1,4 @@
-function [useBIG, chunks] = checkMemoryRequirements(elements, RAM)
+function [useBIG, chunks] = check_memory_requirements(elements, RAM)
 
 if nargin<2
     RAM=115;

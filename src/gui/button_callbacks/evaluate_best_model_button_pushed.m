@@ -10,10 +10,16 @@ if app.params.assess_decoding
     end
     app.log_likelihood_by_frame( (app.params.num_nodes + 1):end, :) = log_likelihoods_each_frame;
     plot_model_decoding_evaluation(app);
-    % plot_decoding(app);
-    % update_decoding_text(app);
+    update_decoding_text(app);
+    plot_structured_prediction_visual(app);
     update_log(app, 'Finished Decoding.');
-    
 end
+
+if app.params.assess_clustering
+    app.global_cluster_coefficient = find_global_cluster_coeff(app.best_model.structure);
+    update_clustering_text(app);
+end
+
+app.params.stage = 5;
 
 end

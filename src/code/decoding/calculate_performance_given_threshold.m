@@ -48,7 +48,7 @@ balanced_accuracy_pt = (tpr_pt + specificity_pt)/2;
 
 %store
 performance.fpr_pt=fpr_pt;
-performance.tpr_p=tpr_pt;
+performance.tpr_pt=tpr_pt;
 performance.true_positive_pt=true_positive_pt;
 performance.true_negative_pt=true_negative_pt;
 performance.false_positive_pt=false_positive_pt;
