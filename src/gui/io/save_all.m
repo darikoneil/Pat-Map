@@ -25,7 +25,11 @@ if length(varargin) == 0
         'node_performance',
         'random_ensemble_performance',
         'ensemble_nodes',
-        'identified_ensemble_performance'
+        'identified_ensemble_performance',
+        'node_scores',
+        'node_threshold',
+        'auc_threshold',
+        'pattern_completion_nodes'
         };
 end
 
