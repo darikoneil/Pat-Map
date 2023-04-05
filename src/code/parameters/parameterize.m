@@ -286,8 +286,6 @@ addParameter(p, 'assess_clustering', true, @(x) islogical(x));
 
 %% (7, Pattern completion parameters (god i hate matlab --sent from my pycharm)
 
-%% (6, Generate Motif Identification Parameters):
-
 %Parameter determing which overcomp score to invoke for motif analysis
 addParameter(p,'node_score_criterion','11', @(x) ischar(x) && (strcmp(x,'11') || strcmp(x, '00') || strcmp(x,'01') || strcmp(x,'10')));
 

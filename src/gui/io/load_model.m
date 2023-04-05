@@ -96,7 +96,6 @@ if found_params && app.params.stage >= 3
     end
 end
 
-
 %% If Stage >= 4
 if found_params && app.params.stage >=4
     try
@@ -114,49 +113,30 @@ end
 
 %% If Stage >= 5
 if found_params && app.params.stage >= 5
-    try mp = load(filename, 'model_performance');
-        app.model_performance = mp.model_performance;
-        update_log(app, 'Located Model Decoding Performance');
-    catch
-        update_log(app, 'Unable to Retrieve Model Decoding Performance');
+    status = 0;
+    vars = {'model_performance', 'log_likelihood_by_frame', 'global_cluster_coefficient'};
+    for i = 1:length(vars)
+        [app, status_val] = variable_loader(app, filename, vars{i});
+        status = status + status_val;
     end
-    
-    try llf = load(filename, 'log_likelihood_by_frame');
-        app.log_likelihood_by_frame = llf.log_likelihood_by_frame;
-        update_log(app, 'Located Log Likelihood by Frame Data');
-    catch
-        update_log(app, 'Unable to Retrieve Log Likelihood by Frame Data');
-    end
-    
-    try gcc = load(filename, 'global_cluster_coefficient');
-        app.global_cluster_coefficient = gcc.global_cluster_coefficient;
-        update_log(app, 'Locating Clustering Data');
-    catch
-        update_log(app, 'Unable to Retrieve Clustering Data');
-    end
-    
-    try
+    if status == 0
         update_clustering_text(app);
-    catch
-        dummy = 0
-    end
-    
-    try
         decoding_udf_selection_change_button_pushed(app); % fastest way to update these plots/text :)
-    catch
-        dummy = 0
     end
-
 end
+
 %% If Stage >= 6
 % 6 only means we have calculated neuronal contributions
 
 %% If Stage >= 7
 if found_params && app.params.stage >= 7
-    [app, status_val_0] = variable_loader(app, filename, 'node_performance');
-    [app, status_val_1] = variable_loader(app, filename, 'random_ensemble_performance');
-    [app, status_val_2] = variable_loader(app, filename, 'ensemble_nodes');
-    if (status_val_0 + status_val_1 + status_val_2) == 0
+    status = 0;
+    vars = {'node_performance', 'random_ensemble_performance', 'ensemble_nodes'};
+    for i = 1:length(vars)
+        [app, status_val] = variable_loader(app, filename, vars{i});
+        status = status + status_val;
+    end
+    if status == 0
         update_log(app, 'Located Identified Ensembles');
         app.EnsemblesLamp.Color=[0.35 0.8 0.41];
         plot_node_performance_distribution(app);
@@ -169,98 +149,30 @@ if found_params && app.params.stage >= 7
     end
 end
 
-    
 %% If Stage >= 8
+if found_params && app.params.stage >= 8
+    status = 0;
+    [app, status] = variable_loader(app, filename, 'identified_ensemble_performance');
+    if status == 0
+        update_ensemble_eval_text(app);
+    end
+end
 
 %% If Stage >= 9
-
-%% IF Stage >= 10
-
 if found_params && app.params.stage >= 9
-    % We need to load ensPerf, neuronalPerformance, nodePredictions,
-    % linearPerf, sizePerf
-    
-    %ensPerf
-     try fl = load(filename, 'ensPerf');
-        app.ensPerf = fl.ensPerf;
-        update_log(app, 'Located Ensemble Evaluations');
-        f_DA_update_ensemble_eval_text(app);
-        f_DA_plot_evalEnsembles(app);
-     catch
-        update_log(app, 'Unable to Retrieve Ensemble Evaluations');
-     end
+    status = 0;
+    vars = {'pattern_completion_nodes', 'node_strength', 'pcn_thresholds'};
+    for i = 1:length(vars)
+        [app, status_val] = variable_loader(app, filename, vars{i});
+        status = status + status_val;
+    end
+    if status == 0
+             app.PCLamp.Color=[0.35 0.8 0.41];
+             update_pattern_completion_text(app);
+    else
+         app.PCLamp.Color=[0.87 0.27 0.27];
+    end
      
-     if app.params.assessNeurons
-        %neuronalPerformance
-         try fl = load(filename, 'neuronalPerformance');
-            app.neuronalPerformance=fl.neuronalPerformance;
-            update_log(app, 'Located Ensemble Evaluations - Neuronal Comparisons');
-            f_DA_plot_individual_neuron_performance_EV(app);
-         catch
-            update_log(app, 'Unable to Retrieve Ensemble Evaluations - Neuronal Comparisons');
-         end
-     end
-     
-     %nodePredictions
-     if app.params.assessNodes
-         try fl = load(filename, 'nodePredictions');
-            app.nodePredictions=fl.nodePredictions;
-            f_DA_plot_individual_node_performance_EV(app);
-            update_log(app, 'Located Ensemble Evaluations - Node Comparisons');
-         catch
-            update_log(app, 'Unable to Retrieve Ensemble Evaluations - Node Comparisons');
-         end
-     end
-
-       %linearPerf
-       if app.params.assessLinearity
-         try fl = load(filename, 'linearPerf');
-            app.linearPerf = fl.linearPerf;
-            f_DA_plot_linear_ens(app);
-            update_log(app, 'Located Ensemble Evaluations - Linear Comparisons');
-         catch
-            update_log(app, 'Unable to Ensemble Evaluations - Linear Comparisons');
-         end
-       end
-       
-       %sizePerf
-       if app.params.assessSize
-         try fl = load(filename, 'sizePerf');
-            app.sizePerf = fl.sizePerf;
-            update_log(app, 'Located Ensemble Evaluations - Size Comparisons');
-         catch
-            update_log(app, 'Unable to Ensemble Evaluations - Size Comparisons');
-         end
-       end
-       
 end
 
-if found_params && app.params.stage >= 10
-    %We need to load Node Scores, NodeThr, PCNs
-     try fl = load(filename, 'PCNs');
-        app.PCNs = fl.PCNs;
-        update_log(app, 'Located PCNs');
-        app.PCLamp.Color=[0.35 0.8 0.41];
-        f_DA_update_patternCompletionText(app);
-     catch
-        update_log(app, 'Unable to Retrieve PCNs');
-        app.PCLamp.Color=[0.87 0.27 0.27];
-     end
-     try fl = load(filename, 'NodeScores');
-         app.NodeScores = fl.NodeScores;
-         update_log(app, 'Located Node Scores');
-     catch
-         update_log(app, 'Unable to Retrieve Node Scores');
-     end
-     try fl = load(filename, 'NodeThr');
-         app.NodeThr=fl.NodeThr;
-         update_log(app, 'Located Node Thresholds');
-         f_DA_plot_PCNs(app);
-     catch
-         update_log(app, 'Unable to Retrieve Node Thresholds');
-     end
 end
-
-     
-
-
