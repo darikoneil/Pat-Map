@@ -19,6 +19,13 @@ if length(varargin) == 0
         'models',
         'roi_style',
         'best_model',
+        'log_likelihood_by_frame',
+        'model_performance',
+        'global_cluster_coefficient',
+        'node_performance',
+        'random_ensemble_performance',
+        'ensemble_nodes',
+        'identified_ensemble_performance'
         };
 end
 

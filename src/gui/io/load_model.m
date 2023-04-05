@@ -112,71 +112,69 @@ if found_params && app.params.stage >=4
     end
 end
 
-
-
-
-%%
-
-if found_params && app.params.stage >= 6
-    try cp = load(filename, 'completePerf');
-        app.completePerf = cp.completePerf;
-        update_log(app, 'Located Model Evaluation Data');
-        f_DA_plot_decoding(app);
-        f_DA_update_decoding_text(app);
+%% If Stage >= 5
+if found_params && app.params.stage >= 5
+    try mp = load(filename, 'model_performance');
+        app.model_performance = mp.model_performance;
+        update_log(app, 'Located Model Decoding Performance');
     catch
-        update_log(app, 'Unable to Retrieve Model Evaluation Data');
+        update_log(app, 'Unable to Retrieve Model Decoding Performance');
     end
-end
+    
+    try llf = load(filename, 'log_likelihood_by_frame');
+        app.log_likelihood_by_frame = llf.log_likelihood_by_frame;
+        update_log(app, 'Located Log Likelihood by Frame Data');
+    catch
+        update_log(app, 'Unable to Retrieve Log Likelihood by Frame Data');
+    end
+    
+    try gcc = load(filename, 'global_cluster_coefficient');
+        app.global_cluster_coefficient = gcc.global_cluster_coefficient;
+        update_log(app, 'Locating Clustering Data');
+    catch
+        update_log(app, 'Unable to Retrieve Clustering Data');
+    end
+    
+    try
+        update_clustering_text(app);
+    catch
+        dummy = 0
+    end
+    
+    try
+        decoding_udf_selection_change_button_pushed(app); % fastest way to update these plots/text :)
+    catch
+        dummy = 0
+    end
 
+end
+%% If Stage >= 6
+% 6 only means we have calculated neuronal contributions
+
+%% If Stage >= 7
 if found_params && app.params.stage >= 7
-     try fl = load(filename, 'FrameLikelihoodByNode');
-        app.FrameLikelihoodByNode = fl.FrameLikelihoodByNode;
-        update_log(app, 'Located Node Contributions');
-        f_DA_model_value(app);
-        f_DA_update_structPred_decoding(app);
-        app.NeuronsLamp.Color = [0.35 0.80 0.41];
-    catch
-        update_log(app, 'Unable to Retrieve Node Contributions');
-        app.NeuronsLamp.Color = [0.87 0.27 0.27];
-        
-    end
-end
-
-if found_params && app.params.stage >= 8
-    % we need the following: ensNodes, nodePerformance, randomPerformance, AucThr
-    %ensNodes
-    try fl = load(filename, 'ensNodes');
-        app.ensNodes = fl.ensNodes;
+    [app, status_val_0] = variable_loader(app, filename, 'node_performance');
+    [app, status_val_1] = variable_loader(app, filename, 'random_ensemble_performance');
+    [app, status_val_2] = variable_loader(app, filename, 'ensemble_nodes');
+    if (status_val_0 + status_val_1 + status_val_2) == 0
         update_log(app, 'Located Identified Ensembles');
         app.EnsemblesLamp.Color=[0.35 0.8 0.41];
-     catch
+        plot_node_performance_distribution(app);
+        plot_ensemble_coordinates(app);
+        update_ensemble_text(app);
+    else
         update_log(app, 'Unable to Retrieve Ensembles');
         app.EnsemblesLamp.Color=[0.87 0.27 0.27];
+    
     end
-    %nodePerformance
-    try f1 = load(filename, 'nodePerformance');
-        app.nodePerformance = f1.nodePerformance;
-        update_log(app, 'Located Node Performance');
-    catch
-        update_log(app, 'Unable to Retrieve Node Performance');
-    end
-    %randomPerformance
-    try f1 = load(filename, 'randomPerformance');
-        app.randomPerformance = f1.randomPerformance;
-        update_log(app, 'Located Random Ensemble Performance');
-    catch
-        update_log(app, 'Unable to Retrieve Random Ensemble Performance');
-    end
-    %Auc Thr
-    try f1 = load(filename, 'AucThr');
-        app.AucThr = f1.AucThr;
-        update_log(app, 'Located Random Ensemble Thresholds');
-        f_DA_IDEnsemble_Stim_Changed(app);
-    catch
-        update_log(app, 'Unable to Retrieve Random Ensemble Thresholds');
-    end
-      
 end
+
+    
+%% If Stage >= 8
+
+%% If Stage >= 9
+
+%% IF Stage >= 10
 
 if found_params && app.params.stage >= 9
     % We need to load ensPerf, neuronalPerformance, nodePredictions,
