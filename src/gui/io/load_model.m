@@ -127,6 +127,13 @@ end
 
 %% If Stage >= 6
 % 6 only means we have calculated neuronal contributions
+if found_params && app.params.stage >= 6
+    if sum(any(isnan(app.log_likelihood_by_frame(:)))) >= 1
+        app.NeuronsLamp.Color=[0.87 0.27 0.27];
+    else
+        app.NeuronsLamp.Color=[0.35 0.8 0.41];
+    end
+end
 
 %% If Stage >= 7
 if found_params && app.params.stage >= 7
@@ -154,6 +161,7 @@ if found_params && app.params.stage >= 8
     status = 0;
     [app, status] = variable_loader(app, filename, 'identified_ensemble_performance');
     if status == 0
+        plot_all_ensemble_evals(app);
         update_ensemble_eval_text(app);
     end
 end
@@ -161,7 +169,7 @@ end
 %% If Stage >= 9
 if found_params && app.params.stage >= 9
     status = 0;
-    vars = {'pattern_completion_nodes', 'node_strength', 'pcn_thresholds'};
+    vars = {'pattern_completion_nodes', 'node_scores', 'node_threshold', 'auc_threshold'};
     for i = 1:length(vars)
         [app, status_val] = variable_loader(app, filename, vars{i});
         status = status + status_val;
@@ -169,6 +177,8 @@ if found_params && app.params.stage >= 9
     if status == 0
              app.PCLamp.Color=[0.35 0.8 0.41];
              update_pattern_completion_text(app);
+             plot_pcn_scatter(app);
+             plot_pattern_completion_coordinates(app);
     else
          app.PCLamp.Color=[0.87 0.27 0.27];
     end

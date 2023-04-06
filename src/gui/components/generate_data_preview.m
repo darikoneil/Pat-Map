@@ -5,7 +5,8 @@ app.data_preview = axes('Parent', app.IOModelPanel, 'Units', 'pixels',...
     'InnerPosition', [370.73 42.73 487.2667 216.9667],...
     'Box', 'on');
 
-set_common_plot_settings(app.data_preview);
+set_common_plot_settings_white(app.data_preview);
+
 
 set_no_tick(app.data_preview);
 
