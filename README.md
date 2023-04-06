@@ -24,19 +24,15 @@ No installation is required. Simply enter PatMap in the matlab terminal.
 
 ##### DEV Roadmaps
 
-##### TODO v1.X.X
-* Integrate into Jetbrains IDE ecosystem
-* Refactor namespaces
-* Version-build runner
-* Incorporate optimization from experimental branch
-* Additional methods for dataset segmentation
-* Enhanced data cleaning
-* Cleaner export formatting
+Version v1.0.1
+* More consistent namespace/conventions + general refactoring
+* Automated parameter optimization
+* Increased verbosity of validation & enhanded data cleaning
+* Option to overlay rois over imaging z-projection & graphical structure
 
 ##### TODO v2.0.0
-* Refactor for maintainability
 * Incorporate temporal interactions from experimental branch
 * Additional methods for dataset segmentation
 
 ##### TODO vX.X.X
-* cross-platform migration
+* cross-platform/language migration
