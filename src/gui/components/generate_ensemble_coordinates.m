@@ -12,5 +12,4 @@ app.ensemble_coordinates.Title.String = 'Ensemble Neuron Coordinates';
 
 app.ensemble_coordinates.FontName='Arial';
 app.ensemble_coordinates.FontSize=12;
-app.ensemble_coordinates.Color=[1 1 1];
 end

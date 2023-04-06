@@ -14,7 +14,6 @@ identified_ensemble_performance.training_performance = calculate_ensemble_perfor
 identified_ensemble_performance.testing_performance = calculate_ensemble_performance_with_threshold(app.params, app.ensemble_nodes,...
     app.log_likelihood_by_frame, [size(app.params.x_train)+1:bounds], identified_ensemble_performance.training_performance.thr);
 
-
 app.identified_ensemble_performance = identified_ensemble_performance;
 
 update_ensemble_eval_text(app);
