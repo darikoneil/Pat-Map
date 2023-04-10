@@ -98,6 +98,8 @@ addParameter(p,'edges','simple', @(x) strcmp(x,'simple'));
 %DEPRECATED DAO 03/20/2023 only be UDF x Neuron & Neuron x Neuron
 %Parameter setting hyperedge constraints
 addParameter(p,'hyperedge',2, @(x) isnumeric(x) && numel(x)==1 && x>1 && x <3);
+%Parameter settings to dictate the merging of UDF and neuronal nodes
+addParameter(p,'merge',true,@(x) islogical(x));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -115,9 +117,6 @@ addParameter(p,'num_structures',8,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 
 %distribution for pulling s lambda samples
 addParameter(p,'s_lambda_distribution',true,@(x) islogical(x));
-
-%Parameter settings to dictate the merging of UDF and neuronal nodes
-addParameter(p,'merge',true,@(x) islogical(x));
 
 % assert additional density constraint of certain percentage on learned
 % structures
@@ -215,11 +214,14 @@ addParameter(p,'chunk',false,@(x) islogical(x));
 %Parameter Implementation Mode
 addParameter(p, 'implementation_mode', 1, @(x) isnumeric(x) && numel(x)==1 && x<=4);
 % 1 equals bulk
-% 2 equals chunk
+% 2 equals parallel
 % 3 equals series
-% 4 equals parallel
-% ratio of train-test for model selection
+% 4 equals optimized
+% 5 equals optimized parallel
+% 6 equals optimized series
 
+
+% ratio of train-test for model selection
 addParameter(p, 'train_test_ratio', 1, @(x) isnumeric(x) && isscalar(x) && x>=0 && x<=1);
 
 % CONTAINERS FOR MEASURES, CALCULATIONS, ETC

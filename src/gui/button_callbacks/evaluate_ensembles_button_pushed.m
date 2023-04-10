@@ -18,7 +18,7 @@ app.identified_ensemble_performance = identified_ensemble_performance;
 
 update_ensemble_eval_text(app);
 
-% plot_ensemble_evaluation(app);
+plot_all_ensemble_evals(app);
 
 update_log(app, 'Finished Evaluating Ensembles.');
 
