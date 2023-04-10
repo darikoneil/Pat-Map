@@ -22,17 +22,21 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 ##### Installation
 No installation is required. Simply enter PatMap in the matlab terminal.
 
-##### DEV Roadmaps
+##### DEV Roadmaps & Changelogs
 
-Version v1.0.1
+Version v1.0.1 - 04/20/2023
 * More consistent namespace/conventions + general refactoring
-* Automated parameter optimization
 * Increased verbosity of validation & enhanded data cleaning
 * Option to overlay rois over imaging z-projection & graphical structure
+* Improved data segmentation
+* SMBO for hyperparameters (sequential model-based Bayesian optimization)
+* Option to pass a single multi class indicator vector for UDFs
+* Parameter explanations on hover
 
-##### TODO v2.0.0
+##### TODO v2.0.0 - TBD
 * Incorporate temporal interactions from experimental branch
 * Additional methods for dataset segmentation
+* Support for additional hyperparameters
 
-##### TODO vX.X.X
+##### TODO vX.X.X - TBD
 * cross-platform/language migration
