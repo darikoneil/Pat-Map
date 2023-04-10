@@ -1,10 +1,8 @@
 function plot_potentials(app)
 
-v = app.PlotModelEditField_PE.Value;
+v = app.PlotModelEditField.Value;
 p_lambda =app.model_collection.models{v}.p_lambda;
 s_lambda = app.model_collection.models{v}.s_lambda;
-app.PLambdaModelEditField.Value = p_lambda;
-app.SLambdaModelEditField.Value = s_lambda;
 %newcolors = app.newcolors;
 
 %% NODES FIRST

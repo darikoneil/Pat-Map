@@ -1,4 +1,4 @@
-classdef ParModelCollection
+classdef SingleModelOptimization
     
     properties
         %Properties & Definitions
@@ -11,7 +11,7 @@ classdef ParModelCollection
     end
     
     methods
-        function self = ParModelCollection(models, params)
+        function self = SingleModelOptimization(models, params)
                         % initialization function
             % fill models directly and grab datasets from params
            self.models = models;

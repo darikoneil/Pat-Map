@@ -36,6 +36,9 @@ addParameter(p,'ignore_dataset_',false, @(x) islogical(x));
 %Parameter describing the partitioning of training/test data
 addParameter(p,'split',0.8,@(x) isnumeric(x) && isscalar(x) && x>0 && x<=1);
 
+%Parameter indicating validation set
+addParameter(p, 'validation', 0.125, @(x) isnumeric(x) && isscalar(x) && x>0 && x <=1);
+
 %Parameter flagging parallel processing for general computations &
 %structural learning
 addParameter(p,'par_proc',false, @(x) islogical(x) && numel(x)==1);
@@ -75,6 +78,9 @@ addParameter(p, 'x_train', []);
 
 %testing dataset
 addParameter(p, 'x_test', []);
+
+%validation dataset
+addParameter(p, 'x_valid', []);
 
 %EXPERIMENTAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -329,7 +335,7 @@ params = calculate_number_of_models(params);
 
 %secondary validation
 if params.ignore_dataset_ == false
-    [params.x_train,params.x_test,params.num_udf,params.num_nodes,params.data,params.udf,params.shuffle_index] = data_segmentation(params.data,params.udf,params.split,params.merge,params.random_shuffle);
+    [params.x_train, params.x_valid, params.x_test,params.num_udf,params.num_nodes,params.data,params.udf,params.shuffle_index] = data_segmentation(params.data,params.udf,params.split, params.validation, params.merge,params.random_shuffle);
     [params.p_lambda_sequence,params.s_lambda_sequence_glm,params.glm_options] = generate_lambda_sequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.p_lambda_distribution,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.s_lambda_distribution,params);
 end
 
