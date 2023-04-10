@@ -11,7 +11,6 @@ classdef SingleModel
         %       G (4xedge_count matrix with edge weights), 
         %       node_potentials (column vector),
         %       edge_potentials (symmetric matrix),
-        %       true_logZ (computed with JTA)
         %       logZ (computed with Bethe approx.)
        theta;
         
@@ -32,7 +31,6 @@ classdef SingleModel
         train_likelihood,
         test_likelihood,
         
-        ep_on = [];
         best_model_index;
 
     end
@@ -51,6 +49,7 @@ classdef SingleModel
             self.train_likelihood = model_struct.train_likelihood;
             self.test_likelihood = model_struct.test_likelihood;
             self.max_degree = model_struct.max_degree;
+            self.density = model_struct.density;
             
             if isfield(model_struct, 'median_degree')
                 self.median_degree = model_struct.median_degree;
