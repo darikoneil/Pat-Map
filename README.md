@@ -29,7 +29,7 @@ Version v1.0.1 - 04/20/2023
 * Increased verbosity of validation & enhanded data cleaning
 * Option to overlay rois over imaging z-projection & graphical structure
 * Improved data segmentation
-* SMBO for hyperparameters (sequential model-based Bayesian optimization)
+* SMBO for hyperparameters (sequential model-based optimization)
 * Option to pass a single multi class indicator vector for UDFs
 * Parameter explanations on hover
 
