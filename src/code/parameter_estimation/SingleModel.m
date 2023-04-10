@@ -4,7 +4,7 @@ classdef SingleModel
     
     properties
         % training and test sets
-        x_train, x_test;
+        x_train, x_test; x_valid;
         
         % struct with 
         %       F (2xnode_count matrix with node weights) 
@@ -27,9 +27,11 @@ classdef SingleModel
         reweight;
         
         %   train_likelihood: avg. (per sample) likelihood of training set
+        %   valid_likelihood: avg. (per sample) likelihood of training set
         %   test_likelihood: avg. (per sample) likelihood of test set
         train_likelihood,
         test_likelihood,
+        valid_likelihood,
         
         best_model_index;
 
@@ -41,12 +43,14 @@ classdef SingleModel
         function self = SingleModel(model_collection, best_model_index)
             self.x_train = model_collection.x_train;
             self.x_test = model_collection.x_test;
+            self.x_valid = model_collection.x_valid;
             model_struct = model_collection.models{best_model_index};
             self.theta = model_struct.theta;
             self.s_lambda = model_struct.s_lambda;
             self.p_lambda = model_struct.p_lambda;
             self.structure = model_struct.structure;
             self.train_likelihood = model_struct.train_likelihood;
+            self.valid_likelihood = model_struct.valid_likelihood;
             self.test_likelihood = model_struct.test_likelihood;
             self.max_degree = model_struct.max_degree;
             self.density = model_struct.density;

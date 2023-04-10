@@ -5,9 +5,8 @@ classdef ModelCollection
        
         models; % individual models in collection
         x_train; % training dataset
+        x_valid; % validation dataset
         x_test; % testing dataset
-        compute_true_logZ; %deprecated
-        hidden_model; %deprecated
       
     end
 
@@ -17,6 +16,7 @@ classdef ModelCollection
             % fill models directly and grab datasets from params
            self.models = models;
            self.x_train=params.x_train;
+           self.x_valid=params.x_valid;
            self.x_test=params.x_test;
         end
                 
@@ -144,13 +144,18 @@ classdef ModelCollection
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 
                 % Compute training likelihood
-                    fprintf('Computing training & test likelihoods\n');
+                    fprintf('Computing training, validation & test likelihoods\n');
                     model.train_likelihood = compute_avg_log_likelihood( ...
                         model.theta.node_potentials, ...
                         model.theta.edge_potentials, ...
                         model.theta.logZ, ...
                         self.x_train);
-
+                % Compute validation likelihood
+                    model.valid_likelihood = compute_avg_log_likelihood(...
+                        model.theta.node_potentials, ...
+                        model.theta.edge_potentials, ...
+                        model.theta.logZ, ...
+                        self.x_valid);
                     % Compute test likelihood
                     model.test_likelihood = compute_avg_log_likelihood( ...
                         model.theta.node_potentials, ...

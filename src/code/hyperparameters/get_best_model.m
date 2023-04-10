@@ -3,25 +3,26 @@ function [best_model_index] = get_best_model(model_collection)
             p_lambda = [];
             s_lambda = [];
             test_likelihood = [];
+            valid_likelihood = []
             train_likelihood = [];
             for i = 1:models
                 p_lambda = [p_lambda model_collection.models{i}.p_lambda];
                 s_lambda = [s_lambda model_collection.models{i}.s_lambda];
                 test_likelihood = [test_likelihood model_collection.models{i}.test_likelihood];
+                valid_likelihood = [valid_likelihood model_collection.models{i}.valid_likelihood];
                 train_likelihood = [train_likelihood model_collection.models{i}.train_likelihood];
             end
             
 
-            [~, best_model_index] = max(test_likelihood);
+            [~, best_model_index] = max(valid_likelihood);
             
-            %sanity check, use sparsity as tie-breaker
+            %sanity check, use training validation as tie-breaker
             if numel(best_model_index) > 1
-                model_degrees = [];
                 for model = best_model_index
-                    model_degrees = [model_degrees model_collection.models{model}.mean_degree];
+                    train_ll = [train_ll model_collection.models{model}.train_likelihood];
                 end
                 
-                [~, idx] = min(model_degrees);
+                [~, idx] = max(train_ll);
                 
                 best_model_index = best_model_index(idx);
             end
