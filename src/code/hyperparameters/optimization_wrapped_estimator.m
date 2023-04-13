@@ -19,10 +19,14 @@ model.converged = false;
 single_model = SingleModelOptimization(model, params);
 
 single_model = single_model.do_parameter_estimation(params.max_iterations, params.fval_epsilon, params.reweight_denominator,...
-            params.print_interval, params.max_time)
+            params.print_interval, params.max_time);
+
+temp_name = tempname(strcat(params.experiment_directory,'/tmp'));
+temp_name = strcat(temp_name,'.mat');
+par_save(temp_name, single_model);
 
 likelihood = single_model.models.valid_likelihood;
 
-likelihood = exp(likelihood);
+likelihood = -1 * likelihood;
 
 end

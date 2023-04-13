@@ -19,6 +19,7 @@ switch app.params.implementation_mode
         update_log(app, 'Series Implementation Selected');
     case 4
         update_log(app, 'Optimized Implementation Selected');
+        
     case 5
         update_log(app, 'Optimized Parallel Implementation Selected');
     case 6

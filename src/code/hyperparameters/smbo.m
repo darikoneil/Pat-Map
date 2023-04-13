@@ -1,4 +1,4 @@
-function [success] = smbo(params, model_collection)
+function [optimization_results, params, model_collection] = smbo(params, model_collection, app_handles)
 
 %% Description
 % This is an implementation of a sequential model-based bayesian optimization
@@ -38,10 +38,25 @@ s_lambda = optimizableVariable('s_lambda', [params.s_lambda_min, params.s_lambda
 p_lambda = optimizableVariable('p_lambda', [params.p_lambda_min, params.p_lambda_max], 'Type', 'real');
 objective = @(x)optimization_wrapped_estimator(x.s_lambda, x.p_lambda, params);
 
-%% Launch SMBO
-SMBO = bayesopt(objective, [s_lambda, p_lambda], 'Verbose', 2, 'InitialX',...
-    [model_stats.s_lambda; model_stats.p_lambda], 'InitialObjective', model_stats.valid_likelihood,...
-    'PlotFcn', @plotObjectiveModel);
+%% set up plot axes
+if nargin == 3
+    plot_function = @(results, state)plot_optimization_model(app_handles.plot_axis, results, state);
+    output_function = @(results, state)update_smbo_views(results, state, app_handles.all_struct_handle,...
+        app_handles.all_model_learned_handle, app_handles.s_handle, app_handles.p_handle);
+else
+    plot_function = @plotObjectiveModel;
+    output_function = @NOP;
+end
 
-success = 0;
+%% Launch SMBO
+SMBO = bayesopt(objective, [s_lambda, p_lambda], 'Verbose', 0, 'InitialX',...
+    table(model_stats.s_lambda', model_stats.p_lambda'), 'InitialObjective', -1 .* model_stats.valid_likelihood',...
+    'PlotFcn', plot_function, 'MaxObjectiveEvaluations', params.smbo_max_eval, 'MaxTime', params.smbo_max_time,...
+    'UseParallel', params.par_smbo, 'OutputFcn', output_function);
+
+%% Clean Up
+[model_collection, params] = import_temp_models(model_collection, params);
+optimization_results = SMBO;
+
+
 end
