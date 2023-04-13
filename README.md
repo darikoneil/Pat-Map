@@ -30,6 +30,7 @@ Version v1.0.1 - 04/20/2023
 * Option to overlay rois over imaging z-projection & graphical structure
 * Improved data segmentation
 * SMBO for hyperparameters (sequential model-based optimization)
+* Live feed of optimization
 * Option to pass a single multi class indicator vector for UDFs
 * Parameter explanations on hover
 * Button tooltips on hover
