@@ -1,0 +1,9 @@
+function optimize_button_pushed(app)
+    app_handles = struct();
+    app_handles.plot_axis = app.optimization_plot;
+    app_handles.all_struct_handle = app.TotalPassedStructuresEditField;
+    app_handles.all_model_learned_handle = app.TotalLearnedModelsEditField;
+    app_handles.s_handle = app.SelectedLambdasTextArea;
+    app_handles.p_handle = app.SelectedLambdasTextArea_PE;
+    [app.optimization_results] = smbo(app.params, app.model_collection, app_handles);
+end

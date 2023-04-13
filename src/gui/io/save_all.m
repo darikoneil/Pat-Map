@@ -29,7 +29,8 @@ if length(varargin) == 0
         'node_scores',
         'node_threshold',
         'auc_threshold',
-        'pattern_completion_nodes'
+        'pattern_completion_nodes',
+        'optimization_results',
         };
 end
 

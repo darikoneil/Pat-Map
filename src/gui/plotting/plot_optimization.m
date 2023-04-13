@@ -9,9 +9,10 @@ x = model_stats.(x_field);
 y = model_stats.(y_field);
 z = model_stats.(z_field);
 
-app.optimization_plot.Title.String = string(z_field);
-app.optimization_plot.XLabel.String = string(x_field);
-app.optimization_plot.YLabel.String = string(y_field);
+app.optimization_plot.Title.String = 'Hyperparameter Optimization';
+app.optimization_plot.ZLabel.String = 'Validation Log-Likelihood';
+app.optimization_plot.XLabel.String = 'sLambda';
+app.optimization_plot.YLabel.String = 'pLambda';
 
 interpolated_x = linspace(min(x), max(x), 100);
 interpolated_y = linspace(min(y), max(y), 100);

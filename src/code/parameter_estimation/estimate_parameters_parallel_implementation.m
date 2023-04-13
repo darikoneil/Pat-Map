@@ -6,7 +6,7 @@ fprintf('Parameter Estimation...\n');
 num_models = length(models);
 pbar = parwaitbar(num_models,'WaitMessage','Estimating Parameters','FinalMessage','Parameter Estimation Learning Complete');
 
-parfor single_model =1:num_models
+parfor single_model=1:num_models
     if ~(models{single_model}.pending_parameter_estimation)
         continue;
     end
@@ -23,12 +23,8 @@ my_files = dir(fullfile(strcat(params.experiment_directory,'/tmp'),'*.mat'));
 
 collected_collections = ModelCollection(struct(), params);
 collected_collections.models={};
-for single_model = 1:length(my_files)
-    specific_file = my_files(single_model).name;
-    full_file = fullfile(my_files(single_model).folder,specific_file);
-    model_collection=load(full_file);
-    collected_collections.models{end+1} = model_collection.model_collection.models;
-end
+
+[collected_collections, params] = import_temp_models(collected_collections, params);
 
 model_collection = collected_collections;
 

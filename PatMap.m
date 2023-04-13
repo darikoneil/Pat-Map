@@ -35,10 +35,8 @@ classdef PatMap < matlab.apps.AppBase
         MaximumsLambdaEditField         matlab.ui.control.NumericEditField
         sLambdaDistributionEditFieldLabel  matlab.ui.control.Label
         sLambdaDistributionEditField    matlab.ui.control.NumericEditField
-        TemporalInteractionsEditFieldLabel  matlab.ui.control.Label
-        TemporalInteractionsEditField   matlab.ui.control.NumericEditField
-        MergeNodeClassesEditField       matlab.ui.control.NumericEditField
-        MergeNodeClassesEditFieldLabel  matlab.ui.control.Label
+        SMBOMaxTimeEditField            matlab.ui.control.NumericEditField
+        SMBOMaxTimeEditFieldLabel       matlab.ui.control.Label
         UDFUDFInteractionsEditFieldLabel  matlab.ui.control.Label
         UDFUDFInteractionsEditField     matlab.ui.control.NumericEditField
         RankAbsoluteValueofCoefficientsEditField  matlab.ui.control.NumericEditField
@@ -84,6 +82,16 @@ classdef PatMap < matlab.apps.AppBase
         ParameterEstimationLabel        matlab.ui.control.Label
         ParallelLearningEditFieldLabel  matlab.ui.control.Label
         ParallelLearningEditField       matlab.ui.control.NumericEditField
+        ValidationTrainingSplitEditField  matlab.ui.control.NumericEditField
+        ValidationTrainingSplitEditFieldLabel  matlab.ui.control.Label
+        SMBOMaxEvaluationsEditField     matlab.ui.control.NumericEditField
+        SMBOMaxEvaluationsEditFieldLabel  matlab.ui.control.Label
+        SMBOParallelEditField           matlab.ui.control.NumericEditField
+        SMBOParallelEditFieldLabel      matlab.ui.control.Label
+        DeviationsEditField_2Label      matlab.ui.control.Label
+        DeviationsEditField_2           matlab.ui.control.NumericEditField
+        UseTestinEnsembleIdEditFieldLabel  matlab.ui.control.Label
+        UseTestinEnsembleIdentificationEditField  matlab.ui.control.NumericEditField
         IOModelPanel                    matlab.ui.container.Panel
         NewModelPanel                   matlab.ui.container.Panel
         InitializeNewModelLabel         matlab.ui.control.Label
@@ -127,31 +135,6 @@ classdef PatMap < matlab.apps.AppBase
         BestModelLabel                  matlab.ui.control.Label
         SLTab_2                         matlab.ui.container.Tab
         OptimizationPanel               matlab.ui.container.Panel
-        TabGroup3                       matlab.ui.container.TabGroup
-        Tab1                            matlab.ui.container.Tab
-        OptInterface_PE                 matlab.ui.container.Panel
-        AddLambdaSpecificField_PE       matlab.ui.control.NumericEditField
-        AddLambdaButton_PE              matlab.ui.control.Button
-        PlotModelEditField_PE           matlab.ui.control.NumericEditField
-        PlotModel_PE                    matlab.ui.control.Button
-        SLambdaModelEditField           matlab.ui.control.NumericEditField
-        PLambdaModelEditField           matlab.ui.control.NumericEditField
-        sLambdaLabel                    matlab.ui.control.Label
-        pLambdaLabel                    matlab.ui.control.Label
-        ImplementationModeLabel         matlab.ui.control.Label
-        ImplementationModeEditField_PE  matlab.ui.control.NumericEditField
-        Tab2                            matlab.ui.container.Tab
-        OptInterface                    matlab.ui.container.Panel
-        PreviewLambdaButton             matlab.ui.control.Button
-        AddStructuresPreviewField       matlab.ui.control.NumericEditField
-        AddStructuresSpecificField      matlab.ui.control.NumericEditField
-        AddLambdaButton                 matlab.ui.control.Button
-        Tab3                            matlab.ui.container.Tab
-        OptInterface_2                  matlab.ui.container.Panel
-        PreviewLambdaButton_2           matlab.ui.control.Button
-        AddStructuresPreviewField_2     matlab.ui.control.NumericEditField
-        AddStructuresSpecificField_2    matlab.ui.control.NumericEditField
-        AddLambdaButton_2               matlab.ui.control.Button
         TabGroup2                       matlab.ui.container.TabGroup
         StructuralLearningTab           matlab.ui.container.Tab
         SLParams                        matlab.ui.container.Panel
@@ -182,15 +165,13 @@ classdef PatMap < matlab.apps.AppBase
         RunningSL                       matlab.ui.container.Panel
         LearningLabel                   matlab.ui.control.Label
         PerformStructuralLearningButton  matlab.ui.control.Button
-        FirstPassStructuresEditFieldLabel  matlab.ui.control.Label
+        SeedStructuresEditFieldLabel    matlab.ui.control.Label
         FirstPassStructuresEditField    matlab.ui.control.NumericEditField
         PreviewPassedStructuresButton   matlab.ui.control.Button
         TotalPassedStructuresEditFieldLabel  matlab.ui.control.Label
         TotalPassedStructuresEditField  matlab.ui.control.NumericEditField
-        SelectedLambdasLabel            matlab.ui.control.Label
+        PassedsLambdasLabel             matlab.ui.control.Label
         PreviewAllStructuresButton      matlab.ui.control.Button
-        PassAdditionalStructuresButton  matlab.ui.control.Button
-        PassAddStructField              matlab.ui.control.NumericEditField
         SelectedLambdasTextArea         matlab.ui.control.TextArea
         ParameterSpacePanel_SL          matlab.ui.container.Panel
         DegreesSL                       matlab.ui.container.Panel
@@ -199,17 +180,11 @@ classdef PatMap < matlab.apps.AppBase
         ParameterEstimationSettingsLabel  matlab.ui.control.Label
         LearningLabel_PE                matlab.ui.control.Label
         LambdaLabel_PE                  matlab.ui.control.Label
-        ReportingExpensesLabel          matlab.ui.control.Label
+        TrainingLabel                   matlab.ui.control.Label
         MaxTimeLabel_PE                 matlab.ui.control.Label
         MaxTimeEditField_PE             matlab.ui.control.NumericEditField
-        PrintTestEditField_PE           matlab.ui.control.NumericEditField
-        PrintTestLabel_PE               matlab.ui.control.Label
-        ParallelProcessingEditField_2Label_2  matlab.ui.control.Label
-        ParallelProcessingEditField_PE  matlab.ui.control.NumericEditField
         fValEpsilonLabel                matlab.ui.control.Label
         fValEpsilonEditField_PE         matlab.ui.control.NumericEditField
-        ComputeTrueLogZEditField_PE     matlab.ui.control.NumericEditField
-        ComputeTrueLogZLabel_PE         matlab.ui.control.Label
         NumberofLambdaLabel_2           matlab.ui.control.Label
         NumberofpLambdaEditField_PE     matlab.ui.control.NumericEditField
         MinimumLambdaLabel_2            matlab.ui.control.Label
@@ -224,18 +199,29 @@ classdef PatMap < matlab.apps.AppBase
         MaxIterEditField_PE             matlab.ui.control.NumericEditField
         ReweightDenominatorDropDown_2Label  matlab.ui.control.Label
         ReweightDenominatorDropDown_PE  matlab.ui.control.DropDown
+        ImplementationModeLabel         matlab.ui.control.Label
+        ImplementationModeEditField_PE  matlab.ui.control.NumericEditField
+        SMBOMaxTimeEditField_2          matlab.ui.control.NumericEditField
+        SMBOMaxTimeEditField_2Label     matlab.ui.control.Label
+        SMBOParallelEditField_2         matlab.ui.control.NumericEditField
+        SMBOParallelEditField_2Label    matlab.ui.control.Label
+        OptimizationLabel               matlab.ui.control.Label
+        SMBOMaxEvaluationsEditField_2   matlab.ui.control.NumericEditField
+        SMBOMaxEvaluationsEditField_2Label  matlab.ui.control.Label
         Learning_PE                     matlab.ui.container.Panel
         LearningLabelPanel_PE           matlab.ui.control.Label
         PerformParameterEstimationButton  matlab.ui.control.Button
-        FirstPassModelsLabel            matlab.ui.control.Label
+        SeedModelsLabel                 matlab.ui.control.Label
         FirstPassModelsEditField        matlab.ui.control.NumericEditField
         TotalLearnedModelsLabel         matlab.ui.control.Label
         TotalLearnedModelsEditField     matlab.ui.control.NumericEditField
         SelectedLambdasLabel_PE         matlab.ui.control.Label
         ModelsUnlearnedEditField        matlab.ui.control.NumericEditField
         SelectedLambdasTextArea_PE      matlab.ui.control.TextArea
-        ModelsUnlearnedLabel            matlab.ui.control.Label
-        LearnAdditionalModelsButton     matlab.ui.control.Button
+        SeedModelsUnlearnedLabel        matlab.ui.control.Label
+        OptimizeButton                  matlab.ui.control.Button
+        PlotModelLabel                  matlab.ui.control.Label
+        PlotModelEditField              matlab.ui.control.NumericEditField
         ParameterSpacePanel_PE          matlab.ui.container.Panel
         Potentials_PE                   matlab.ui.container.Panel
         BandwidthEditFieldLabel         matlab.ui.control.Label
@@ -457,6 +443,7 @@ classdef PatMap < matlab.apps.AppBase
         node_scores;
         node_threshold;
         auc_threshold;
+        optimization_results;
         
         
         % HERE ARE AXES HANDLES %
@@ -644,21 +631,9 @@ classdef PatMap < matlab.apps.AppBase
             update_params(app);
         end
 
-        % Value changed function: TemporalInteractionsEditField
-        function TemporalInteractionsEditFieldValueChanged(app, event)
-            app.params.temporal_steps = double(app.TemporalInteractionsEditField.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function RecurrentInteractionsEditFieldValueChanged(app, event)
-            app.params.no_same_neuron_edges = logical(app.RecurrentInteractionsEditField.Value);
-            update_params(app);
-        end
-
-        % Value changed function: MergeNodeClassesEditField
-        function MergeNodeClassesEditFieldValueChanged(app, event)
-            app.params.merge = logical(app.MergeNodeClassesEditField.Value);
+        % Value changed function: SMBOMaxTimeEditField
+        function SMBOMaxTimeEditFieldValueChanged(app, event)
+            app.params.params.smbo_max_time = logical(app.SMBOMaxTimeEditField.Value);
             update_params(app);
         end
 
@@ -717,18 +692,6 @@ classdef PatMap < matlab.apps.AppBase
             update_params(app);
         end
 
-        % Callback function
-        function PrintTestsEditFieldValueChanged(app, event)
-            app.params.print_test = double(app.PrintTestsEditField.Value);
-           update_params(app);
-        end
-
-        % Callback function
-        function ComputeTrueLogZEditFieldValueChanged(app, event)
-            app.params.compute_true_logZ = logical(app.ComputeTrueLogZEditField.Value);
-            update_params(app);
-        end
-
         % Value changed function: ImplementationModeEditField
         function ImplementationModeEditFieldValueChanged(app, event)
             app.params.implementation_mode = double(app.ImplementationModeEditField.Value);
@@ -760,7 +723,7 @@ classdef PatMap < matlab.apps.AppBase
 
         % Button pushed function: RunModel
         function RunModelButtonPushed(app, event)
-            f_DA_app_wrapped_run_all(app);
+            wrapped_run_all(app);
         end
 
         % Value changed function: ReweightDenominatorDropDown
@@ -799,12 +762,6 @@ classdef PatMap < matlab.apps.AppBase
             update_params(app);
         end
 
-        % Callback function
-        function RecurrentInteractionsEditField_SLValueChanged(app, event)
-            value = app.RecurrentInteractionsEditField_SL.Value;
-            fprintf("NOT IMPLEMENTED");
-        end
-
         % Value changed function: MinimumsLambdaEditField_SL
         function MinimumsLambdaEditField_SLValueChanged(app, event)
             app.params.s_lambda_min = app.MinimumsLambdaEditField_SL.Value;
@@ -814,12 +771,6 @@ classdef PatMap < matlab.apps.AppBase
         % Value changed function: NumberofsLambdaEditField_SL
         function NumberofsLambdaEditField_SLValueChanged(app, event)
             app.params.s_lambda_count = app.NumberofsLambdaEditField_SL.Value;
-            update_params(app);
-        end
-
-        % Callback function
-        function TemporalInteractionsEditField_SLValueChanged(app, event)
-            app.params.temporal_steps = app.TemporalInteractionsEditField_SL.Value;
             update_params(app);
         end
 
@@ -854,40 +805,15 @@ classdef PatMap < matlab.apps.AppBase
             fprintf("NOT IMPLEMENTED");
         end
 
-        % Button pushed function: PreviewPassedStructuresButton
-        function PreviewPassedStructuresButtonPushed(app, event)
-            preview_passed_structures_button_pushed(app);
-        end
-
-        % Button pushed function: PreviewAllStructuresButton
-        function PreviewAllStructuresButtonPushed(app, event)
-            preview_all_structures_button_pushed(app);
-        end
-
         % Value changed function: FirstPassStructuresEditField
         function FirstPassStructuresEditFieldValueChanged(app, event)
             app.params.num_structures = app.FirstPassStructuresEditField.Value;
             update_params(app);
         end
 
-        % Button pushed function: PassAdditionalStructuresButton
-        function PassAdditionalStructuresButtonPushed(app, event)
-            pass_additional_structures_button_pushed(app);
-        end
-
         % Button pushed function: PerformStructuralLearningButton
         function PerformStructuralLearningButtonPushed(app, event)
             perform_structural_learning_button_pushed(app);
-        end
-
-        % Button pushed function: PreviewLambdaButton
-        function PreviewLambdaButtonPushed(app, event)
-            preview_s_lambda_button_pushed(app);
-        end
-
-        % Button pushed function: AddLambdaButton
-        function AddLambdaButtonPushed(app, event)
-            add_s_lambda_button_pushed(app);
         end
 
         % Value changed function: MaxIterEditField_PE
@@ -926,27 +852,15 @@ classdef PatMap < matlab.apps.AppBase
             update_params(app);
         end
 
-        % Value changed function: ComputeTrueLogZEditField_PE
-        function ComputeTrueLogZEditField_PEValueChanged(app, event)
-            app.params.compute_true_logZ = logical(app.ComputeTrueLogZEditField_PE.Value);
-            update_params(app);
-        end
-
         % Value changed function: fValEpsilonEditField_PE
         function fValEpsilonEditField_PEValueChanged(app, event)
             app.params.fval_epsilon = double(app.fValEpsilonEditField_PE.Value);
             update_params(app);
         end
 
-        % Value changed function: ParallelProcessingEditField_PE
+        % Callback function
         function ParallelProcessingEditField_PEValueChanged(app, event)
             app.params.parProc = logical(app.ParallelProcessingEditField_PE.Value);
-            update_params(app);
-        end
-
-        % Value changed function: PrintTestEditField_PE
-        function PrintTestEditField_PEValueChanged(app, event)
-            app.params.print_test = double(app.PrintTestEditField_PE.Value);
             update_params(app);
         end
 
@@ -961,31 +875,15 @@ classdef PatMap < matlab.apps.AppBase
             perform_parameter_estimation_button_pushed(app);
         end
 
-        % Callback function
-        function PassAdditionalModelsButtonPushed(app, event)
-            % in progress
-            fprintf('NOT IMPLEMENTED')
-        end
-
-        % Button pushed function: PlotModel_PE
-        function PlotModel_PEPushed(app, event)
-            preview_parameter_estimation_button_pushed(app);
-        end
-
-        % Button pushed function: AddLambdaButton_PE
-        function AddLambdaButton_PEPushed(app, event)
-            add_p_lambda_button_pushed(app);
-        end
-
         % Value changed function: ImplementationModeEditField_PE
         function ImplementationModeEditField_PEValueChanged(app, event)
             app.params.implementation_mode = double(app.ImplementationModeEditField_PE.Value);
             update_params(app);
         end
 
-        % Button pushed function: LearnAdditionalModelsButton
-        function LearnAdditionalModelsButtonPushed(app, event)
-            f_DA_learn_additional_PE(app);
+        % Button pushed function: OptimizeButton
+        function OptimizeButtonPushed(app, event)
+            optimize_button_pushed(app);
         end
 
         % Button pushed function: EvaluateBestModelButton
@@ -1008,24 +906,6 @@ classdef PatMap < matlab.apps.AppBase
             decoding_udf_selection_change_button_pushed(app);
         end
 
-        % Callback function
-        function StepSizeEditFieldValueChanged(app, event)
-            app.params.stepSize = app.StepSizeEditField.Value;
-            update_params(app);
-        end
-
-        % Callback function
-        function SizeOptimizationEditFieldValueChanged(app, event)
-            app.params.assessSize = logical(app.SizeOptimizationEditField.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function AssessMulticlassEditFieldValueChanged(app, event)
-            app.params.assessMulticlass = logical(app.AssessMulticlassEditField.Value);
-            update_params(app);
-        end
-
         % Value changed function: AssessClusteringEditField
         function AssessClusteringEditFieldValueChanged(app, event)
             app.params.assess_clustering = logical(app.AssessClusteringEditField.Value);
@@ -1035,24 +915,6 @@ classdef PatMap < matlab.apps.AppBase
         % Value changed function: AssessDecodingEditField
         function AssessDecodingEditFieldValueChanged(app, event)
             app.params.assess_decoding = logical(app.AssessDecodingEditField.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function AssessLinearityEditFieldValueChanged(app, event)
-            app.params.assessLinearity = logical(app.AssessLinearityEditField.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function AssessNodesEditFieldValueChanged(app, event)
-            app.params.assessNodes = logical(app.AssessNodesEditField.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function AssessNeuronsEditFieldValueChanged(app, event)
-            app.params.assessNeurons = logical(app.AssessNeuronsEditField.Value);
             update_params(app);
         end
 
@@ -1076,7 +938,7 @@ classdef PatMap < matlab.apps.AppBase
 
         % Button pushed function: ReselectBestModelButton
         function ReselectBestModelButtonPushed(app, event)
-            f_DA_reselect_best_model(app);
+            reselect_best_model_button_pushed(app);
         end
 
         % Selection change function: TabGroup
@@ -1109,42 +971,6 @@ classdef PatMap < matlab.apps.AppBase
         % IdentifyNeuronalEnsemblesRunAllButton
         function IdentifyNeuronalEnsemblesRunAllButtonPushed(app, event)
             identify_ensembles_run_all_button_pushed(app);
-        end
-
-        % Callback function
-        function AssessNeuronsEditField_EVValueChanged(app, event)
-            app.params.assessNeurons = logical(app.AssessNeuronsEditField_EV.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function AssessNodesEditField_EVValueChanged(app, event)
-            app.params.assessNodes = logical(app.AssessNodesEditField_EV.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function AssessLinearityEditField_EVValueChanged(app, event)
-            app.params.assessLinearity = logical(app.AssessLinearityEditField_EV.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function SizeOptimizationEditField_EVValueChanged(app, event)
-            app.params.assessSize = logical(app.SizeOptimizationEditField_EV.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function NumberofStepsEditField_EVValueChanged(app, event)
-            app.params.numSteps = double(app.NumberofStepsEditField_EV.Value);
-            update_params(app);
-        end
-
-        % Callback function
-        function StepSizeEditField_EVValueChanged(app, event)
-            app.params.stepSize = double(app.StepSizeEditField_EV.Value);
-            update_params(app);
         end
 
         % Button pushed function: ManuallyThresholdEnsemblesButton
@@ -1255,6 +1081,72 @@ classdef PatMap < matlab.apps.AppBase
             app.params.par_struc = logical(value);
             update_params(app);
         end
+
+        % Value changed function: ValidationTrainingSplitEditField
+        function ValidationTrainingSplitEditFieldValueChanged(app, event)
+            value = app.ValidationTrainingSplitEditField.Value;
+            app.params.validation = double(value);
+            update_params(app);
+        end
+
+        % Button pushed function: PreviewPassedStructuresButton
+        function PreviewPassedStructuresButtonPushed(app, event)
+            preview_passed_structures_button_pushed(app);
+        end
+
+        % Button pushed function: PreviewAllStructuresButton
+        function PreviewAllStructuresButtonPushed(app, event)
+            preview_all_structures_button_pushed(app);
+        end
+
+        % Value changed function: PlotModelEditField
+        function PlotModelEditFieldValueChanged(app, event)
+            preview_parameter_estimation_button_pushed(app);
+        end
+
+        % Value changed function: SMBOMaxEvaluationsEditField
+        function SMBOMaxEvaluationsEditFieldValueChanged(app, event)
+            app.params.smbo_max_eval = app.SMBOMaxEvaluationsEditField.Value;
+            update_params(app);
+        end
+
+        % Value changed function: SMBOParallelEditField
+        function SMBOParallelEditFieldValueChanged(app, event)
+            app.params.par_smbo = logical(app.SMBOParallelEditField.Value);
+            update_params(app);
+        end
+
+        % Value changed function: DeviationsEditField_2
+        function DeviationsEditField_2ValueChanged(app, event)
+            app.params.deviations_ensemble_id = app.DeviationsEditField_2.Value;
+            update_params(app);
+        end
+
+        % Value changed function: 
+        % UseTestinEnsembleIdentificationEditField
+        function UseTestinEnsembleIdentificationEditFieldValueChanged(app, event)
+            app.params.include_testing_in_identify = logical(app.UseTestinEnsembleIdentificationEditField.Value);
+            update_params(app);
+            
+        end
+
+        % Value changed function: SMBOMaxTimeEditField_2
+        function SMBOMaxTimeEditField_2ValueChanged(app, event)
+            app.params.smbo_max_time = app.SMBOMaxTimeEditField_2.Value;
+            update_params(app);
+        end
+
+        % Value changed function: SMBOMaxEvaluationsEditField_2
+        function SMBOMaxEvaluationsEditField_2ValueChanged(app, event)
+            app.params.smbo_max_eval = app.SMBOMaxEvaluationsEditField_2.Value;
+            update_params(app);
+        end
+
+        % Value changed function: SMBOParallelEditField_2
+        function SMBOParallelEditField_2ValueChanged(app, event)
+            app.params.par_smbo = app.SMBOParallelEditField_2.Value;
+            update_params(app); 
+        end
     end
 
     % Component initialization
@@ -1336,24 +1228,28 @@ classdef PatMap < matlab.apps.AppBase
             app.ParamsFilePath = uieditfield(app.ParamsPanel, 'text');
             app.ParamsFilePath.Editable = 'off';
             app.ParamsFilePath.FontName = 'Arial';
+            app.ParamsFilePath.Tooltip = {'Selected parameters file'};
             app.ParamsFilePath.Position = [324 630 567 22];
             app.ParamsFilePath.Value = 'Load Parameters File (.mat)';
 
             % Create BrowseParams
             app.BrowseParams = uibutton(app.ParamsPanel, 'push');
             app.BrowseParams.ButtonPushedFcn = createCallbackFcn(app, @BrowseParamsButtonPushed, true);
+            app.BrowseParams.Tooltip = {'Press to browse directories for existing parameters file'};
             app.BrowseParams.Position = [21 630 81 22];
             app.BrowseParams.Text = 'Browse';
 
             % Create LoadParams
             app.LoadParams = uibutton(app.ParamsPanel, 'push');
             app.LoadParams.ButtonPushedFcn = createCallbackFcn(app, @LoadParamsButtonPushed, true);
+            app.LoadParams.Tooltip = {'Press to load existing parameters file'};
             app.LoadParams.Position = [122 630 81 22];
             app.LoadParams.Text = 'Load';
 
             % Create SaveParams
             app.SaveParams = uibutton(app.ParamsPanel, 'push');
             app.SaveParams.ButtonPushedFcn = createCallbackFcn(app, @SaveParamsButtonPushed, true);
+            app.SaveParams.Tooltip = {'Press to save current parameters to file'};
             app.SaveParams.Position = [223 630 81 22];
             app.SaveParams.Text = 'Save';
 
@@ -1378,6 +1274,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ShuffleDataEditField.ValueDisplayFormat = '%.0f';
             app.ShuffleDataEditField.ValueChangedFcn = createCallbackFcn(app, @ShuffleDataEditFieldValueChanged, true);
             app.ShuffleDataEditField.FontName = 'Arial';
+            app.ShuffleDataEditField.Tooltip = {'Whether to shuffle before segmenting dataset'};
             app.ShuffleDataEditField.Position = [170 500 100 22];
             app.ShuffleDataEditField.Value = 1;
 
@@ -1395,6 +1292,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ParallelProcessingEditField.ValueDisplayFormat = '%.0f';
             app.ParallelProcessingEditField.ValueChangedFcn = createCallbackFcn(app, @ParallelProcessingEditFieldValueChanged, true);
             app.ParallelProcessingEditField.FontName = 'Arial';
+            app.ParallelProcessingEditField.Tooltip = {'Whether to use parallel processing during secondary analysis steps'};
             app.ParallelProcessingEditField.Position = [170 550 100 22];
 
             % Create TrainingTestingSplitEditFieldLabel
@@ -1407,9 +1305,10 @@ classdef PatMap < matlab.apps.AppBase
             % Create TrainingTestingSplitEditField
             app.TrainingTestingSplitEditField = uieditfield(app.ParamsPanel, 'numeric');
             app.TrainingTestingSplitEditField.Limits = [0 1];
-            app.TrainingTestingSplitEditField.ValueDisplayFormat = '%.2f';
+            app.TrainingTestingSplitEditField.ValueDisplayFormat = '%.3f';
             app.TrainingTestingSplitEditField.ValueChangedFcn = createCallbackFcn(app, @TrainingTestingSplitEditFieldValueChanged, true);
             app.TrainingTestingSplitEditField.FontName = 'Arial';
+            app.TrainingTestingSplitEditField.Tooltip = {'Ratio of the training-test dataset sizes'};
             app.TrainingTestingSplitEditField.Position = [170 450 100 22];
             app.TrainingTestingSplitEditField.Value = 0.8;
 
@@ -1425,6 +1324,7 @@ classdef PatMap < matlab.apps.AppBase
             app.AlphaEditField.Limits = [0 1];
             app.AlphaEditField.ValueChangedFcn = createCallbackFcn(app, @AlphaEditFieldValueChanged, true);
             app.AlphaEditField.FontName = 'Arial';
+            app.AlphaEditField.Tooltip = {'Alpha parameter of elastic net used during structural learning. A value of 1 is equivalent to LASSO.'};
             app.AlphaEditField.Position = [459 450 100 22];
             app.AlphaEditField.Value = 1;
 
@@ -1438,9 +1338,10 @@ classdef PatMap < matlab.apps.AppBase
             % Create DensityEditField
             app.DensityEditField = uieditfield(app.ParamsPanel, 'numeric');
             app.DensityEditField.Limits = [0 1];
-            app.DensityEditField.ValueDisplayFormat = '%.2f';
+            app.DensityEditField.ValueDisplayFormat = '%.3f';
             app.DensityEditField.ValueChangedFcn = createCallbackFcn(app, @DensityEditFieldValueChanged, true);
             app.DensityEditField.FontName = 'Arial';
+            app.DensityEditField.Tooltip = {'Learned structures are further sparsified by this value'};
             app.DensityEditField.Position = [459 500 100 22];
             app.DensityEditField.Value = 0.25;
 
@@ -1458,6 +1359,7 @@ classdef PatMap < matlab.apps.AppBase
             app.NumberofsLambdaEditField.ValueDisplayFormat = '%.0f';
             app.NumberofsLambdaEditField.ValueChangedFcn = createCallbackFcn(app, @NumberofsLambdaEditFieldValueChanged, true);
             app.NumberofsLambdaEditField.FontName = 'Arial';
+            app.NumberofsLambdaEditField.Tooltip = {'Number of s lambda used to learn relationship between s lambda and output structure.'};
             app.NumberofsLambdaEditField.Position = [459 400 100 22];
             app.NumberofsLambdaEditField.Value = 100;
 
@@ -1474,6 +1376,7 @@ classdef PatMap < matlab.apps.AppBase
             app.MinimumsLambdaEditField.ValueDisplayFormat = '%e';
             app.MinimumsLambdaEditField.ValueChangedFcn = createCallbackFcn(app, @MinimumsLambdaEditFieldValueChanged, true);
             app.MinimumsLambdaEditField.FontName = 'Arial';
+            app.MinimumsLambdaEditField.Tooltip = {'minimum s lambda used to generate learned structures'};
             app.MinimumsLambdaEditField.Position = [459 350 100 22];
             app.MinimumsLambdaEditField.Value = 1e-05;
 
@@ -1490,6 +1393,7 @@ classdef PatMap < matlab.apps.AppBase
             app.MaximumsLambdaEditField.ValueDisplayFormat = '%e';
             app.MaximumsLambdaEditField.ValueChangedFcn = createCallbackFcn(app, @MaximumsLambdaEditFieldValueChanged, true);
             app.MaximumsLambdaEditField.FontName = 'Arial';
+            app.MaximumsLambdaEditField.Tooltip = {'maximum s lambda used to generate structures'};
             app.MaximumsLambdaEditField.Position = [459 300 100 22];
             app.MaximumsLambdaEditField.Value = 0.5;
 
@@ -1507,44 +1411,26 @@ classdef PatMap < matlab.apps.AppBase
             app.sLambdaDistributionEditField.ValueDisplayFormat = '%.0f';
             app.sLambdaDistributionEditField.ValueChangedFcn = createCallbackFcn(app, @sLambdaDistributionEditFieldValueChanged, true);
             app.sLambdaDistributionEditField.FontName = 'Arial';
+            app.sLambdaDistributionEditField.Tooltip = {'If 1, a s lambda are pulled from a log distribution. Otherwise, the distribution is normal'};
             app.sLambdaDistributionEditField.Position = [459 250 100 22];
             app.sLambdaDistributionEditField.Value = 1;
 
-            % Create TemporalInteractionsEditFieldLabel
-            app.TemporalInteractionsEditFieldLabel = uilabel(app.ParamsPanel);
-            app.TemporalInteractionsEditFieldLabel.HorizontalAlignment = 'right';
-            app.TemporalInteractionsEditFieldLabel.FontName = 'Arial';
-            app.TemporalInteractionsEditFieldLabel.Enable = 'off';
-            app.TemporalInteractionsEditFieldLabel.Visible = 'off';
-            app.TemporalInteractionsEditFieldLabel.Position = [643 -11 120 22];
-            app.TemporalInteractionsEditFieldLabel.Text = 'Temporal Interactions';
+            % Create SMBOMaxTimeEditField
+            app.SMBOMaxTimeEditField = uieditfield(app.ParamsPanel, 'numeric');
+            app.SMBOMaxTimeEditField.Limits = [0 Inf];
+            app.SMBOMaxTimeEditField.RoundFractionalValues = 'on';
+            app.SMBOMaxTimeEditField.ValueDisplayFormat = '%.0f';
+            app.SMBOMaxTimeEditField.ValueChangedFcn = createCallbackFcn(app, @SMBOMaxTimeEditFieldValueChanged, true);
+            app.SMBOMaxTimeEditField.FontName = 'Arial';
+            app.SMBOMaxTimeEditField.Tooltip = {'Max time allocated for SMBO hyperparameter optimization'};
+            app.SMBOMaxTimeEditField.Position = [170 100 100 22];
+            app.SMBOMaxTimeEditField.Value = Inf;
 
-            % Create TemporalInteractionsEditField
-            app.TemporalInteractionsEditField = uieditfield(app.ParamsPanel, 'numeric');
-            app.TemporalInteractionsEditField.Limits = [0 Inf];
-            app.TemporalInteractionsEditField.RoundFractionalValues = 'on';
-            app.TemporalInteractionsEditField.ValueDisplayFormat = '%.0f';
-            app.TemporalInteractionsEditField.ValueChangedFcn = createCallbackFcn(app, @TemporalInteractionsEditFieldValueChanged, true);
-            app.TemporalInteractionsEditField.FontName = 'Arial';
-            app.TemporalInteractionsEditField.Enable = 'off';
-            app.TemporalInteractionsEditField.Visible = 'off';
-            app.TemporalInteractionsEditField.Position = [764 -11 100 22];
-
-            % Create MergeNodeClassesEditField
-            app.MergeNodeClassesEditField = uieditfield(app.ParamsPanel, 'numeric');
-            app.MergeNodeClassesEditField.Limits = [0 1];
-            app.MergeNodeClassesEditField.RoundFractionalValues = 'on';
-            app.MergeNodeClassesEditField.ValueDisplayFormat = '%.0f';
-            app.MergeNodeClassesEditField.ValueChangedFcn = createCallbackFcn(app, @MergeNodeClassesEditFieldValueChanged, true);
-            app.MergeNodeClassesEditField.FontName = 'Arial';
-            app.MergeNodeClassesEditField.Position = [459 100 100 22];
-            app.MergeNodeClassesEditField.Value = 1;
-
-            % Create MergeNodeClassesEditFieldLabel
-            app.MergeNodeClassesEditFieldLabel = uilabel(app.ParamsPanel);
-            app.MergeNodeClassesEditFieldLabel.HorizontalAlignment = 'right';
-            app.MergeNodeClassesEditFieldLabel.Position = [338 100 118 22];
-            app.MergeNodeClassesEditFieldLabel.Text = 'Merge Node Classes';
+            % Create SMBOMaxTimeEditFieldLabel
+            app.SMBOMaxTimeEditFieldLabel = uilabel(app.ParamsPanel);
+            app.SMBOMaxTimeEditFieldLabel.HorizontalAlignment = 'right';
+            app.SMBOMaxTimeEditFieldLabel.Position = [71 100 96 22];
+            app.SMBOMaxTimeEditFieldLabel.Text = 'SMBO Max Time';
 
             % Create UDFUDFInteractionsEditFieldLabel
             app.UDFUDFInteractionsEditFieldLabel = uilabel(app.ParamsPanel);
@@ -1560,7 +1446,9 @@ classdef PatMap < matlab.apps.AppBase
             app.UDFUDFInteractionsEditField.ValueDisplayFormat = '%.0f';
             app.UDFUDFInteractionsEditField.ValueChangedFcn = createCallbackFcn(app, @UDFUDFInteractionsEditFieldValueChanged, true);
             app.UDFUDFInteractionsEditField.FontName = 'Arial';
+            app.UDFUDFInteractionsEditField.Tooltip = {'Whether to permit UDF-UDF edges. Doign so permits inferring some hierarchical interactions though generally reducing performance'};
             app.UDFUDFInteractionsEditField.Position = [459 200 100 22];
+            app.UDFUDFInteractionsEditField.Value = 2;
 
             % Create RankAbsoluteValueofCoefficientsEditField
             app.RankAbsoluteValueofCoefficientsEditField = uieditfield(app.ParamsPanel, 'numeric');
@@ -1568,6 +1456,7 @@ classdef PatMap < matlab.apps.AppBase
             app.RankAbsoluteValueofCoefficientsEditField.RoundFractionalValues = 'on';
             app.RankAbsoluteValueofCoefficientsEditField.ValueDisplayFormat = '%.0f';
             app.RankAbsoluteValueofCoefficientsEditField.ValueChangedFcn = createCallbackFcn(app, @RankAbsoluteValueofCoefficientsEditFieldValueChanged, true);
+            app.RankAbsoluteValueofCoefficientsEditField.Tooltip = {'If ''1'', during density-based thresholding edges will be selected using their absolute values. Otherwise, only positive coefficients will be selected'};
             app.RankAbsoluteValueofCoefficientsEditField.Position = [459 150 100 22];
 
             % Create RankAbsoluteValueofCoefficientsEditFieldLabel
@@ -1590,6 +1479,7 @@ classdef PatMap < matlab.apps.AppBase
             app.NumberofpLambdaEditField.ValueDisplayFormat = '%.0f';
             app.NumberofpLambdaEditField.ValueChangedFcn = createCallbackFcn(app, @NumberofpLambdaEditFieldValueChanged, true);
             app.NumberofpLambdaEditField.FontName = 'Arial';
+            app.NumberofpLambdaEditField.Tooltip = {'Number of p lambda values used in hyperparameter optimization'};
             app.NumberofpLambdaEditField.Position = [748 500 100 22];
             app.NumberofpLambdaEditField.Value = 2;
 
@@ -1602,11 +1492,12 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create MinimumpLambdaEditField
             app.MinimumpLambdaEditField = uieditfield(app.ParamsPanel, 'numeric');
-            app.MinimumpLambdaEditField.Limits = [1 Inf];
+            app.MinimumpLambdaEditField.Limits = [0 Inf];
             app.MinimumpLambdaEditField.RoundFractionalValues = 'on';
             app.MinimumpLambdaEditField.ValueDisplayFormat = '%.0f';
             app.MinimumpLambdaEditField.ValueChangedFcn = createCallbackFcn(app, @MinimumpLambdaEditFieldValueChanged, true);
             app.MinimumpLambdaEditField.FontName = 'Arial';
+            app.MinimumpLambdaEditField.Tooltip = {'minimum p lambda'};
             app.MinimumpLambdaEditField.Position = [748 450 100 22];
             app.MinimumpLambdaEditField.Value = 1000;
 
@@ -1624,6 +1515,7 @@ classdef PatMap < matlab.apps.AppBase
             app.MaximumpLambdaEditField.ValueDisplayFormat = '%.0f';
             app.MaximumpLambdaEditField.ValueChangedFcn = createCallbackFcn(app, @MaximumpLambdaEditFieldValueChanged, true);
             app.MaximumpLambdaEditField.FontName = 'Arial';
+            app.MaximumpLambdaEditField.Tooltip = {'maximum p lambda'};
             app.MaximumpLambdaEditField.Position = [748 400 100 22];
             app.MaximumpLambdaEditField.Value = 100000;
 
@@ -1639,6 +1531,7 @@ classdef PatMap < matlab.apps.AppBase
             app.fValEpsilonEditField.Limits = [0 Inf];
             app.fValEpsilonEditField.ValueChangedFcn = createCallbackFcn(app, @fValEpsilonEditFieldValueChanged, true);
             app.fValEpsilonEditField.FontName = 'Arial';
+            app.fValEpsilonEditField.Tooltip = {'Convergence criterion for duality gap. A simple default is sufficient and a benefit of using the implemented MLE-Struct method'};
             app.fValEpsilonEditField.Position = [748 300 100 22];
             app.fValEpsilonEditField.Value = 0.1;
 
@@ -1656,6 +1549,7 @@ classdef PatMap < matlab.apps.AppBase
             app.MaxIterationsEditField.ValueDisplayFormat = '%.0f';
             app.MaxIterationsEditField.ValueChangedFcn = createCallbackFcn(app, @MaxIterationsEditFieldValueChanged, true);
             app.MaxIterationsEditField.FontName = 'Arial';
+            app.MaxIterationsEditField.Tooltip = {'Maximum number of iterations permitted for any given model. '};
             app.MaxIterationsEditField.Position = [748 150 100 22];
             app.MaxIterationsEditField.Value = 75000;
 
@@ -1673,6 +1567,7 @@ classdef PatMap < matlab.apps.AppBase
             app.MaximumTimetoConvergenceEditField.ValueDisplayFormat = '%.0f (s)';
             app.MaximumTimetoConvergenceEditField.ValueChangedFcn = createCallbackFcn(app, @MaximumTimetoConvergenceEditFieldValueChanged, true);
             app.MaximumTimetoConvergenceEditField.FontName = 'Arial';
+            app.MaximumTimetoConvergenceEditField.Tooltip = {'Maximum time allotted for any given model to converge'};
             app.MaximumTimetoConvergenceEditField.Position = [748 100 100 22];
             app.MaximumTimetoConvergenceEditField.Value = Inf;
 
@@ -1690,6 +1585,7 @@ classdef PatMap < matlab.apps.AppBase
             app.PrintIntervalEditField.ValueDisplayFormat = '%.0f iterations';
             app.PrintIntervalEditField.ValueChangedFcn = createCallbackFcn(app, @PrintIntervalEditFieldValueChanged, true);
             app.PrintIntervalEditField.FontName = 'Arial';
+            app.PrintIntervalEditField.Tooltip = {'Print verbose feedback on parameter estimation progress at this interval'};
             app.PrintIntervalEditField.Position = [749 250 100 22];
             app.PrintIntervalEditField.Value = 1000;
 
@@ -1702,11 +1598,12 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create ImplementationModeEditField
             app.ImplementationModeEditField = uieditfield(app.ParamsPanel, 'numeric');
-            app.ImplementationModeEditField.Limits = [1 4];
+            app.ImplementationModeEditField.Limits = [1 6];
             app.ImplementationModeEditField.RoundFractionalValues = 'on';
             app.ImplementationModeEditField.ValueDisplayFormat = '%.0f';
             app.ImplementationModeEditField.ValueChangedFcn = createCallbackFcn(app, @ImplementationModeEditFieldValueChanged, true);
             app.ImplementationModeEditField.FontName = 'Arial';
+            app.ImplementationModeEditField.Tooltip = {'Indicates the implementation used for parameter estimation. 1 is standard, 2 is parallel, 3 is in series (saved checkpoints). 4 is self-optimizing, 5 is self-optimizing in parallel, 6 is self optimizing in series'};
             app.ImplementationModeEditField.Position = [748 550 100 22];
             app.ImplementationModeEditField.Value = 1;
 
@@ -1714,7 +1611,7 @@ classdef PatMap < matlab.apps.AppBase
             app.NumberofStructuresEditFieldLabel = uilabel(app.ParamsPanel);
             app.NumberofStructuresEditFieldLabel.HorizontalAlignment = 'right';
             app.NumberofStructuresEditFieldLabel.FontName = 'Arial';
-            app.NumberofStructuresEditFieldLabel.Position = [47 100 120 22];
+            app.NumberofStructuresEditFieldLabel.Position = [338 9 120 22];
             app.NumberofStructuresEditFieldLabel.Text = 'Number of Structures';
 
             % Create NumberofStructuresEditField
@@ -1724,42 +1621,45 @@ classdef PatMap < matlab.apps.AppBase
             app.NumberofStructuresEditField.ValueDisplayFormat = '%.0f';
             app.NumberofStructuresEditField.ValueChangedFcn = createCallbackFcn(app, @NumberofStructuresEditFieldValueChanged, true);
             app.NumberofStructuresEditField.FontName = 'Arial';
-            app.NumberofStructuresEditField.Position = [170 100 100 22];
+            app.NumberofStructuresEditField.Tooltip = {'Number of structures to pass to parameter estimation'};
+            app.NumberofStructuresEditField.Position = [461 9 100 22];
             app.NumberofStructuresEditField.Value = 8;
 
             % Create NumberofModelsEditFieldLabel
             app.NumberofModelsEditFieldLabel = uilabel(app.ParamsPanel);
             app.NumberofModelsEditFieldLabel.HorizontalAlignment = 'right';
             app.NumberofModelsEditFieldLabel.FontName = 'Arial';
-            app.NumberofModelsEditFieldLabel.Position = [62 50 104 22];
+            app.NumberofModelsEditFieldLabel.Position = [640 9 104 22];
             app.NumberofModelsEditFieldLabel.Text = 'Number of Models';
 
             % Create NumberofModelsEditField
             app.NumberofModelsEditField = uieditfield(app.ParamsPanel, 'numeric');
             app.NumberofModelsEditField.Editable = 'off';
             app.NumberofModelsEditField.FontName = 'Arial';
-            app.NumberofModelsEditField.Position = [170 50 100 22];
+            app.NumberofModelsEditField.Tooltip = {'Total number of models for inference'};
+            app.NumberofModelsEditField.Position = [748 9 100 22];
             app.NumberofModelsEditField.Value = 16;
 
             % Create NumberofRandomControlsEditFieldLabel
             app.NumberofRandomControlsEditFieldLabel = uilabel(app.ParamsPanel);
             app.NumberofRandomControlsEditFieldLabel.HorizontalAlignment = 'right';
             app.NumberofRandomControlsEditFieldLabel.FontName = 'Arial';
-            app.NumberofRandomControlsEditFieldLabel.Position = [11 400 158 22];
+            app.NumberofRandomControlsEditFieldLabel.Position = [11 349 158 22];
             app.NumberofRandomControlsEditFieldLabel.Text = 'Number of Random Controls';
 
             % Create NumberofRandomControlsEditField
             app.NumberofRandomControlsEditField = uieditfield(app.ParamsPanel, 'numeric');
             app.NumberofRandomControlsEditField.ValueChangedFcn = createCallbackFcn(app, @NumberofRandomControlsEditFieldValueChanged, true);
             app.NumberofRandomControlsEditField.FontName = 'Arial';
-            app.NumberofRandomControlsEditField.Position = [170 400 100 22];
+            app.NumberofRandomControlsEditField.Tooltip = {'Number of random ensembles used for identifying ensembles'};
+            app.NumberofRandomControlsEditField.Position = [170 349 100 22];
             app.NumberofRandomControlsEditField.Value = 100;
 
             % Create IncludeUDFinEnsemblesEditFieldLabel
             app.IncludeUDFinEnsemblesEditFieldLabel = uilabel(app.ParamsPanel);
             app.IncludeUDFinEnsemblesEditFieldLabel.HorizontalAlignment = 'right';
             app.IncludeUDFinEnsemblesEditFieldLabel.FontName = 'Arial';
-            app.IncludeUDFinEnsemblesEditFieldLabel.Position = [21 350 151 22];
+            app.IncludeUDFinEnsemblesEditFieldLabel.Position = [21 299 151 22];
             app.IncludeUDFinEnsemblesEditFieldLabel.Text = 'Include UDF in Ensembles ';
 
             % Create IncludeUDFinEnsemblesEditField
@@ -1769,7 +1669,8 @@ classdef PatMap < matlab.apps.AppBase
             app.IncludeUDFinEnsemblesEditField.ValueDisplayFormat = '%.0f';
             app.IncludeUDFinEnsemblesEditField.ValueChangedFcn = createCallbackFcn(app, @IncludeUDFinEnsemblesEditFieldValueChanged, true);
             app.IncludeUDFinEnsemblesEditField.FontName = 'Arial';
-            app.IncludeUDFinEnsemblesEditField.Position = [170 350 100 22];
+            app.IncludeUDFinEnsemblesEditField.Tooltip = {'Whether to include UDFs in ensembles.'};
+            app.IncludeUDFinEnsemblesEditField.Position = [170 299 100 22];
 
             % Create pLambdaDistributionEditFieldLabel
             app.pLambdaDistributionEditFieldLabel = uilabel(app.ParamsPanel);
@@ -1782,22 +1683,26 @@ classdef PatMap < matlab.apps.AppBase
             app.pLambdaDistributionEditField = uieditfield(app.ParamsPanel, 'numeric');
             app.pLambdaDistributionEditField.ValueChangedFcn = createCallbackFcn(app, @pLambdaDistributionEditFieldValueChanged, true);
             app.pLambdaDistributionEditField.FontName = 'Arial';
+            app.pLambdaDistributionEditField.Tooltip = {'If 1, p lambda are pulled from a log distribution. Otherwise, pulled from normal distribution'};
             app.pLambdaDistributionEditField.Position = [748 350 100 22];
 
             % Create AssessDecodingEditFieldLabel
             app.AssessDecodingEditFieldLabel = uilabel(app.ParamsPanel);
             app.AssessDecodingEditFieldLabel.HorizontalAlignment = 'right';
             app.AssessDecodingEditFieldLabel.FontName = 'Arial';
-            app.AssessDecodingEditFieldLabel.Position = [71 300 98 22];
+            app.AssessDecodingEditFieldLabel.Position = [71 249 98 22];
             app.AssessDecodingEditFieldLabel.Text = 'Assess Decoding';
 
             % Create AssessDecodingEditField
             app.AssessDecodingEditField = uieditfield(app.ParamsPanel, 'numeric');
+            app.AssessDecodingEditField.Limits = [0 1];
             app.AssessDecodingEditField.RoundFractionalValues = 'on';
             app.AssessDecodingEditField.ValueDisplayFormat = '%.0f';
             app.AssessDecodingEditField.ValueChangedFcn = createCallbackFcn(app, @AssessDecodingEditFieldValueChanged, true);
             app.AssessDecodingEditField.FontName = 'Arial';
-            app.AssessDecodingEditField.Position = [170 300 100 22];
+            app.AssessDecodingEditField.Tooltip = {'Whether to assess decoding of UDFs by model'};
+            app.AssessDecodingEditField.Position = [170 249 100 22];
+            app.AssessDecodingEditField.Value = 1;
 
             % Create ReweightDenominatorDropDownLabel
             app.ReweightDenominatorDropDownLabel = uilabel(app.ParamsPanel);
@@ -1811,6 +1716,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ReweightDenominatorDropDown.Items = {'mean_degree', 'median_degree', 'max_degree', 'rms_degree', ''};
             app.ReweightDenominatorDropDown.Editable = 'on';
             app.ReweightDenominatorDropDown.ValueChangedFcn = createCallbackFcn(app, @ReweightDenominatorDropDownValueChanged, true);
+            app.ReweightDenominatorDropDown.Tooltip = {'This parameter facilitates the convergence of the partitiion function & a simple default should suffice. The exact partition function is replaced by a weight free energy approximation. This parameter ensures that this approximation is convex and gaurantees fast convergence. '};
             app.ReweightDenominatorDropDown.FontName = 'Arial';
             app.ReweightDenominatorDropDown.BackgroundColor = [1 1 1];
             app.ReweightDenominatorDropDown.Position = [748 200 100 22];
@@ -1819,7 +1725,7 @@ classdef PatMap < matlab.apps.AppBase
             % Create TuningCriterionDropDownLabel
             app.TuningCriterionDropDownLabel = uilabel(app.ParamsPanel);
             app.TuningCriterionDropDownLabel.HorizontalAlignment = 'right';
-            app.TuningCriterionDropDownLabel.Position = [72 150 90 22];
+            app.TuningCriterionDropDownLabel.Position = [72 149 90 22];
             app.TuningCriterionDropDownLabel.Text = 'Tuning Criterion';
 
             % Create TuningCriterionDropDown
@@ -1827,14 +1733,15 @@ classdef PatMap < matlab.apps.AppBase
             app.TuningCriterionDropDown.Items = {'AUC', 'PR'};
             app.TuningCriterionDropDown.Editable = 'on';
             app.TuningCriterionDropDown.ValueChangedFcn = createCallbackFcn(app, @TuningCriterionDropDownValueChanged, true);
+            app.TuningCriterionDropDown.Tooltip = {'Criterion for assess tuning of nodes when identifying ensembles'};
             app.TuningCriterionDropDown.BackgroundColor = [1 1 1];
-            app.TuningCriterionDropDown.Position = [170 150 100 22];
+            app.TuningCriterionDropDown.Position = [170 149 100 22];
             app.TuningCriterionDropDown.Value = 'AUC';
 
             % Create EnsembleSizeDropDownLabel
             app.EnsembleSizeDropDownLabel = uilabel(app.ParamsPanel);
             app.EnsembleSizeDropDownLabel.HorizontalAlignment = 'right';
-            app.EnsembleSizeDropDownLabel.Position = [72 200 86 22];
+            app.EnsembleSizeDropDownLabel.Position = [72 199 86 22];
             app.EnsembleSizeDropDownLabel.Text = 'Ensemble Size';
 
             % Create EnsembleSizeDropDown
@@ -1842,15 +1749,16 @@ classdef PatMap < matlab.apps.AppBase
             app.EnsembleSizeDropDown.Items = {'coact', 'max_degree', 'coactUDF'};
             app.EnsembleSizeDropDown.Editable = 'on';
             app.EnsembleSizeDropDown.ValueChangedFcn = createCallbackFcn(app, @EnsembleSizeDropDownValueChanged, true);
+            app.EnsembleSizeDropDown.Tooltip = {'Size of random ensembles'};
             app.EnsembleSizeDropDown.BackgroundColor = [1 1 1];
-            app.EnsembleSizeDropDown.Position = [170 200 100 22];
+            app.EnsembleSizeDropDown.Position = [170 199 100 22];
             app.EnsembleSizeDropDown.Value = 'coact';
 
             % Create AssessClusteringEditFieldLabel
             app.AssessClusteringEditFieldLabel = uilabel(app.ParamsPanel);
             app.AssessClusteringEditFieldLabel.HorizontalAlignment = 'right';
             app.AssessClusteringEditFieldLabel.FontName = 'Arial';
-            app.AssessClusteringEditFieldLabel.Position = [63 250 102 22];
+            app.AssessClusteringEditFieldLabel.Position = [354 100 102 22];
             app.AssessClusteringEditFieldLabel.Text = 'Assess Clustering';
 
             % Create AssessClusteringEditField
@@ -1859,7 +1767,8 @@ classdef PatMap < matlab.apps.AppBase
             app.AssessClusteringEditField.ValueDisplayFormat = '%.0f';
             app.AssessClusteringEditField.ValueChangedFcn = createCallbackFcn(app, @AssessClusteringEditFieldValueChanged, true);
             app.AssessClusteringEditField.FontName = 'Arial';
-            app.AssessClusteringEditField.Position = [170 250 100 22];
+            app.AssessClusteringEditField.Tooltip = {'Whether to assess clustering of model structure'};
+            app.AssessClusteringEditField.Position = [461 100 100 22];
 
             % Create GeneralLabel
             app.GeneralLabel = uilabel(app.ParamsPanel);
@@ -1902,7 +1811,90 @@ classdef PatMap < matlab.apps.AppBase
             app.ParallelLearningEditField.ValueDisplayFormat = '%.0f';
             app.ParallelLearningEditField.ValueChangedFcn = createCallbackFcn(app, @ParallelLearningEditFieldValueChanged, true);
             app.ParallelLearningEditField.FontName = 'Arial';
+            app.ParallelLearningEditField.Tooltip = {'Whether to conduct structural learning in parallel'};
             app.ParallelLearningEditField.Position = [459 550 100 22];
+
+            % Create ValidationTrainingSplitEditField
+            app.ValidationTrainingSplitEditField = uieditfield(app.ParamsPanel, 'numeric');
+            app.ValidationTrainingSplitEditField.LowerLimitInclusive = 'off';
+            app.ValidationTrainingSplitEditField.UpperLimitInclusive = 'off';
+            app.ValidationTrainingSplitEditField.Limits = [0 1];
+            app.ValidationTrainingSplitEditField.ValueDisplayFormat = '%.3f';
+            app.ValidationTrainingSplitEditField.ValueChangedFcn = createCallbackFcn(app, @ValidationTrainingSplitEditFieldValueChanged, true);
+            app.ValidationTrainingSplitEditField.FontName = 'Arial';
+            app.ValidationTrainingSplitEditField.Tooltip = {'Split of training and validation datasets'};
+            app.ValidationTrainingSplitEditField.Position = [170 400 100 22];
+            app.ValidationTrainingSplitEditField.Value = 0.125;
+
+            % Create ValidationTrainingSplitEditFieldLabel
+            app.ValidationTrainingSplitEditFieldLabel = uilabel(app.ParamsPanel);
+            app.ValidationTrainingSplitEditFieldLabel.HorizontalAlignment = 'right';
+            app.ValidationTrainingSplitEditFieldLabel.Position = [36 400 131 22];
+            app.ValidationTrainingSplitEditFieldLabel.Text = 'Validation-Training Split';
+
+            % Create SMBOMaxEvaluationsEditField
+            app.SMBOMaxEvaluationsEditField = uieditfield(app.ParamsPanel, 'numeric');
+            app.SMBOMaxEvaluationsEditField.Limits = [0 Inf];
+            app.SMBOMaxEvaluationsEditField.RoundFractionalValues = 'on';
+            app.SMBOMaxEvaluationsEditField.ValueDisplayFormat = '%.0f';
+            app.SMBOMaxEvaluationsEditField.ValueChangedFcn = createCallbackFcn(app, @SMBOMaxEvaluationsEditFieldValueChanged, true);
+            app.SMBOMaxEvaluationsEditField.FontName = 'Arial';
+            app.SMBOMaxEvaluationsEditField.Tooltip = {'Maximum number of objective evaluations during SMBO hyperparameter optimization'};
+            app.SMBOMaxEvaluationsEditField.Position = [171 50 100 22];
+            app.SMBOMaxEvaluationsEditField.Value = 30;
+
+            % Create SMBOMaxEvaluationsEditFieldLabel
+            app.SMBOMaxEvaluationsEditFieldLabel = uilabel(app.ParamsPanel);
+            app.SMBOMaxEvaluationsEditFieldLabel.HorizontalAlignment = 'right';
+            app.SMBOMaxEvaluationsEditFieldLabel.Position = [36 50 132 22];
+            app.SMBOMaxEvaluationsEditFieldLabel.Text = 'SMBO Max Evaluations';
+
+            % Create SMBOParallelEditField
+            app.SMBOParallelEditField = uieditfield(app.ParamsPanel, 'numeric');
+            app.SMBOParallelEditField.Limits = [0 1];
+            app.SMBOParallelEditField.RoundFractionalValues = 'on';
+            app.SMBOParallelEditField.ValueDisplayFormat = '%.0f';
+            app.SMBOParallelEditField.ValueChangedFcn = createCallbackFcn(app, @SMBOParallelEditFieldValueChanged, true);
+            app.SMBOParallelEditField.FontName = 'Arial';
+            app.SMBOParallelEditField.Tooltip = {'If 1, conduct SMBO hyperparameter optimization in parallel. Otherwise, single process'};
+            app.SMBOParallelEditField.Position = [170 9 100 22];
+
+            % Create SMBOParallelEditFieldLabel
+            app.SMBOParallelEditFieldLabel = uilabel(app.ParamsPanel);
+            app.SMBOParallelEditFieldLabel.HorizontalAlignment = 'right';
+            app.SMBOParallelEditFieldLabel.Position = [83 9 84 22];
+            app.SMBOParallelEditFieldLabel.Text = 'SMBO Parallel';
+
+            % Create DeviationsEditField_2Label
+            app.DeviationsEditField_2Label = uilabel(app.ParamsPanel);
+            app.DeviationsEditField_2Label.HorizontalAlignment = 'right';
+            app.DeviationsEditField_2Label.FontName = 'Arial';
+            app.DeviationsEditField_2Label.Position = [393 53 62 22];
+            app.DeviationsEditField_2Label.Text = 'Deviations';
+
+            % Create DeviationsEditField_2
+            app.DeviationsEditField_2 = uieditfield(app.ParamsPanel, 'numeric');
+            app.DeviationsEditField_2.Limits = [0 Inf];
+            app.DeviationsEditField_2.ValueChangedFcn = createCallbackFcn(app, @DeviationsEditField_2ValueChanged, true);
+            app.DeviationsEditField_2.FontName = 'Arial';
+            app.DeviationsEditField_2.Tooltip = {'Number of deviations used to determine whether a node belongs to an ensemble'};
+            app.DeviationsEditField_2.Position = [459 53 100 22];
+            app.DeviationsEditField_2.Value = 3;
+
+            % Create UseTestinEnsembleIdEditFieldLabel
+            app.UseTestinEnsembleIdEditFieldLabel = uilabel(app.ParamsPanel);
+            app.UseTestinEnsembleIdEditFieldLabel.HorizontalAlignment = 'right';
+            app.UseTestinEnsembleIdEditFieldLabel.FontName = 'Arial';
+            app.UseTestinEnsembleIdEditFieldLabel.Position = [609 50 135 22];
+            app.UseTestinEnsembleIdEditFieldLabel.Text = 'Use Test in Ensemble Id';
+
+            % Create UseTestinEnsembleIdentificationEditField
+            app.UseTestinEnsembleIdentificationEditField = uieditfield(app.ParamsPanel, 'numeric');
+            app.UseTestinEnsembleIdentificationEditField.Limits = [0 1];
+            app.UseTestinEnsembleIdentificationEditField.ValueChangedFcn = createCallbackFcn(app, @UseTestinEnsembleIdentificationEditFieldValueChanged, true);
+            app.UseTestinEnsembleIdentificationEditField.FontName = 'Arial';
+            app.UseTestinEnsembleIdentificationEditField.Tooltip = {'Whether to use test dataset in ensemble identification'};
+            app.UseTestinEnsembleIdentificationEditField.Position = [748 50 100 22];
 
             % Create IOModelPanel
             app.IOModelPanel = uipanel(app.IOTab);
@@ -1926,19 +1918,21 @@ classdef PatMap < matlab.apps.AppBase
             app.NewModelButton = uibutton(app.NewModelPanel, 'push');
             app.NewModelButton.ButtonPushedFcn = createCallbackFcn(app, @NewModelButtonPushed, true);
             app.NewModelButton.FontName = 'Arial';
+            app.NewModelButton.Tooltip = {'Press to reset the app and start a new model'};
             app.NewModelButton.Position = [21 168 80 22];
             app.NewModelButton.Text = 'New Model';
 
             % Create NewModelEditField
             app.NewModelEditField = uieditfield(app.NewModelPanel, 'text');
             app.NewModelEditField.FontName = 'Arial';
-            app.NewModelEditField.Position = [251 168 599 22];
+            app.NewModelEditField.Position = [378 168 472 22];
             app.NewModelEditField.Value = 'New Model File Name (.mat)';
 
             % Create DataFilePath
             app.DataFilePath = uieditfield(app.NewModelPanel, 'text');
             app.DataFilePath.Editable = 'off';
             app.DataFilePath.FontName = 'Arial';
+            app.DataFilePath.Tooltip = {'Selected data to load.'};
             app.DataFilePath.Position = [250 131 600 22];
             app.DataFilePath.Value = 'Load Spike Matrix (.mat)';
 
@@ -1946,6 +1940,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BrowseData = uibutton(app.NewModelPanel, 'push');
             app.BrowseData.ButtonPushedFcn = createCallbackFcn(app, @BrowseDataButtonPushed, true);
             app.BrowseData.FontName = 'Arial';
+            app.BrowseData.Tooltip = {'Press to browse for data. Data must be in the form of M samples by N neurons, binary, and with each sample containing at least one active neuron'};
             app.BrowseData.Position = [20 131 80 22];
             app.BrowseData.Text = 'Browse';
 
@@ -1953,6 +1948,7 @@ classdef PatMap < matlab.apps.AppBase
             app.LoadData = uibutton(app.NewModelPanel, 'push');
             app.LoadData.ButtonPushedFcn = createCallbackFcn(app, @LoadDataButtonPushed, true);
             app.LoadData.FontName = 'Arial';
+            app.LoadData.Tooltip = {'Press to load data. Data must be in the form of M samples by N neurons, binary, and with each sample containing at least one active neuron'};
             app.LoadData.Position = [140 131 80 22];
             app.LoadData.Text = 'Load';
 
@@ -1967,6 +1963,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BrowseUDF = uibutton(app.NewModelPanel, 'push');
             app.BrowseUDF.ButtonPushedFcn = createCallbackFcn(app, @BrowseUDFButtonPushed, true);
             app.BrowseUDF.FontName = 'Arial';
+            app.BrowseUDF.Tooltip = {'Press to browse directories for user-defined features. Data ought to be in the form of M samples by N features and binary. However, automatic conversion of an M-sample indicator vector is supported. Said vector must contain a unique, non-zero integer for each feature.'};
             app.BrowseUDF.Position = [20 94 80 22];
             app.BrowseUDF.Text = 'Browse';
 
@@ -1974,6 +1971,7 @@ classdef PatMap < matlab.apps.AppBase
             app.LoadUDF = uibutton(app.NewModelPanel, 'push');
             app.LoadUDF.ButtonPushedFcn = createCallbackFcn(app, @LoadUDFButtonPushed, true);
             app.LoadUDF.FontName = 'Arial';
+            app.LoadUDF.Tooltip = {'Press to load user-defined features. Data ought to be in the form of M samples by N features and binary. However, automatic conversion of an M-sample indicator vector is supported. Said vector must contain a unique, non-zero integer for each feature.'};
             app.LoadUDF.Position = [140 94 80 22];
             app.LoadUDF.Text = 'Load';
 
@@ -1988,6 +1986,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BrowseROIs = uibutton(app.NewModelPanel, 'push');
             app.BrowseROIs.ButtonPushedFcn = createCallbackFcn(app, @BrowseROIsButtonPushed, true);
             app.BrowseROIs.FontName = 'Arial';
+            app.BrowseROIs.Tooltip = {'Press to browse directories for rois. Rois must be either a M neuron by N coordinates matrix or a structure containing x-pixel masks, y-pixel masks, and boundary outlines for each roi. If left empty, a simulated image will be generated to allow easier tracking of specific neurons'};
             app.BrowseROIs.Position = [20 57 80 22];
             app.BrowseROIs.Text = 'Browse';
 
@@ -1995,6 +1994,7 @@ classdef PatMap < matlab.apps.AppBase
             app.LoadROIs = uibutton(app.NewModelPanel, 'push');
             app.LoadROIs.ButtonPushedFcn = createCallbackFcn(app, @LoadROIsButtonPushed, true);
             app.LoadROIs.FontName = 'Arial';
+            app.LoadROIs.Tooltip = {'Press to load rois. Rois must be either a M neuron by N coordinates matrix or a structure containing x-pixel masks, y-pixel masks, and boundary outlines for each roi. If left empty, a simulated image will be generated to allow easier tracking of specific neurons'};
             app.LoadROIs.Position = [140 57 80 22];
             app.LoadROIs.Text = 'Load';
 
@@ -2002,6 +2002,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ValidateData = uibutton(app.NewModelPanel, 'push');
             app.ValidateData.ButtonPushedFcn = createCallbackFcn(app, @ValidateDataButtonPushed, true);
             app.ValidateData.FontName = 'Arial';
+            app.ValidateData.Tooltip = {'Press to validate datasets. '};
             app.ValidateData.Position = [140 168 80 22];
             app.ValidateData.Text = 'Validate';
 
@@ -2009,8 +2010,6 @@ classdef PatMap < matlab.apps.AppBase
             app.RunModel = uibutton(app.NewModelPanel, 'push');
             app.RunModel.ButtonPushedFcn = createCallbackFcn(app, @RunModelButtonPushed, true);
             app.RunModel.FontName = 'Arial';
-            app.RunModel.Enable = 'off';
-            app.RunModel.Visible = 'off';
             app.RunModel.Position = [251 168 94 22];
             app.RunModel.Text = 'Run Model';
 
@@ -2031,6 +2030,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ModelPath = uieditfield(app.IOExistingPanel, 'text');
             app.ModelPath.Editable = 'off';
             app.ModelPath.FontName = 'Arial';
+            app.ModelPath.Tooltip = {'Model or model-in-progress selected for loading'};
             app.ModelPath.Position = [250 58 600 22];
             app.ModelPath.Value = 'Load Model (.mat)';
 
@@ -2038,6 +2038,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BrowseModel = uibutton(app.IOExistingPanel, 'push');
             app.BrowseModel.ButtonPushedFcn = createCallbackFcn(app, @BrowseModelButtonPushed, true);
             app.BrowseModel.FontName = 'Arial';
+            app.BrowseModel.Tooltip = {'Press to browse directories for existing model or model-in-progress'};
             app.BrowseModel.Position = [20 58 80 22];
             app.BrowseModel.Text = 'Browse';
 
@@ -2045,27 +2046,28 @@ classdef PatMap < matlab.apps.AppBase
             app.LoadModel = uibutton(app.IOExistingPanel, 'push');
             app.LoadModel.ButtonPushedFcn = createCallbackFcn(app, @LoadModelButtonPushed, true);
             app.LoadModel.FontName = 'Arial';
+            app.LoadModel.Tooltip = {'Press to load previous model or model-in-progress'};
             app.LoadModel.Position = [140 58 80 22];
             app.LoadModel.Text = 'Load';
 
             % Create StructuresLamp
             app.StructuresLamp = uilamp(app.IOExistingPanel);
-            app.StructuresLamp.Position = [403 21 20 20];
+            app.StructuresLamp.Position = [367 21 20 20];
             app.StructuresLamp.Color = [0.0745 0.6235 1];
 
             % Create PotentialsLamp
             app.PotentialsLamp = uilamp(app.IOExistingPanel);
-            app.PotentialsLamp.Position = [489 21 20 20];
+            app.PotentialsLamp.Position = [459 21 20 20];
             app.PotentialsLamp.Color = [0.0745 0.6235 1];
 
             % Create NeuronsLamp
             app.NeuronsLamp = uilamp(app.IOExistingPanel);
-            app.NeuronsLamp.Position = [661 21 20 20];
+            app.NeuronsLamp.Position = [644 21 20 20];
             app.NeuronsLamp.Color = [0.0745 0.6235 1];
 
             % Create EnsemblesLamp
             app.EnsemblesLamp = uilamp(app.IOExistingPanel);
-            app.EnsemblesLamp.Position = [747 21 20 20];
+            app.EnsemblesLamp.Position = [743 21 20 20];
             app.EnsemblesLamp.Color = [0.0745 0.6235 1];
 
             % Create PCLamp
@@ -2075,32 +2077,32 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create StructuresLabel
             app.StructuresLabel = uilabel(app.IOExistingPanel);
-            app.StructuresLabel.Position = [344 20 60 22];
+            app.StructuresLabel.Position = [300 20 60 22];
             app.StructuresLabel.Text = 'Structures';
 
             % Create PotentialsLabel
             app.PotentialsLabel = uilabel(app.IOExistingPanel);
-            app.PotentialsLabel.Position = [430 20 58 22];
+            app.PotentialsLabel.Position = [394 20 58 22];
             app.PotentialsLabel.Text = 'Potentials';
 
             % Create NeuronsLabel
             app.NeuronsLabel = uilabel(app.IOExistingPanel);
-            app.NeuronsLabel.Position = [606 20 51 22];
+            app.NeuronsLabel.Position = [586 20 51 22];
             app.NeuronsLabel.Text = 'Neurons';
 
             % Create EnsemblesLabel
             app.EnsemblesLabel = uilabel(app.IOExistingPanel);
-            app.EnsemblesLabel.Position = [683 20 65 22];
+            app.EnsemblesLabel.Position = [671 20 65 22];
             app.EnsemblesLabel.Text = 'Ensembles';
 
             % Create PatCompLabel
             app.PatCompLabel = uilabel(app.IOExistingPanel);
-            app.PatCompLabel.Position = [774 20 56 22];
+            app.PatCompLabel.Position = [770 20 56 22];
             app.PatCompLabel.Text = 'PatComp';
 
             % Create ParamsLamp
             app.ParamsLamp = uilamp(app.IOExistingPanel);
-            app.ParamsLamp.Position = [59 21 20 20];
+            app.ParamsLamp.Position = [63 21 20 20];
             app.ParamsLamp.Color = [0.0745 0.6235 1];
 
             % Create ParamsLabel
@@ -2111,45 +2113,45 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create SpikeDataLamp
             app.SpikeDataLamp = uilamp(app.IOExistingPanel);
-            app.SpikeDataLamp.Position = [145 21 20 20];
+            app.SpikeDataLamp.Position = [141 21 20 20];
             app.SpikeDataLamp.Color = [0.0706 0.6196 1];
 
             % Create SpikesLabel
             app.SpikesLabel = uilabel(app.IOExistingPanel);
             app.SpikesLabel.FontName = 'Arial';
-            app.SpikesLabel.Position = [93 20 42 22];
+            app.SpikesLabel.Position = [91 20 42 22];
             app.SpikesLabel.Text = 'Spikes';
 
             % Create UDFLamp
             app.UDFLamp = uilamp(app.IOExistingPanel);
-            app.UDFLamp.Position = [231 21 20 20];
+            app.UDFLamp.Position = [206 21 20 20];
             app.UDFLamp.Color = [0.0706 0.6196 1];
 
             % Create UDFLabel
             app.UDFLabel = uilabel(app.IOExistingPanel);
             app.UDFLabel.FontName = 'Arial';
-            app.UDFLabel.Position = [180 20 30 22];
+            app.UDFLabel.Position = [169 20 30 22];
             app.UDFLabel.Text = 'UDF';
 
             % Create ROIsLamp
             app.ROIsLamp = uilamp(app.IOExistingPanel);
-            app.ROIsLamp.Position = [317 21 20 20];
+            app.ROIsLamp.Position = [273 21 20 20];
             app.ROIsLamp.Color = [0.0745 0.6235 1];
 
             % Create ROIsLabel
             app.ROIsLabel = uilabel(app.IOExistingPanel);
             app.ROIsLabel.FontName = 'Arial';
-            app.ROIsLabel.Position = [259 20 33 22];
+            app.ROIsLabel.Position = [233 20 33 22];
             app.ROIsLabel.Text = 'ROIs';
 
             % Create BestModelLamp
             app.BestModelLamp = uilamp(app.IOExistingPanel);
-            app.BestModelLamp.Position = [575 21 20 20];
+            app.BestModelLamp.Position = [559 21 20 20];
             app.BestModelLamp.Color = [0.0745 0.6235 1];
 
             % Create BestModelLabel
             app.BestModelLabel = uilabel(app.IOExistingPanel);
-            app.BestModelLabel.Position = [514 20 66 22];
+            app.BestModelLabel.Position = [486 20 66 22];
             app.BestModelLabel.Text = 'Best Model';
 
             % Create SLTab_2
@@ -2161,209 +2163,6 @@ classdef PatMap < matlab.apps.AppBase
             app.OptimizationPanel = uipanel(app.SLTab_2);
             app.OptimizationPanel.AutoResizeChildren = 'off';
             app.OptimizationPanel.Position = [961 15 900 730];
-
-            % Create TabGroup3
-            app.TabGroup3 = uitabgroup(app.OptimizationPanel);
-            app.TabGroup3.AutoResizeChildren = 'off';
-            app.TabGroup3.Position = [21 8 860 161];
-
-            % Create Tab1
-            app.Tab1 = uitab(app.TabGroup3);
-            app.Tab1.AutoResizeChildren = 'off';
-            app.Tab1.Title = 'Tab1';
-
-            % Create OptInterface_PE
-            app.OptInterface_PE = uipanel(app.Tab1);
-            app.OptInterface_PE.AutoResizeChildren = 'off';
-            app.OptInterface_PE.Position = [8 13 841 111];
-
-            % Create AddLambdaSpecificField_PE
-            app.AddLambdaSpecificField_PE = uieditfield(app.OptInterface_PE, 'numeric');
-            app.AddLambdaSpecificField_PE.LowerLimitInclusive = 'off';
-            app.AddLambdaSpecificField_PE.Limits = [0 Inf];
-            app.AddLambdaSpecificField_PE.RoundFractionalValues = 'on';
-            app.AddLambdaSpecificField_PE.ValueDisplayFormat = '%.0f';
-            app.AddLambdaSpecificField_PE.HorizontalAlignment = 'center';
-            app.AddLambdaSpecificField_PE.FontName = 'Arial';
-            app.AddLambdaSpecificField_PE.FontSize = 14;
-            app.AddLambdaSpecificField_PE.Position = [146 59 100 40];
-            app.AddLambdaSpecificField_PE.Value = 1;
-
-            % Create AddLambdaButton_PE
-            app.AddLambdaButton_PE = uibutton(app.OptInterface_PE, 'push');
-            app.AddLambdaButton_PE.ButtonPushedFcn = createCallbackFcn(app, @AddLambdaButton_PEPushed, true);
-            app.AddLambdaButton_PE.FontName = 'Arial';
-            app.AddLambdaButton_PE.FontSize = 14;
-            app.AddLambdaButton_PE.Position = [7 59 112 40];
-            app.AddLambdaButton_PE.Text = 'Add Lambda';
-
-            % Create PlotModelEditField_PE
-            app.PlotModelEditField_PE = uieditfield(app.OptInterface_PE, 'numeric');
-            app.PlotModelEditField_PE.Limits = [1 Inf];
-            app.PlotModelEditField_PE.RoundFractionalValues = 'on';
-            app.PlotModelEditField_PE.ValueDisplayFormat = '%.0f';
-            app.PlotModelEditField_PE.HorizontalAlignment = 'center';
-            app.PlotModelEditField_PE.FontName = 'Arial';
-            app.PlotModelEditField_PE.FontSize = 14;
-            app.PlotModelEditField_PE.Position = [392 58 141 40];
-            app.PlotModelEditField_PE.Value = 1;
-
-            % Create PlotModel_PE
-            app.PlotModel_PE = uibutton(app.OptInterface_PE, 'push');
-            app.PlotModel_PE.ButtonPushedFcn = createCallbackFcn(app, @PlotModel_PEPushed, true);
-            app.PlotModel_PE.FontName = 'Arial';
-            app.PlotModel_PE.FontSize = 14;
-            app.PlotModel_PE.Position = [262 59 112 40];
-            app.PlotModel_PE.Text = 'Plot Model';
-
-            % Create SLambdaModelEditField
-            app.SLambdaModelEditField = uieditfield(app.OptInterface_PE, 'numeric');
-            app.SLambdaModelEditField.LowerLimitInclusive = 'off';
-            app.SLambdaModelEditField.Limits = [0 1];
-            app.SLambdaModelEditField.ValueDisplayFormat = '%e';
-            app.SLambdaModelEditField.Editable = 'off';
-            app.SLambdaModelEditField.HorizontalAlignment = 'center';
-            app.SLambdaModelEditField.FontName = 'Arial';
-            app.SLambdaModelEditField.FontSize = 14;
-            app.SLambdaModelEditField.Position = [389 9 141 40];
-            app.SLambdaModelEditField.Value = 0.1;
-
-            % Create PLambdaModelEditField
-            app.PLambdaModelEditField = uieditfield(app.OptInterface_PE, 'numeric');
-            app.PLambdaModelEditField.Limits = [1 Inf];
-            app.PLambdaModelEditField.ValueDisplayFormat = '%.0f';
-            app.PLambdaModelEditField.Editable = 'off';
-            app.PLambdaModelEditField.HorizontalAlignment = 'center';
-            app.PLambdaModelEditField.FontName = 'Arial';
-            app.PLambdaModelEditField.FontSize = 14;
-            app.PLambdaModelEditField.Position = [613 59 180 40];
-            app.PLambdaModelEditField.Value = 10000;
-
-            % Create sLambdaLabel
-            app.sLambdaLabel = uilabel(app.OptInterface_PE);
-            app.sLambdaLabel.FontName = 'Arial';
-            app.sLambdaLabel.FontSize = 14;
-            app.sLambdaLabel.Position = [294 27 63 22];
-            app.sLambdaLabel.Text = 'sLambda';
-
-            % Create pLambdaLabel
-            app.pLambdaLabel = uilabel(app.OptInterface_PE);
-            app.pLambdaLabel.FontName = 'Arial';
-            app.pLambdaLabel.FontSize = 14;
-            app.pLambdaLabel.Position = [541 69 64 22];
-            app.pLambdaLabel.Text = 'pLambda';
-
-            % Create ImplementationModeLabel
-            app.ImplementationModeLabel = uilabel(app.OptInterface_PE);
-            app.ImplementationModeLabel.FontName = 'Arial';
-            app.ImplementationModeLabel.FontSize = 14;
-            app.ImplementationModeLabel.Position = [7 18 140 22];
-            app.ImplementationModeLabel.Text = 'Implementation Mode';
-
-            % Create ImplementationModeEditField_PE
-            app.ImplementationModeEditField_PE = uieditfield(app.OptInterface_PE, 'numeric');
-            app.ImplementationModeEditField_PE.Limits = [1 4];
-            app.ImplementationModeEditField_PE.RoundFractionalValues = 'on';
-            app.ImplementationModeEditField_PE.ValueDisplayFormat = '%.0f';
-            app.ImplementationModeEditField_PE.ValueChangedFcn = createCallbackFcn(app, @ImplementationModeEditField_PEValueChanged, true);
-            app.ImplementationModeEditField_PE.HorizontalAlignment = 'center';
-            app.ImplementationModeEditField_PE.FontName = 'Arial';
-            app.ImplementationModeEditField_PE.FontSize = 14;
-            app.ImplementationModeEditField_PE.Position = [146 8 100 40];
-            app.ImplementationModeEditField_PE.Value = 1;
-
-            % Create Tab2
-            app.Tab2 = uitab(app.TabGroup3);
-            app.Tab2.AutoResizeChildren = 'off';
-            app.Tab2.Title = 'Tab2';
-
-            % Create OptInterface
-            app.OptInterface = uipanel(app.Tab2);
-            app.OptInterface.AutoResizeChildren = 'off';
-            app.OptInterface.Position = [8 23 419 101];
-
-            % Create PreviewLambdaButton
-            app.PreviewLambdaButton = uibutton(app.OptInterface, 'push');
-            app.PreviewLambdaButton.ButtonPushedFcn = createCallbackFcn(app, @PreviewLambdaButtonPushed, true);
-            app.PreviewLambdaButton.FontName = 'Arial';
-            app.PreviewLambdaButton.FontSize = 14;
-            app.PreviewLambdaButton.Position = [16 58 180 40];
-            app.PreviewLambdaButton.Text = 'Preview Lambda';
-
-            % Create AddStructuresPreviewField
-            app.AddStructuresPreviewField = uieditfield(app.OptInterface, 'numeric');
-            app.AddStructuresPreviewField.LowerLimitInclusive = 'off';
-            app.AddStructuresPreviewField.Limits = [0 Inf];
-            app.AddStructuresPreviewField.ValueDisplayFormat = '%e';
-            app.AddStructuresPreviewField.HorizontalAlignment = 'center';
-            app.AddStructuresPreviewField.FontName = 'Arial';
-            app.AddStructuresPreviewField.FontSize = 14;
-            app.AddStructuresPreviewField.Position = [224 57 180 40];
-            app.AddStructuresPreviewField.Value = 1;
-
-            % Create AddStructuresSpecificField
-            app.AddStructuresSpecificField = uieditfield(app.OptInterface, 'numeric');
-            app.AddStructuresSpecificField.LowerLimitInclusive = 'off';
-            app.AddStructuresSpecificField.Limits = [0 Inf];
-            app.AddStructuresSpecificField.ValueDisplayFormat = '%e';
-            app.AddStructuresSpecificField.HorizontalAlignment = 'center';
-            app.AddStructuresSpecificField.FontName = 'Arial';
-            app.AddStructuresSpecificField.FontSize = 14;
-            app.AddStructuresSpecificField.Position = [224 7 180 40];
-            app.AddStructuresSpecificField.Value = 1;
-
-            % Create AddLambdaButton
-            app.AddLambdaButton = uibutton(app.OptInterface, 'push');
-            app.AddLambdaButton.ButtonPushedFcn = createCallbackFcn(app, @AddLambdaButtonPushed, true);
-            app.AddLambdaButton.FontName = 'Arial';
-            app.AddLambdaButton.FontSize = 14;
-            app.AddLambdaButton.Position = [16 7 180 40];
-            app.AddLambdaButton.Text = 'Add Lambda';
-
-            % Create Tab3
-            app.Tab3 = uitab(app.TabGroup3);
-            app.Tab3.Title = 'Tab3';
-
-            % Create OptInterface_2
-            app.OptInterface_2 = uipanel(app.Tab3);
-            app.OptInterface_2.AutoResizeChildren = 'off';
-            app.OptInterface_2.Position = [12 8 413 113];
-
-            % Create PreviewLambdaButton_2
-            app.PreviewLambdaButton_2 = uibutton(app.OptInterface_2, 'push');
-            app.PreviewLambdaButton_2.FontName = 'Arial';
-            app.PreviewLambdaButton_2.FontSize = 14;
-            app.PreviewLambdaButton_2.Position = [13 62 180 40];
-            app.PreviewLambdaButton_2.Text = 'Preview Lambda';
-
-            % Create AddStructuresPreviewField_2
-            app.AddStructuresPreviewField_2 = uieditfield(app.OptInterface_2, 'numeric');
-            app.AddStructuresPreviewField_2.LowerLimitInclusive = 'off';
-            app.AddStructuresPreviewField_2.Limits = [0 Inf];
-            app.AddStructuresPreviewField_2.ValueDisplayFormat = '%e';
-            app.AddStructuresPreviewField_2.HorizontalAlignment = 'center';
-            app.AddStructuresPreviewField_2.FontName = 'Arial';
-            app.AddStructuresPreviewField_2.FontSize = 14;
-            app.AddStructuresPreviewField_2.Position = [221 62 180 40];
-            app.AddStructuresPreviewField_2.Value = 1;
-
-            % Create AddStructuresSpecificField_2
-            app.AddStructuresSpecificField_2 = uieditfield(app.OptInterface_2, 'numeric');
-            app.AddStructuresSpecificField_2.LowerLimitInclusive = 'off';
-            app.AddStructuresSpecificField_2.Limits = [0 Inf];
-            app.AddStructuresSpecificField_2.ValueDisplayFormat = '%e';
-            app.AddStructuresSpecificField_2.HorizontalAlignment = 'center';
-            app.AddStructuresSpecificField_2.FontName = 'Arial';
-            app.AddStructuresSpecificField_2.FontSize = 14;
-            app.AddStructuresSpecificField_2.Position = [221 11 180 40];
-            app.AddStructuresSpecificField_2.Value = 1;
-
-            % Create AddLambdaButton_2
-            app.AddLambdaButton_2 = uibutton(app.OptInterface_2, 'push');
-            app.AddLambdaButton_2.FontName = 'Arial';
-            app.AddLambdaButton_2.FontSize = 14;
-            app.AddLambdaButton_2.Position = [13 11 180 40];
-            app.AddLambdaButton_2.Text = 'Add Lambda';
 
             % Create TabGroup2
             app.TabGroup2 = uitabgroup(app.SLTab_2);
@@ -2425,6 +2224,7 @@ classdef PatMap < matlab.apps.AppBase
             app.UDFUDFInteractionsEditField_SL.RoundFractionalValues = 'on';
             app.UDFUDFInteractionsEditField_SL.ValueDisplayFormat = '%.0f';
             app.UDFUDFInteractionsEditField_SL.ValueChangedFcn = createCallbackFcn(app, @UDFUDFInteractionsEditField_SLValueChanged, true);
+            app.UDFUDFInteractionsEditField_SL.Tooltip = {'Whether to permit UDF-UDF edges. Doign so permits inferring some hierarchical interactions though generally reducing performance'};
             app.UDFUDFInteractionsEditField_SL.Position = [789 94 100 22];
 
             % Create RankAbsoluteValueofCoefficientsEditField_SL
@@ -2433,6 +2233,7 @@ classdef PatMap < matlab.apps.AppBase
             app.RankAbsoluteValueofCoefficientsEditField_SL.RoundFractionalValues = 'on';
             app.RankAbsoluteValueofCoefficientsEditField_SL.ValueDisplayFormat = '%.0f';
             app.RankAbsoluteValueofCoefficientsEditField_SL.ValueChangedFcn = createCallbackFcn(app, @RankAbsoluteValueofCoefficientsEditField_SLValueChanged, true);
+            app.RankAbsoluteValueofCoefficientsEditField_SL.Tooltip = {'If ''1'', during density-based thresholding edges will be selected using their absolute values. Otherwise, only positive coefficients will be selected'};
             app.RankAbsoluteValueofCoefficientsEditField_SL.Position = [789 53 100 22];
 
             % Create RankAbsoluteValueofCoefficientsEditFieldLabel_2
@@ -2456,6 +2257,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ParallelProcessingEditField_SL.ValueDisplayFormat = '%.0f';
             app.ParallelProcessingEditField_SL.ValueChangedFcn = createCallbackFcn(app, @ParallelProcessingEditField_SLValueChanged, true);
             app.ParallelProcessingEditField_SL.FontName = 'Arial';
+            app.ParallelProcessingEditField_SL.Tooltip = {'Whether to conduct structural learning in parallel'};
             app.ParallelProcessingEditField_SL.Position = [141 134 100 22];
 
             % Create AlphaEditField_2Label
@@ -2470,6 +2272,7 @@ classdef PatMap < matlab.apps.AppBase
             app.AlphaEditField_SL.Limits = [0 1];
             app.AlphaEditField_SL.ValueChangedFcn = createCallbackFcn(app, @AlphaEditField_SLValueChanged, true);
             app.AlphaEditField_SL.FontName = 'Arial';
+            app.AlphaEditField_SL.Tooltip = {'Alpha parameter of elastic net used during structural learning. A value of 1 is equivalent to LASSO.'};
             app.AlphaEditField_SL.Position = [141 94 100 22];
             app.AlphaEditField_SL.Value = 1;
 
@@ -2479,13 +2282,17 @@ classdef PatMap < matlab.apps.AppBase
             app.MergeNodeClassesEditField_SL.RoundFractionalValues = 'on';
             app.MergeNodeClassesEditField_SL.ValueDisplayFormat = '%.0f';
             app.MergeNodeClassesEditField_SL.ValueChangedFcn = createCallbackFcn(app, @MergeNodeClassesEditField_SLValueChanged, true);
+            app.MergeNodeClassesEditField_SL.Editable = 'off';
             app.MergeNodeClassesEditField_SL.FontName = 'Arial';
+            app.MergeNodeClassesEditField_SL.Visible = 'off';
             app.MergeNodeClassesEditField_SL.Position = [141 54 100 22];
             app.MergeNodeClassesEditField_SL.Value = 1;
 
             % Create MergeNodeClassesEditFieldLabel_2
             app.MergeNodeClassesEditFieldLabel_2 = uilabel(app.SLParams);
             app.MergeNodeClassesEditFieldLabel_2.HorizontalAlignment = 'right';
+            app.MergeNodeClassesEditFieldLabel_2.Enable = 'off';
+            app.MergeNodeClassesEditFieldLabel_2.Visible = 'off';
             app.MergeNodeClassesEditFieldLabel_2.Position = [20 53 118 22];
             app.MergeNodeClassesEditFieldLabel_2.Text = 'Merge Node Classes';
 
@@ -2503,6 +2310,7 @@ classdef PatMap < matlab.apps.AppBase
             app.NumberofsLambdaEditField_SL.ValueDisplayFormat = '%.0f';
             app.NumberofsLambdaEditField_SL.ValueChangedFcn = createCallbackFcn(app, @NumberofsLambdaEditField_SLValueChanged, true);
             app.NumberofsLambdaEditField_SL.FontName = 'Arial';
+            app.NumberofsLambdaEditField_SL.Tooltip = {'Number of s lambda used to learn relationship between s lambda and output structure.'};
             app.NumberofsLambdaEditField_SL.Position = [461 134 100 22];
             app.NumberofsLambdaEditField_SL.Value = 100;
 
@@ -2519,6 +2327,7 @@ classdef PatMap < matlab.apps.AppBase
             app.MinimumsLambdaEditField_SL.ValueDisplayFormat = '%e';
             app.MinimumsLambdaEditField_SL.ValueChangedFcn = createCallbackFcn(app, @MinimumsLambdaEditField_SLValueChanged, true);
             app.MinimumsLambdaEditField_SL.FontName = 'Arial';
+            app.MinimumsLambdaEditField_SL.Tooltip = {'minimum s lambda used to generate learned structures'};
             app.MinimumsLambdaEditField_SL.Position = [461 94 100 22];
             app.MinimumsLambdaEditField_SL.Value = 1e-05;
 
@@ -2535,6 +2344,7 @@ classdef PatMap < matlab.apps.AppBase
             app.MaximumsLambdaEditField_SL.ValueDisplayFormat = '%e';
             app.MaximumsLambdaEditField_SL.ValueChangedFcn = createCallbackFcn(app, @MaximumsLambdaEditField_SLValueChanged, true);
             app.MaximumsLambdaEditField_SL.FontName = 'Arial';
+            app.MaximumsLambdaEditField_SL.Tooltip = {'maximum s lambda used to generate structures'};
             app.MaximumsLambdaEditField_SL.Position = [461 54 100 22];
             app.MaximumsLambdaEditField_SL.Value = 0.5;
 
@@ -2552,6 +2362,7 @@ classdef PatMap < matlab.apps.AppBase
             app.sLambdaDistributionEditField_SL.ValueDisplayFormat = '%.0f';
             app.sLambdaDistributionEditField_SL.ValueChangedFcn = createCallbackFcn(app, @sLambdaDistributionEditField_SLValueChanged, true);
             app.sLambdaDistributionEditField_SL.FontName = 'Arial';
+            app.sLambdaDistributionEditField_SL.Tooltip = {'If 1, a s lambda are pulled from a log distribution. Otherwise, the distribution is normal'};
             app.sLambdaDistributionEditField_SL.Position = [461 14 100 22];
             app.sLambdaDistributionEditField_SL.Value = 1;
 
@@ -2565,9 +2376,10 @@ classdef PatMap < matlab.apps.AppBase
             % Create DensityEditField_SL
             app.DensityEditField_SL = uieditfield(app.SLParams, 'numeric');
             app.DensityEditField_SL.Limits = [0 1];
-            app.DensityEditField_SL.ValueDisplayFormat = '%.2f';
+            app.DensityEditField_SL.ValueDisplayFormat = '%.3f';
             app.DensityEditField_SL.ValueChangedFcn = createCallbackFcn(app, @DensityEditField_SLValueChanged, true);
             app.DensityEditField_SL.FontName = 'Arial';
+            app.DensityEditField_SL.Tooltip = {'Learned structures are further sparsified by this value'};
             app.DensityEditField_SL.Position = [789 134 100 22];
             app.DensityEditField_SL.Value = 0.25;
 
@@ -2590,16 +2402,17 @@ classdef PatMap < matlab.apps.AppBase
             app.PerformStructuralLearningButton.ButtonPushedFcn = createCallbackFcn(app, @PerformStructuralLearningButtonPushed, true);
             app.PerformStructuralLearningButton.FontName = 'Arial';
             app.PerformStructuralLearningButton.FontSize = 14;
+            app.PerformStructuralLearningButton.Tooltip = {'Press to perform structural learning'};
             app.PerformStructuralLearningButton.Position = [21 139 190 40];
             app.PerformStructuralLearningButton.Text = 'Perform Structural Learning';
 
-            % Create FirstPassStructuresEditFieldLabel
-            app.FirstPassStructuresEditFieldLabel = uilabel(app.RunningSL);
-            app.FirstPassStructuresEditFieldLabel.HorizontalAlignment = 'center';
-            app.FirstPassStructuresEditFieldLabel.FontName = 'Arial';
-            app.FirstPassStructuresEditFieldLabel.FontSize = 14;
-            app.FirstPassStructuresEditFieldLabel.Position = [231 139 170 40];
-            app.FirstPassStructuresEditFieldLabel.Text = 'First Pass Structures';
+            % Create SeedStructuresEditFieldLabel
+            app.SeedStructuresEditFieldLabel = uilabel(app.RunningSL);
+            app.SeedStructuresEditFieldLabel.HorizontalAlignment = 'center';
+            app.SeedStructuresEditFieldLabel.FontName = 'Arial';
+            app.SeedStructuresEditFieldLabel.FontSize = 14;
+            app.SeedStructuresEditFieldLabel.Position = [231 139 170 40];
+            app.SeedStructuresEditFieldLabel.Text = 'Seed Structures';
 
             % Create FirstPassStructuresEditField
             app.FirstPassStructuresEditField = uieditfield(app.RunningSL, 'numeric');
@@ -2610,6 +2423,7 @@ classdef PatMap < matlab.apps.AppBase
             app.FirstPassStructuresEditField.HorizontalAlignment = 'center';
             app.FirstPassStructuresEditField.FontName = 'Arial';
             app.FirstPassStructuresEditField.FontSize = 14;
+            app.FirstPassStructuresEditField.Tooltip = {'Number of models initially passed to parameter estimation'};
             app.FirstPassStructuresEditField.Position = [421 139 40 40];
             app.FirstPassStructuresEditField.Value = 8;
 
@@ -2618,6 +2432,7 @@ classdef PatMap < matlab.apps.AppBase
             app.PreviewPassedStructuresButton.ButtonPushedFcn = createCallbackFcn(app, @PreviewPassedStructuresButtonPushed, true);
             app.PreviewPassedStructuresButton.FontName = 'Arial';
             app.PreviewPassedStructuresButton.FontSize = 14;
+            app.PreviewPassedStructuresButton.Tooltip = {'Press to preview structural properties of passed structures'};
             app.PreviewPassedStructuresButton.Position = [21 79 190 40];
             app.PreviewPassedStructuresButton.Text = 'Preview Passed Structures';
 
@@ -2639,39 +2454,29 @@ classdef PatMap < matlab.apps.AppBase
             app.TotalPassedStructuresEditField.HorizontalAlignment = 'center';
             app.TotalPassedStructuresEditField.FontName = 'Arial';
             app.TotalPassedStructuresEditField.FontSize = 14;
+            app.TotalPassedStructuresEditField.Tooltip = {'Totatl number of structures passed to parameter estimation'};
             app.TotalPassedStructuresEditField.Position = [422 79 40 40];
 
-            % Create SelectedLambdasLabel
-            app.SelectedLambdasLabel = uilabel(app.RunningSL);
-            app.SelectedLambdasLabel.HorizontalAlignment = 'center';
-            app.SelectedLambdasLabel.FontName = 'Arial';
-            app.SelectedLambdasLabel.FontSize = 14;
-            app.SelectedLambdasLabel.Position = [481 139 140 40];
-            app.SelectedLambdasLabel.Text = 'Selected Lambdas';
+            % Create PassedsLambdasLabel
+            app.PassedsLambdasLabel = uilabel(app.RunningSL);
+            app.PassedsLambdasLabel.HorizontalAlignment = 'center';
+            app.PassedsLambdasLabel.FontName = 'Arial';
+            app.PassedsLambdasLabel.FontSize = 14;
+            app.PassedsLambdasLabel.Position = [481 139 140 40];
+            app.PassedsLambdasLabel.Text = 'Passed sLambdas';
 
             % Create PreviewAllStructuresButton
             app.PreviewAllStructuresButton = uibutton(app.RunningSL, 'push');
             app.PreviewAllStructuresButton.ButtonPushedFcn = createCallbackFcn(app, @PreviewAllStructuresButtonPushed, true);
             app.PreviewAllStructuresButton.FontName = 'Arial';
             app.PreviewAllStructuresButton.FontSize = 14;
+            app.PreviewAllStructuresButton.Tooltip = {'Press to preview all structures'' properties'};
             app.PreviewAllStructuresButton.Position = [21 19 190 40];
             app.PreviewAllStructuresButton.Text = 'Preview All Structures';
 
-            % Create PassAdditionalStructuresButton
-            app.PassAdditionalStructuresButton = uibutton(app.RunningSL, 'push');
-            app.PassAdditionalStructuresButton.ButtonPushedFcn = createCallbackFcn(app, @PassAdditionalStructuresButtonPushed, true);
-            app.PassAdditionalStructuresButton.FontName = 'Arial';
-            app.PassAdditionalStructuresButton.FontSize = 14;
-            app.PassAdditionalStructuresButton.Position = [221 19 190 40];
-            app.PassAdditionalStructuresButton.Text = 'Pass Additional Structures';
-
-            % Create PassAddStructField
-            app.PassAddStructField = uieditfield(app.RunningSL, 'numeric');
-            app.PassAddStructField.HorizontalAlignment = 'center';
-            app.PassAddStructField.Position = [421 19 40 40];
-
             % Create SelectedLambdasTextArea
             app.SelectedLambdasTextArea = uitextarea(app.RunningSL);
+            app.SelectedLambdasTextArea.Tooltip = {'S-Lambda selected for parameter estimation'};
             app.SelectedLambdasTextArea.Position = [481 19 140 99];
 
             % Create ParameterSpacePanel_SL
@@ -2707,7 +2512,7 @@ classdef PatMap < matlab.apps.AppBase
             app.LearningLabel_PE.HorizontalAlignment = 'center';
             app.LearningLabel_PE.FontName = 'Arial';
             app.LearningLabel_PE.FontWeight = 'bold';
-            app.LearningLabel_PE.Position = [11 163 233 22];
+            app.LearningLabel_PE.Position = [2 163 233 22];
             app.LearningLabel_PE.Text = 'Learning';
 
             % Create LambdaLabel_PE
@@ -2715,22 +2520,22 @@ classdef PatMap < matlab.apps.AppBase
             app.LambdaLabel_PE.HorizontalAlignment = 'center';
             app.LambdaLabel_PE.FontName = 'Arial';
             app.LambdaLabel_PE.FontWeight = 'bold';
-            app.LambdaLabel_PE.Position = [344 163 233 22];
+            app.LambdaLabel_PE.Position = [229 163 233 22];
             app.LambdaLabel_PE.Text = 'Lambda';
 
-            % Create ReportingExpensesLabel
-            app.ReportingExpensesLabel = uilabel(app.PEParams);
-            app.ReportingExpensesLabel.HorizontalAlignment = 'center';
-            app.ReportingExpensesLabel.FontName = 'Arial';
-            app.ReportingExpensesLabel.FontWeight = 'bold';
-            app.ReportingExpensesLabel.Position = [677 163 233 22];
-            app.ReportingExpensesLabel.Text = 'Reporting/Expenses';
+            % Create TrainingLabel
+            app.TrainingLabel = uilabel(app.PEParams);
+            app.TrainingLabel.HorizontalAlignment = 'center';
+            app.TrainingLabel.FontName = 'Arial';
+            app.TrainingLabel.FontWeight = 'bold';
+            app.TrainingLabel.Position = [457 163 233 22];
+            app.TrainingLabel.Text = 'Training';
 
             % Create MaxTimeLabel_PE
             app.MaxTimeLabel_PE = uilabel(app.PEParams);
             app.MaxTimeLabel_PE.HorizontalAlignment = 'right';
             app.MaxTimeLabel_PE.FontName = 'Arial';
-            app.MaxTimeLabel_PE.Position = [727 94 58 22];
+            app.MaxTimeLabel_PE.Position = [499 94 58 22];
             app.MaxTimeLabel_PE.Text = 'Max Time';
 
             % Create MaxTimeEditField_PE
@@ -2739,45 +2544,15 @@ classdef PatMap < matlab.apps.AppBase
             app.MaxTimeEditField_PE.RoundFractionalValues = 'on';
             app.MaxTimeEditField_PE.ValueDisplayFormat = '%.0f (s)';
             app.MaxTimeEditField_PE.ValueChangedFcn = createCallbackFcn(app, @MaxTimeEditField_PEValueChanged, true);
-            app.MaxTimeEditField_PE.Position = [789 94 100 22];
+            app.MaxTimeEditField_PE.Tooltip = {'Maximum time allotted for any given model to converge'};
+            app.MaxTimeEditField_PE.Position = [561 94 100 22];
             app.MaxTimeEditField_PE.Value = Inf;
-
-            % Create PrintTestEditField_PE
-            app.PrintTestEditField_PE = uieditfield(app.PEParams, 'numeric');
-            app.PrintTestEditField_PE.Limits = [1 Inf];
-            app.PrintTestEditField_PE.ValueDisplayFormat = '%.0f iterations';
-            app.PrintTestEditField_PE.ValueChangedFcn = createCallbackFcn(app, @PrintTestEditField_PEValueChanged, true);
-            app.PrintTestEditField_PE.Position = [789 14 100 22];
-            app.PrintTestEditField_PE.Value = 100;
-
-            % Create PrintTestLabel_PE
-            app.PrintTestLabel_PE = uilabel(app.PEParams);
-            app.PrintTestLabel_PE.HorizontalAlignment = 'right';
-            app.PrintTestLabel_PE.FontName = 'Arial';
-            app.PrintTestLabel_PE.Position = [729 13 56 22];
-            app.PrintTestLabel_PE.Text = 'Print Test';
-
-            % Create ParallelProcessingEditField_2Label_2
-            app.ParallelProcessingEditField_2Label_2 = uilabel(app.PEParams);
-            app.ParallelProcessingEditField_2Label_2.HorizontalAlignment = 'right';
-            app.ParallelProcessingEditField_2Label_2.FontName = 'Arial';
-            app.ParallelProcessingEditField_2Label_2.Position = [31 134 108 22];
-            app.ParallelProcessingEditField_2Label_2.Text = 'Parallel Processing';
-
-            % Create ParallelProcessingEditField_PE
-            app.ParallelProcessingEditField_PE = uieditfield(app.PEParams, 'numeric');
-            app.ParallelProcessingEditField_PE.Limits = [0 1];
-            app.ParallelProcessingEditField_PE.RoundFractionalValues = 'on';
-            app.ParallelProcessingEditField_PE.ValueDisplayFormat = '%.0f';
-            app.ParallelProcessingEditField_PE.ValueChangedFcn = createCallbackFcn(app, @ParallelProcessingEditField_PEValueChanged, true);
-            app.ParallelProcessingEditField_PE.FontName = 'Arial';
-            app.ParallelProcessingEditField_PE.Position = [141 134 100 22];
 
             % Create fValEpsilonLabel
             app.fValEpsilonLabel = uilabel(app.PEParams);
             app.fValEpsilonLabel.HorizontalAlignment = 'right';
             app.fValEpsilonLabel.FontName = 'Arial';
-            app.fValEpsilonLabel.Position = [69 94 68 22];
+            app.fValEpsilonLabel.Position = [55 95 68 22];
             app.fValEpsilonLabel.Text = 'fVal Epsilon';
 
             % Create fValEpsilonEditField_PE
@@ -2785,29 +2560,15 @@ classdef PatMap < matlab.apps.AppBase
             app.fValEpsilonEditField_PE.Limits = [0 Inf];
             app.fValEpsilonEditField_PE.ValueChangedFcn = createCallbackFcn(app, @fValEpsilonEditField_PEValueChanged, true);
             app.fValEpsilonEditField_PE.FontName = 'Arial';
-            app.fValEpsilonEditField_PE.Position = [141 94 100 22];
+            app.fValEpsilonEditField_PE.Tooltip = {'Convergence criterion for duality gap. A simple default is sufficient and a benefit of using the implemented MLE-Struct method'};
+            app.fValEpsilonEditField_PE.Position = [127 95 100 22];
             app.fValEpsilonEditField_PE.Value = 0.1;
-
-            % Create ComputeTrueLogZEditField_PE
-            app.ComputeTrueLogZEditField_PE = uieditfield(app.PEParams, 'numeric');
-            app.ComputeTrueLogZEditField_PE.Limits = [0 1];
-            app.ComputeTrueLogZEditField_PE.RoundFractionalValues = 'on';
-            app.ComputeTrueLogZEditField_PE.ValueDisplayFormat = '%.0f';
-            app.ComputeTrueLogZEditField_PE.ValueChangedFcn = createCallbackFcn(app, @ComputeTrueLogZEditField_PEValueChanged, true);
-            app.ComputeTrueLogZEditField_PE.FontName = 'Arial';
-            app.ComputeTrueLogZEditField_PE.Position = [141 54 100 22];
-
-            % Create ComputeTrueLogZLabel_PE
-            app.ComputeTrueLogZLabel_PE = uilabel(app.PEParams);
-            app.ComputeTrueLogZLabel_PE.HorizontalAlignment = 'right';
-            app.ComputeTrueLogZLabel_PE.Position = [18 53 120 22];
-            app.ComputeTrueLogZLabel_PE.Text = 'Computer True Log Z';
 
             % Create NumberofLambdaLabel_2
             app.NumberofLambdaLabel_2 = uilabel(app.PEParams);
             app.NumberofLambdaLabel_2.HorizontalAlignment = 'right';
             app.NumberofLambdaLabel_2.FontName = 'Arial';
-            app.NumberofLambdaLabel_2.Position = [349 134 108 22];
+            app.NumberofLambdaLabel_2.Position = [240 133 108 22];
             app.NumberofLambdaLabel_2.Text = 'Number of Lambda';
 
             % Create NumberofpLambdaEditField_PE
@@ -2817,14 +2578,15 @@ classdef PatMap < matlab.apps.AppBase
             app.NumberofpLambdaEditField_PE.ValueDisplayFormat = '%.0f';
             app.NumberofpLambdaEditField_PE.ValueChangedFcn = createCallbackFcn(app, @NumberofpLambdaEditField_PEValueChanged, true);
             app.NumberofpLambdaEditField_PE.FontName = 'Arial';
-            app.NumberofpLambdaEditField_PE.Position = [461 134 100 22];
+            app.NumberofpLambdaEditField_PE.Tooltip = {'Number of p lambda values used in hyperparameter optimization'};
+            app.NumberofpLambdaEditField_PE.Position = [352 133 100 22];
             app.NumberofpLambdaEditField_PE.Value = 2;
 
             % Create MinimumLambdaLabel_2
             app.MinimumLambdaLabel_2 = uilabel(app.PEParams);
             app.MinimumLambdaLabel_2.HorizontalAlignment = 'right';
             app.MinimumLambdaLabel_2.FontName = 'Arial';
-            app.MinimumLambdaLabel_2.Position = [356 94 101 22];
+            app.MinimumLambdaLabel_2.Position = [247 94 101 22];
             app.MinimumLambdaLabel_2.Text = 'Minimum Lambda';
 
             % Create MinimumpLambdaEditField_PE
@@ -2833,14 +2595,15 @@ classdef PatMap < matlab.apps.AppBase
             app.MinimumpLambdaEditField_PE.ValueDisplayFormat = '%e';
             app.MinimumpLambdaEditField_PE.ValueChangedFcn = createCallbackFcn(app, @MinimumpLambdaEditField_PEValueChanged, true);
             app.MinimumpLambdaEditField_PE.FontName = 'Arial';
-            app.MinimumpLambdaEditField_PE.Position = [461 94 100 22];
+            app.MinimumpLambdaEditField_PE.Tooltip = {'minimum p lambda used in hyperparameter optimization'};
+            app.MinimumpLambdaEditField_PE.Position = [352 94 100 22];
             app.MinimumpLambdaEditField_PE.Value = 1000;
 
             % Create PrintIntervalLabel
             app.PrintIntervalLabel = uilabel(app.PEParams);
             app.PrintIntervalLabel.HorizontalAlignment = 'right';
             app.PrintIntervalLabel.FontName = 'Arial';
-            app.PrintIntervalLabel.Position = [712 54 73 22];
+            app.PrintIntervalLabel.Position = [485 54 73 22];
             app.PrintIntervalLabel.Text = 'Print Interval';
 
             % Create PrintIntervalEditField_PE
@@ -2850,14 +2613,15 @@ classdef PatMap < matlab.apps.AppBase
             app.PrintIntervalEditField_PE.ValueDisplayFormat = '%.0f iterations';
             app.PrintIntervalEditField_PE.ValueChangedFcn = createCallbackFcn(app, @PrintIntervalEditField_PEValueChanged, true);
             app.PrintIntervalEditField_PE.FontName = 'Arial';
-            app.PrintIntervalEditField_PE.Position = [789 54 100 22];
+            app.PrintIntervalEditField_PE.Tooltip = {'Print verbose feedback on parameter estimation progress at this interval'};
+            app.PrintIntervalEditField_PE.Position = [562 54 100 22];
             app.PrintIntervalEditField_PE.Value = 1000;
 
             % Create MaximumLambdaLabel_2
             app.MaximumLambdaLabel_2 = uilabel(app.PEParams);
             app.MaximumLambdaLabel_2.HorizontalAlignment = 'right';
             app.MaximumLambdaLabel_2.FontName = 'Arial';
-            app.MaximumLambdaLabel_2.Position = [353 54 104 22];
+            app.MaximumLambdaLabel_2.Position = [244 54 104 22];
             app.MaximumLambdaLabel_2.Text = 'Maximum Lambda';
 
             % Create MaximumpLambdaEditField_PE
@@ -2866,14 +2630,15 @@ classdef PatMap < matlab.apps.AppBase
             app.MaximumpLambdaEditField_PE.ValueDisplayFormat = '%e';
             app.MaximumpLambdaEditField_PE.ValueChangedFcn = createCallbackFcn(app, @MaximumpLambdaEditField_PEValueChanged, true);
             app.MaximumpLambdaEditField_PE.FontName = 'Arial';
-            app.MaximumpLambdaEditField_PE.Position = [461 54 100 22];
+            app.MaximumpLambdaEditField_PE.Tooltip = {'maximum p lambda in hyperparameter optimization'};
+            app.MaximumpLambdaEditField_PE.Position = [352 54 100 22];
             app.MaximumpLambdaEditField_PE.Value = 100000;
 
             % Create LambdaDistributionLabel_2
             app.LambdaDistributionLabel_2 = uilabel(app.PEParams);
             app.LambdaDistributionLabel_2.HorizontalAlignment = 'right';
             app.LambdaDistributionLabel_2.FontName = 'Arial';
-            app.LambdaDistributionLabel_2.Position = [345 14 112 22];
+            app.LambdaDistributionLabel_2.Position = [236 17 112 22];
             app.LambdaDistributionLabel_2.Text = 'Lambda Distribution';
 
             % Create pLambdaDistributionEditField_PE
@@ -2883,14 +2648,15 @@ classdef PatMap < matlab.apps.AppBase
             app.pLambdaDistributionEditField_PE.ValueDisplayFormat = '%.0f';
             app.pLambdaDistributionEditField_PE.ValueChangedFcn = createCallbackFcn(app, @pLambdaDistributionEditField_PEValueChanged, true);
             app.pLambdaDistributionEditField_PE.FontName = 'Arial';
-            app.pLambdaDistributionEditField_PE.Position = [461 14 100 22];
+            app.pLambdaDistributionEditField_PE.Tooltip = {'If 1, p lambda are pulled from a log distribution. Otherwise, pulled from normal distribution'};
+            app.pLambdaDistributionEditField_PE.Position = [352 17 100 22];
             app.pLambdaDistributionEditField_PE.Value = 1;
 
             % Create MaxIterationsLabel
             app.MaxIterationsLabel = uilabel(app.PEParams);
             app.MaxIterationsLabel.HorizontalAlignment = 'right';
             app.MaxIterationsLabel.FontName = 'Arial';
-            app.MaxIterationsLabel.Position = [706 133 81 22];
+            app.MaxIterationsLabel.Position = [477 130 81 22];
             app.MaxIterationsLabel.Text = 'Max Iterations';
 
             % Create MaxIterEditField_PE
@@ -2900,13 +2666,14 @@ classdef PatMap < matlab.apps.AppBase
             app.MaxIterEditField_PE.ValueDisplayFormat = '%.0f';
             app.MaxIterEditField_PE.ValueChangedFcn = createCallbackFcn(app, @MaxIterEditField_PEValueChanged, true);
             app.MaxIterEditField_PE.FontName = 'Arial';
-            app.MaxIterEditField_PE.Position = [789 134 100 22];
+            app.MaxIterEditField_PE.Tooltip = {'Maximum number of iterations permitted for any given model. '};
+            app.MaxIterEditField_PE.Position = [560 131 100 22];
             app.MaxIterEditField_PE.Value = 75000;
 
             % Create ReweightDenominatorDropDown_2Label
             app.ReweightDenominatorDropDown_2Label = uilabel(app.PEParams);
             app.ReweightDenominatorDropDown_2Label.HorizontalAlignment = 'right';
-            app.ReweightDenominatorDropDown_2Label.Position = [18 15 128 22];
+            app.ReweightDenominatorDropDown_2Label.Position = [7 54 128 22];
             app.ReweightDenominatorDropDown_2Label.Text = 'Reweight Denominator';
 
             % Create ReweightDenominatorDropDown_PE
@@ -2914,9 +2681,87 @@ classdef PatMap < matlab.apps.AppBase
             app.ReweightDenominatorDropDown_PE.Items = {'mean_degree', 'median_degree', 'max_degree', 'rms_degree', ''};
             app.ReweightDenominatorDropDown_PE.Editable = 'on';
             app.ReweightDenominatorDropDown_PE.ValueChangedFcn = createCallbackFcn(app, @ReweightDenominatorDropDown_PEValueChanged, true);
+            app.ReweightDenominatorDropDown_PE.Tooltip = {'This parameter facilitates the convergence of the partitiion function & a simple default should suffice. The exact partition function is replaced by a weight free energy approximation. This parameter ensures that this approximation is convex and gaurantees fast convergence. '};
             app.ReweightDenominatorDropDown_PE.BackgroundColor = [1 1 1];
-            app.ReweightDenominatorDropDown_PE.Position = [161 15 80 22];
+            app.ReweightDenominatorDropDown_PE.Position = [150 54 80 22];
             app.ReweightDenominatorDropDown_PE.Value = 'mean_degree';
+
+            % Create ImplementationModeLabel
+            app.ImplementationModeLabel = uilabel(app.PEParams);
+            app.ImplementationModeLabel.FontName = 'Arial';
+            app.ImplementationModeLabel.Position = [11 135 121 22];
+            app.ImplementationModeLabel.Text = 'Implementation Mode';
+
+            % Create ImplementationModeEditField_PE
+            app.ImplementationModeEditField_PE = uieditfield(app.PEParams, 'numeric');
+            app.ImplementationModeEditField_PE.Limits = [1 4];
+            app.ImplementationModeEditField_PE.RoundFractionalValues = 'on';
+            app.ImplementationModeEditField_PE.ValueDisplayFormat = '%.0f';
+            app.ImplementationModeEditField_PE.ValueChangedFcn = createCallbackFcn(app, @ImplementationModeEditField_PEValueChanged, true);
+            app.ImplementationModeEditField_PE.HorizontalAlignment = 'center';
+            app.ImplementationModeEditField_PE.FontName = 'Arial';
+            app.ImplementationModeEditField_PE.FontSize = 14;
+            app.ImplementationModeEditField_PE.Tooltip = {'Indicates the implementation used for parameter estimation. 1 is standard, 2 is parallel, 3 is in series (saved checkpoints). 4 is self-optimizing, 5 is self-optimizing in parallel, 6 is self optimizing in series'};
+            app.ImplementationModeEditField_PE.Position = [129 135 100 22];
+            app.ImplementationModeEditField_PE.Value = 1;
+
+            % Create SMBOMaxTimeEditField_2
+            app.SMBOMaxTimeEditField_2 = uieditfield(app.PEParams, 'numeric');
+            app.SMBOMaxTimeEditField_2.Limits = [0 Inf];
+            app.SMBOMaxTimeEditField_2.RoundFractionalValues = 'on';
+            app.SMBOMaxTimeEditField_2.ValueDisplayFormat = '%.0f';
+            app.SMBOMaxTimeEditField_2.ValueChangedFcn = createCallbackFcn(app, @SMBOMaxTimeEditField_2ValueChanged, true);
+            app.SMBOMaxTimeEditField_2.FontName = 'Arial';
+            app.SMBOMaxTimeEditField_2.Tooltip = {'Max time allocated for SMBO hyperparameter optimization'};
+            app.SMBOMaxTimeEditField_2.Position = [801 131 100 22];
+            app.SMBOMaxTimeEditField_2.Value = Inf;
+
+            % Create SMBOMaxTimeEditField_2Label
+            app.SMBOMaxTimeEditField_2Label = uilabel(app.PEParams);
+            app.SMBOMaxTimeEditField_2Label.HorizontalAlignment = 'right';
+            app.SMBOMaxTimeEditField_2Label.Position = [702 131 96 22];
+            app.SMBOMaxTimeEditField_2Label.Text = 'SMBO Max Time';
+
+            % Create SMBOParallelEditField_2
+            app.SMBOParallelEditField_2 = uieditfield(app.PEParams, 'numeric');
+            app.SMBOParallelEditField_2.Limits = [0 1];
+            app.SMBOParallelEditField_2.RoundFractionalValues = 'on';
+            app.SMBOParallelEditField_2.ValueDisplayFormat = '%.0f';
+            app.SMBOParallelEditField_2.ValueChangedFcn = createCallbackFcn(app, @SMBOParallelEditField_2ValueChanged, true);
+            app.SMBOParallelEditField_2.FontName = 'Arial';
+            app.SMBOParallelEditField_2.Tooltip = {'If 1, conduct SMBO hyperparameter optimization in parallel. Otherwise, single process'};
+            app.SMBOParallelEditField_2.Position = [802 54 100 22];
+
+            % Create SMBOParallelEditField_2Label
+            app.SMBOParallelEditField_2Label = uilabel(app.PEParams);
+            app.SMBOParallelEditField_2Label.HorizontalAlignment = 'right';
+            app.SMBOParallelEditField_2Label.Position = [715 54 84 22];
+            app.SMBOParallelEditField_2Label.Text = 'SMBO Parallel';
+
+            % Create OptimizationLabel
+            app.OptimizationLabel = uilabel(app.PEParams);
+            app.OptimizationLabel.HorizontalAlignment = 'center';
+            app.OptimizationLabel.FontName = 'Arial';
+            app.OptimizationLabel.FontWeight = 'bold';
+            app.OptimizationLabel.Position = [685 163 233 22];
+            app.OptimizationLabel.Text = 'Optimization';
+
+            % Create SMBOMaxEvaluationsEditField_2
+            app.SMBOMaxEvaluationsEditField_2 = uieditfield(app.PEParams, 'numeric');
+            app.SMBOMaxEvaluationsEditField_2.Limits = [0 Inf];
+            app.SMBOMaxEvaluationsEditField_2.RoundFractionalValues = 'on';
+            app.SMBOMaxEvaluationsEditField_2.ValueDisplayFormat = '%.0f';
+            app.SMBOMaxEvaluationsEditField_2.ValueChangedFcn = createCallbackFcn(app, @SMBOMaxEvaluationsEditField_2ValueChanged, true);
+            app.SMBOMaxEvaluationsEditField_2.FontName = 'Arial';
+            app.SMBOMaxEvaluationsEditField_2.Tooltip = {'Maximum number of objective evaluations during SMBO hyperparameter optimization'};
+            app.SMBOMaxEvaluationsEditField_2.Position = [802 94 100 22];
+            app.SMBOMaxEvaluationsEditField_2.Value = 30;
+
+            % Create SMBOMaxEvaluationsEditField_2Label
+            app.SMBOMaxEvaluationsEditField_2Label = uilabel(app.PEParams);
+            app.SMBOMaxEvaluationsEditField_2Label.HorizontalAlignment = 'right';
+            app.SMBOMaxEvaluationsEditField_2Label.Position = [667 94 132 22];
+            app.SMBOMaxEvaluationsEditField_2Label.Text = 'SMBO Max Evaluations';
 
             % Create Learning_PE
             app.Learning_PE = uipanel(app.ParameterEstimationTab);
@@ -2936,16 +2781,17 @@ classdef PatMap < matlab.apps.AppBase
             app.PerformParameterEstimationButton.ButtonPushedFcn = createCallbackFcn(app, @PerformParameterEstimationButtonPushed, true);
             app.PerformParameterEstimationButton.FontName = 'Arial';
             app.PerformParameterEstimationButton.FontSize = 14;
+            app.PerformParameterEstimationButton.Tooltip = {'Press to perform parameter estimation'};
             app.PerformParameterEstimationButton.Position = [10 139 205 40];
             app.PerformParameterEstimationButton.Text = 'Perform Parameter Estimation';
 
-            % Create FirstPassModelsLabel
-            app.FirstPassModelsLabel = uilabel(app.Learning_PE);
-            app.FirstPassModelsLabel.HorizontalAlignment = 'center';
-            app.FirstPassModelsLabel.FontName = 'Arial';
-            app.FirstPassModelsLabel.FontSize = 14;
-            app.FirstPassModelsLabel.Position = [227 139 170 40];
-            app.FirstPassModelsLabel.Text = 'First Pass Models';
+            % Create SeedModelsLabel
+            app.SeedModelsLabel = uilabel(app.Learning_PE);
+            app.SeedModelsLabel.HorizontalAlignment = 'center';
+            app.SeedModelsLabel.FontName = 'Arial';
+            app.SeedModelsLabel.FontSize = 14;
+            app.SeedModelsLabel.Position = [227 139 170 40];
+            app.SeedModelsLabel.Text = 'Seed Models';
 
             % Create FirstPassModelsEditField
             app.FirstPassModelsEditField = uieditfield(app.Learning_PE, 'numeric');
@@ -2956,6 +2802,7 @@ classdef PatMap < matlab.apps.AppBase
             app.FirstPassModelsEditField.HorizontalAlignment = 'center';
             app.FirstPassModelsEditField.FontName = 'Arial';
             app.FirstPassModelsEditField.FontSize = 14;
+            app.FirstPassModelsEditField.Tooltip = {'Models allocated to be learned'};
             app.FirstPassModelsEditField.Position = [417 139 40 40];
             app.FirstPassModelsEditField.Value = 16;
 
@@ -2976,6 +2823,7 @@ classdef PatMap < matlab.apps.AppBase
             app.TotalLearnedModelsEditField.HorizontalAlignment = 'center';
             app.TotalLearnedModelsEditField.FontName = 'Arial';
             app.TotalLearnedModelsEditField.FontSize = 14;
+            app.TotalLearnedModelsEditField.Tooltip = {'Total models learned'};
             app.TotalLearnedModelsEditField.Position = [418 79 40 40];
 
             % Create SelectedLambdasLabel_PE
@@ -2984,7 +2832,7 @@ classdef PatMap < matlab.apps.AppBase
             app.SelectedLambdasLabel_PE.FontName = 'Arial';
             app.SelectedLambdasLabel_PE.FontSize = 14;
             app.SelectedLambdasLabel_PE.Position = [477 139 140 40];
-            app.SelectedLambdasLabel_PE.Text = 'Selected Lambdas';
+            app.SelectedLambdasLabel_PE.Text = 'Passed pLambda';
 
             % Create ModelsUnlearnedEditField
             app.ModelsUnlearnedEditField = uieditfield(app.Learning_PE, 'numeric');
@@ -2992,27 +2840,51 @@ classdef PatMap < matlab.apps.AppBase
             app.ModelsUnlearnedEditField.HorizontalAlignment = 'center';
             app.ModelsUnlearnedEditField.FontName = 'Arial';
             app.ModelsUnlearnedEditField.FontSize = 14;
+            app.ModelsUnlearnedEditField.Tooltip = {'Models previously allocated that remain unlearned'};
             app.ModelsUnlearnedEditField.Position = [417 19 40 40];
 
             % Create SelectedLambdasTextArea_PE
             app.SelectedLambdasTextArea_PE = uitextarea(app.Learning_PE);
+            app.SelectedLambdasTextArea_PE.Tooltip = {'Select p lambdas for hyperparameter optimization'};
             app.SelectedLambdasTextArea_PE.Position = [477 19 140 99];
 
-            % Create ModelsUnlearnedLabel
-            app.ModelsUnlearnedLabel = uilabel(app.Learning_PE);
-            app.ModelsUnlearnedLabel.HorizontalAlignment = 'center';
-            app.ModelsUnlearnedLabel.FontName = 'Arial';
-            app.ModelsUnlearnedLabel.FontSize = 14;
-            app.ModelsUnlearnedLabel.Position = [211 19 190 40];
-            app.ModelsUnlearnedLabel.Text = 'Models Unlearned';
+            % Create SeedModelsUnlearnedLabel
+            app.SeedModelsUnlearnedLabel = uilabel(app.Learning_PE);
+            app.SeedModelsUnlearnedLabel.HorizontalAlignment = 'center';
+            app.SeedModelsUnlearnedLabel.FontName = 'Arial';
+            app.SeedModelsUnlearnedLabel.FontSize = 14;
+            app.SeedModelsUnlearnedLabel.Position = [217 19 190 40];
+            app.SeedModelsUnlearnedLabel.Text = 'Seed Models Unlearned';
 
-            % Create LearnAdditionalModelsButton
-            app.LearnAdditionalModelsButton = uibutton(app.Learning_PE, 'push');
-            app.LearnAdditionalModelsButton.ButtonPushedFcn = createCallbackFcn(app, @LearnAdditionalModelsButtonPushed, true);
-            app.LearnAdditionalModelsButton.FontName = 'Arial';
-            app.LearnAdditionalModelsButton.FontSize = 14;
-            app.LearnAdditionalModelsButton.Position = [11 79 205 40];
-            app.LearnAdditionalModelsButton.Text = 'Learn Additional Models';
+            % Create OptimizeButton
+            app.OptimizeButton = uibutton(app.Learning_PE, 'push');
+            app.OptimizeButton.ButtonPushedFcn = createCallbackFcn(app, @OptimizeButtonPushed, true);
+            app.OptimizeButton.FontName = 'Arial';
+            app.OptimizeButton.FontSize = 14;
+            app.OptimizeButton.Tooltip = {'Press to launch SMBO hyperparameter optimization'};
+            app.OptimizeButton.Position = [11 79 205 40];
+            app.OptimizeButton.Text = 'Optimize';
+
+            % Create PlotModelLabel
+            app.PlotModelLabel = uilabel(app.Learning_PE);
+            app.PlotModelLabel.HorizontalAlignment = 'center';
+            app.PlotModelLabel.FontName = 'Arial';
+            app.PlotModelLabel.FontSize = 14;
+            app.PlotModelLabel.Position = [11 19 205 40];
+            app.PlotModelLabel.Text = 'Plot Model';
+
+            % Create PlotModelEditField
+            app.PlotModelEditField = uieditfield(app.Learning_PE, 'numeric');
+            app.PlotModelEditField.Limits = [1 Inf];
+            app.PlotModelEditField.RoundFractionalValues = 'on';
+            app.PlotModelEditField.ValueDisplayFormat = '%.0f';
+            app.PlotModelEditField.ValueChangedFcn = createCallbackFcn(app, @PlotModelEditFieldValueChanged, true);
+            app.PlotModelEditField.HorizontalAlignment = 'center';
+            app.PlotModelEditField.FontName = 'Arial';
+            app.PlotModelEditField.FontSize = 14;
+            app.PlotModelEditField.Tooltip = {'Select a model to plot its potentials below'};
+            app.PlotModelEditField.Position = [175 19 40 40];
+            app.PlotModelEditField.Value = 1;
 
             % Create ParameterSpacePanel_PE
             app.ParameterSpacePanel_PE = uipanel(app.ParameterEstimationTab);
@@ -3035,6 +2907,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BandwidthEditField = uieditfield(app.Potentials_PE, 'numeric');
             app.BandwidthEditField.ValueChangedFcn = createCallbackFcn(app, @BandwidthEditFieldValueChanged, true);
             app.BandwidthEditField.HorizontalAlignment = 'center';
+            app.BandwidthEditField.Tooltip = {'Bandwidth of filter for node potentials'};
             app.BandwidthEditField.Position = [86 7 41 22];
             app.BandwidthEditField.Value = 0.05;
 
@@ -3048,6 +2921,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BandwidthEditField_2 = uieditfield(app.Potentials_PE, 'numeric');
             app.BandwidthEditField_2.ValueChangedFcn = createCallbackFcn(app, @BandwidthEditField_2ValueChanged, true);
             app.BandwidthEditField_2.HorizontalAlignment = 'center';
+            app.BandwidthEditField_2.Tooltip = {'Bandwidth of filter for edge potentials'};
             app.BandwidthEditField_2.Position = [870 10 41 22];
             app.BandwidthEditField_2.Value = 0.025;
 

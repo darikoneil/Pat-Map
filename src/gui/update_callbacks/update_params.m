@@ -23,6 +23,11 @@ app.IncludeUDFinEnsemblesEditField.Value = double(params.include_UDF_in_random_e
 app.NumberofRandomControlsEditField.Value = double(params.num_controls);
 app.AssessDecodingEditField.Value = double(params.assess_decoding);
 app.AssessClusteringEditField.Value = double(params.assess_clustering);
+app.DeviationsEditField_2.Value = double(params.deviations_ensemble_id);
+app.SMBOMaxTimeEditField.Value = double(params.smbo_max_time);
+app.SMBOMaxEvaluationsEditField.Value = double(params.smbo_max_eval);
+app.SMBOParallelEditField.Value = double(params.par_smbo);
+app.UseTestinEnsembleIdentificationEditField.Value = double(params.include_testing_in_identify);
 
 % SL
 app.ParallelLearningEditField.Value = double(params.par_struc);
@@ -52,7 +57,9 @@ app.MaximumTimetoConvergenceEditField.Value = double(params.max_time);
 app.PrintIntervalEditField.Value = double(params.print_interval);
 app.ReweightDenominatorDropDown.Value = params.reweight_denominator;
 app.ImplementationModeEditField.Value = double(params.implementation_mode);
-
+app.SMBOMaxTimeEditField_2.Value = double(params.smbo_max_time);
+app.SMBOMaxEvaluationsEditField_2.Value = double(params.smbo_max_eval);
+app.SMBOParallelEditField_2.Value = double(params.par_smbo);
 
 %Structural Learning Column One
 app.ParallelProcessingEditField_SL.Value = double(params.par_struc);

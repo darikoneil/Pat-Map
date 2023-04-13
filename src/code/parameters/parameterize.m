@@ -227,6 +227,9 @@ addParameter(p, 'implementation_mode', 1, @(x) isnumeric(x) && numel(x)==1 && x<
 % 6 equals optimized series
 
 
+%parameter contains temp model paths
+addParameter(p, 'temp_model_paths', {}, @(x) iscell(x));
+
 % ratio of train-test for model selection
 addParameter(p, 'train_test_ratio', 1, @(x) isnumeric(x) && isscalar(x) && x>=0 && x<=1);
 
@@ -261,6 +264,8 @@ addParameter(p, 'include_testing_in_identify', false, @(x) islogical(x));
 %Parameter setting the criterion for random ensemble size
 addParameter(p,'size_random_ensemble','coact',@(x) ischar(x) && (strcmp(x,'max_degree') || strcmp(x,'coact') || strcmp(x,'coactUDF')));
 
+%Parameter setting the number of deviations used to extract ensemble
+addParameter(p, 'deviations_ensemble_id', 3, @(x) isscalar(x));
 
 %%  (6, Generate 'Evaluation' Parameters): 
 
@@ -321,6 +326,19 @@ addParameter(p,'udf',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 
 %Parameter containing coords
 addParameter(p,'coords',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
+
+
+
+%% (9, SMBO PARAMETERS)
+
+% Parameter indicating max number of objective evaluations
+addParameter(p, 'smbo_max_eval', 30, @(x) isscalar(x));
+
+% Parameter indicating max time allowed for objective evaluation
+addParameter(p, 'smbo_max_time', Inf, @(x) isscalar(x));
+
+% Parameter indicating parallel smbo
+addParameter(p, 'par_smbo', false, @(x) islogical(x));
 
 
 %% Do the parsing & Export the parameter set
