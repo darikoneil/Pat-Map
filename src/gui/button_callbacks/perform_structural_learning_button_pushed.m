@@ -14,6 +14,8 @@ function perform_structural_learning_button_pushed(app)
     
     update_p_lambda_text(app);
     
+    preview_passed_structures_button_pushed(app);
+    
     update_log(app, 'Structural Learning Complete');
     
     app.params.stage = 2;

@@ -24,11 +24,9 @@ not_ensemble_nodes = setdiff(1:size(edge_mat, 1), ensemble_nodes);
 
 % Plot them (One first to properly use replace children feature)
 i = 1;
-
-
-fill(app.ensemble_graph, rois.xpix{not_ensemble_nodes(i)}(rois.boundaryOutlines{not_ensemble_nodes(i)}),rois.ypix{not_ensemble_nodes(i)}(rois.boundaryOutlines{not_ensemble_nodes(i)}),...
-    'w','FaceAlpha', 0.95,'EdgeAlpha',1, 'LineWidth',1);
-  
+fill(app.ensemble_graph,rois.xpix{not_ensemble_nodes(i)}(rois.boundaryOutlines{not_ensemble_nodes(i)}),rois.ypix{not_ensemble_nodes(i)}(rois.boundaryOutlines{not_ensemble_nodes(i)}),...
+    [0.97 0.97 0.97],'FaceAlpha',0.95,'EdgeAlpha',1, 'LineWidth',1);
+    
 hold(app.ensemble_graph,'on');
 for i = 2:length(not_ensemble_nodes)
     fill(app.ensemble_graph,rois.xpix{not_ensemble_nodes(i)}(rois.boundaryOutlines{not_ensemble_nodes(i)}),rois.ypix{not_ensemble_nodes(i)}(rois.boundaryOutlines{not_ensemble_nodes(i)}),...

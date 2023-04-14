@@ -17,14 +17,14 @@ C = turbo(length(rois.xpix));
 C = flipud(C);
 
 % Plot them (One first to properly use replace children feature
-i = neuron_id;
-if neuron_id == 0:
-    
+
+if neuron_id == 0
+    i=1;
     fill(app.model_structure, rois.xpix{i}(rois.boundaryOutlines{i}),rois.ypix{i}(rois.boundaryOutlines{i}),'w','FaceAlpha',0.75, 'LineWidth', 1.5, 'EdgeAlpha', 1);
 
     fill(app.model_structure, rois.xpix{i}(rois.boundaryOutlines{i}),rois.ypix{i}(rois.boundaryOutlines{i}),C(i,:),'FaceAlpha',0.25, 'LineWidth',1.5, 'EdgeAlpha', 1);
 else
-      
+    i = neuron_id;
     fill(app.model_structure, rois.xpix{i}(rois.boundaryOutlines{i}),rois.ypix{i}(rois.boundaryOutlines{i}),'w','FaceAlpha',0.75, 'LineWidth', 2, 'EdgeAlpha', 1, 'EdgeColor', 'red');
 
     fill(app.model_structure, rois.xpix{i}(rois.boundaryOutlines{i}),rois.ypix{i}(rois.boundaryOutlines{i}),C(i,:),'FaceAlpha',0.25, 'LineWidth',2, 'EdgeAlpha', 1, 'EdgeColor', 'red');
@@ -51,7 +51,7 @@ for i = 1:num_rois
     edges{i} = find(edge_mat(i, :)==1);
 end
 
-if neuron_id ~= 0:
+if neuron_id ~= 0
     for neuron_1 = neuron_id
         for neuron_2 = edges{neuron_1}
             node_1 = [rois.xpix{neuron_1}(rois.boundaryOutlines{neuron_1}); rois.ypix{neuron_1}(rois.boundaryOutlines{neuron_1})]';

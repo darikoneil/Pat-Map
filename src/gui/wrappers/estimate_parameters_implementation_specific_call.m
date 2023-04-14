@@ -14,7 +14,7 @@ switch app.params.implementation_mode
         [app.model_collection,app.params] = estimate_parameters_collection_implementation(app.params,app.models);
     case 2
         update_log(app, 'Parallel Implementation Selected');
-        [app.model_collection, app.params] = estimate_parameters_parallel_implementation(app.params, app.models)
+        [app.model_collection, app.params] = estimate_parameters_parallel_implementation(app.params, app.models);
     case 3
         update_log(app, 'Series Implementation Selected');
     case 4

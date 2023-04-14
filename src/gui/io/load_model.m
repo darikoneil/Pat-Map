@@ -104,7 +104,7 @@ if found_params && app.params.stage >=4
         app.BestModelLamp.Color = [0.35 0.80 0.41];
         update_log(app, 'Located Best Model');
         update_best_model_text(app);
-        plot_optimization(app, 'p_lambda', 's_lambda', 'test_likelihood');
+        plot_model_structure(app);
      catch
         update_log(app,'Unable to Retrieve Selected Best Model');
         app.BestModelLamp.Color = [0.87 0.27 0.27];
@@ -112,6 +112,9 @@ if found_params && app.params.stage >=4
     try
         optimization_results = load(filename, 'optimization_results');
         app.optimization_results = optimization_results.optimization_results;
+        if isempty(app.optimization_results)
+            wrap_seeds_into_optimization(app);
+        end
     catch
         update_log(app, 'Unable to Retrieve Optimization Results');
     end     
@@ -127,6 +130,7 @@ if found_params && app.params.stage >= 5
     end
     if status == 0
         update_clustering_text(app);
+        plot_model_structure(app);
         decoding_udf_selection_change_button_pushed(app); % fastest way to update these plots/text :)
     end
 end
