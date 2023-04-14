@@ -6,6 +6,4 @@ update_decoding_text(app);
 
 plot_structured_prediction_visual(app);
 
-plot_model_structure(app);
-
 end
