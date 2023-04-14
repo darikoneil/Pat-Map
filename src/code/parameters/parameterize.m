@@ -119,7 +119,7 @@ addParameter(p,'s_lambda_min',1e-5,@(x) isnumeric(x) && numel(x)==1 && x<1 && x>
 addParameter(p,'s_lambda_max',0.5, @(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
 
 %Parameter setting number of structures to feed parameter estimation
-addParameter(p,'num_structures',8,@(x) isnumeric(x) && numel(x)==1 && x>=1);
+addParameter(p,'num_structures',8,@(x) isnumeric(x) && numel(x)==1 && x>=2);
 
 %distribution for pulling s lambda samples
 addParameter(p,'s_lambda_distribution',true,@(x) islogical(x));

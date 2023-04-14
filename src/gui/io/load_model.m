@@ -109,6 +109,12 @@ if found_params && app.params.stage >=4
         update_log(app,'Unable to Retrieve Selected Best Model');
         app.BestModelLamp.Color = [0.87 0.27 0.27];
     end
+    try
+        optimization_results = load(filename, 'optimization_results');
+        app.optimization_results = optimization_results.optimization_results;
+    catch
+        update_log(app, 'Unable to Retrieve Optimization Results');
+    end     
 end
 
 %% If Stage >= 5

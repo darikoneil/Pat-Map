@@ -7,7 +7,8 @@ num_udf_nodes = params.num_udf;
 num_nodes = num_original_nodes + num_udf_nodes;
 x_train = params.x_train;
 x_test = params.x_test;
-dataset = [x_train; x_test];
+x_valid = params.x_valid;
+dataset = [x_train; x_valid; x_test];
 par_proc = params.par_proc;
 
 node_potentials = best_model.theta.node_potentials;
