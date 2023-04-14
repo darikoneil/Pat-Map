@@ -12,6 +12,7 @@ if app.params.assess_decoding
     plot_model_decoding_evaluation(app);
     update_decoding_text(app);
     plot_structured_prediction_visual(app);
+    plot_model_structure(app);
     update_log(app, 'Finished Decoding.');
 end
 
