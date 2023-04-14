@@ -34,6 +34,7 @@ Version v1.0.1 - 04/20/2023
 * Option to pass a single multi class indicator vector for UDFs
 * Parameter explanations on hover
 * Button tooltips on hover
+* Enhanced visualizer of graphical models
 
 ##### TODO v2.0.0 - TBD
 * Incorporate temporal interactions from experimental branch
