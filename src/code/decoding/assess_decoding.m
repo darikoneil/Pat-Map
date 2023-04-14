@@ -17,7 +17,7 @@ elements = num_udf * num_udf * total_frames;
 
 [big_data, chunks] = check_memory_requirements(elements);
 
-training_samples = size(params.x_train, 1);
+training_samples = size(params.x_train, 1) + size(params.x_valid, 1);
 
 if big_data
     a = 0

@@ -11,5 +11,5 @@ app.ensemble_graph.Title.String = 'Ensemble Graphical Structure';
 
 app.ensemble_graph.FontName='Arial';
 app.ensemble_graph.FontSize=8;
-app.ensemble_graph.Color=[1 1 1];
+app.ensemble_graph.Color=[0.94 0.94 0.94];
 end

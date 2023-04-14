@@ -1,7 +1,7 @@
 function [ensemble_performance] = calculate_ensemble_performance(params, ensemble_nodes, log_likelihood_by_frame, data_index)
 
 num_udf = params.num_udf;
-dataset = [params.x_train; params.x_test];
+dataset = [params.x_train; params.x_valid; params.x_test];
 
 true_labels = dataset(data_index, end-num_udf+1:end)';
 log_likelihood_by_frame = log_likelihood_by_frame(:, data_index);
