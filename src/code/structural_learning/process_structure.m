@@ -1,4 +1,4 @@
-function [binary_structure] = process_structure(coefficients,density,absolute)
+function [binary_structure] = process_structure(coefficients, density, absolute)
 
     if absolute
         AbsMat = abs(coefficients+coefficients');

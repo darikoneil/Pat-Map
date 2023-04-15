@@ -21,19 +21,21 @@ load_params_button_pushed(app);
 % validate/start
 validate_data_button_pushed(app);
 
-params = cell(78, 2);
+%params = cell(78, 2);
 
 
-for single_param = 1:length(params)
-    try
-        range_vals = app.(params{single_param}).Limits;
-        if Limits[0] == 1
-            app.(params{single_param}).Value = 0;
-            validate_data_button_pushed(app);
-            disp(app.params.par_proc);
-        end
-    end
-end
+%for single_param = 1:length(params)
+ %   try
+%        range_vals = app.(params{single_param}).Limits;
+%        if Limits[0] == 1
+%            app.(params{single_param}).Value = 0;
+%            validate_data_button_pushed(app);
+%            disp(app.params.par_proc);
+%        end
+%    catch
+ %       
+%    end
+%end
             
 
 end

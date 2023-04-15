@@ -16,7 +16,7 @@ app.ShuffleDataEditField.Value = double(params.random_shuffle);
 app.ParallelProcessingEditField.Value = double(params.par_proc);
 app.TrainingTestingSplitEditField.Value = double(params.split);
 app.ValidationTrainingSplitEditField.Value = double(params.validation);
-app.NumberofStructuresEditField.Value = double(params.num_structures);
+app.NumberofSeedStructuresEditField.Value = double(params.num_seed_structures);
 app.TuningCriterionDropDown.Value = params.perf_curve_criterion;
 app.EnsembleSizeDropDown.Value = params.size_random_ensemble;
 app.IncludeUDFinEnsemblesEditField.Value = double(params.include_UDF_in_random_ensembles);
@@ -26,7 +26,6 @@ app.AssessClusteringEditField.Value = double(params.assess_clustering);
 app.DeviationsEditField_2.Value = double(params.deviations_ensemble_id);
 app.SMBOMaxTimeEditField.Value = double(params.smbo_max_time);
 app.SMBOMaxEvaluationsEditField.Value = double(params.smbo_max_eval);
-app.SMBOParallelEditField.Value = double(params.par_smbo);
 app.UseTestinEnsembleIdentificationEditField.Value = double(params.include_testing_in_identify);
 
 % SL
@@ -39,12 +38,12 @@ app.MaximumsLambdaEditField.Value = double(params.s_lambda_max);
 app.sLambdaDistributionEditField.Value = double(params.s_lambda_distribution);
 % app.MergeNodeClassesEditField.Value = double(params.merge);
 
-app.UDFUDFInteractionsEditField.Value = double(params.hyperedge);
+app.EdgeConstraintsEditField.Value = logical(params.edge_constraints);
 app.RankAbsoluteValueofCoefficientsEditField.Value = double(params.absolute);
 % app.NumberofModelsEditField.Value is generated on the fly
 app.params = calculate_number_of_models(params);
 params = app.params;
-app.NumberofModelsEditField.Value = double(params.number_of_models);
+app.NumberofSeedModelsEditField.Value = double(params.number_of_seed_models);
 
 %PE
 app.NumberofpLambdaEditField.Value = double(params.p_lambda_count);
@@ -59,12 +58,10 @@ app.ReweightDenominatorDropDown.Value = params.reweight_denominator;
 app.ImplementationModeEditField.Value = double(params.implementation_mode);
 app.SMBOMaxTimeEditField_2.Value = double(params.smbo_max_time);
 app.SMBOMaxEvaluationsEditField_2.Value = double(params.smbo_max_eval);
-app.SMBOParallelEditField_2.Value = double(params.par_smbo);
 
 %Structural Learning Column One
 app.ParallelProcessingEditField_SL.Value = double(params.par_struc);
 app.AlphaEditField_SL.Value = double(params.alpha);
-app.MergeNodeClassesEditField_SL.Value = double(params.merge);
 
 %Structural Learning Column Two
 app.NumberofsLambdaEditField_SL.Value = double(params.s_lambda_count);
@@ -74,7 +71,7 @@ app.sLambdaDistributionEditField_SL.Value = double(params.s_lambda_distribution)
 
 %Structural Learning Column Three
 app.DensityEditField_SL.Value = double(params.density);
-app.UDFUDFInteractionsEditField_SL.Value = double(params.hyperedge);
+app.UDFUDFInteractionsEditField_SL.Value = logical(params.edge_constraints);
 app.RankAbsoluteValueofCoefficientsEditField_SL.Value = double(params.absolute);
 
 %Parameter Estimation Column One
@@ -90,12 +87,12 @@ app.pLambdaDistributionEditField_PE.Value = double(params.p_lambda_distribution)
 %Parameter Estimation Column Three
 app.MaxIterEditField_PE.Value = double(params.max_iterations);
 app.MaxTimeEditField_PE.Value = double(params.max_time);
-app.FirstPassStructuresEditField.Value = double(params.num_structures);
+app.FirstPassStructuresEditField.Value = double(params.num_seed_structures);
 app.PrintIntervalEditField_PE.Value = double(params.print_interval);
 
 %Parameter Estimation Column Four
 app.ImplementationModeEditField_PE.Value = double(params.implementation_mode);
-app.FirstPassModelsEditField.Value = double(params.number_of_models);
+app.FirstPassModelsEditField.Value = double(params.number_of_seed_models);
 
 %Evaluate Model Column One
 app.TrTstWeighting.Value = double(params.train_test_ratio);

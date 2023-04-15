@@ -48,14 +48,23 @@ else
     output_function = @NOP;
 end
 
+%% determine implementation
+switch params.implementation_mode
+    case {1, 3}
+        par_smbo = false;
+    case {2, 4}
+        par_smbo = true;
+end
+
 %% Launch SMBO
 SMBO = bayesopt(objective, [s_lambda, p_lambda], 'Verbose', 0, 'InitialX',...
     table(model_stats.s_lambda', model_stats.p_lambda'), 'InitialObjective', -1 .* model_stats.valid_likelihood',...
     'PlotFcn', plot_function, 'MaxObjectiveEvaluations', params.smbo_max_eval, 'MaxTime', params.smbo_max_time,...
-    'UseParallel', params.par_smbo, 'OutputFcn', output_function);
+    'UseParallel', par_smbo, 'OutputFcn', output_function);
 
 %% Clean Up
 [model_collection, params] = import_temp_models(model_collection, params);
+
 optimization_results = SMBO;
 
 

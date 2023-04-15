@@ -1,10 +1,10 @@
 function [coefficients] = learn_structures(params,s_lambda)
 
-    node_count = size(params.x_train,2);
+    node_count = params.num_udf + params.num_neurons;
     coefficients = zeros(node_count);
     
         for label_node = 1:node_count
-            feature_nodes = params.variable_groups{label_node};
+            feature_nodes = params.neighborhoods{label_node};
             Coef = glmnetCoef(params.glm_array{label_node},s_lambda);
             if length(Coef) < node_count
                 Coef = [Coef; zeros(params.num_udf-1,1)];

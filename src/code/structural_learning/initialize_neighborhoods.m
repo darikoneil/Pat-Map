@@ -1,20 +1,27 @@
-function [variable_groups] = initialize_neighborhoods(nodeLen,hyperedge,Num_Nodes,UDF_Count)
+function [neighborhoods] = initialize_neighborhoods(num_neurons, num_udf, edge_constraints)
+% Reviewed Darik A O'Neil 04-15-2023
+% 
+% Inputs:
+% num_neurons is a scalar indicating total number of neuronal nodes
+% num_udf is a scalar indicating total number of udf nodes
+% edge_constraints is a boolean indicating whether to constrain edges such that there are no UDF-UDF edges
+% 
+% Outputs:
+% neighborhoods is a 1 x N node cell vector where each cell is a 1 x M index of potential edge partners (i.e., the
+% neighborhood) for each node N
 
-%First initialize the groups
-variable_groups = repmat((1:nodeLen)',1,nodeLen);
-variable_groups = variable_groups(~eye(size(variable_groups)));
-variable_groups = reshape(variable_groups,nodeLen-1,nodeLen)';
-variable_groups = num2cell(variable_groups,2)';
+%% First initialize the groups
+num_nodes = num_neurons + num_udf;
+neighborhoods = repmat((1:num_nodes)',1,num_nodes);
+neighborhoods = neighborhoods(~eye(size(neighborhoods)));
+neighborhoods = reshape(neighborhoods,num_nodes-1,num_nodes)';
+neighborhoods = num2cell(neighborhoods,2)';
 
-%Next confer the restraints
-if hyperedge==1
-    error('Not Currently Implemented');
-elseif hyperedge==2
-    for i = (Num_Nodes+1):(Num_Nodes+UDF_Count)
-        variable_groups{i} = [1:Num_Nodes];
+%% Next confer the restraints
+if edge_constraints
+    for i = (num_neurons+1):(num_neurons+num_udf)
+        neighborhoods{i} = 1:num_neurons;
     end
-else
-    error('Not Currently Implemented');
 end
 
 end
