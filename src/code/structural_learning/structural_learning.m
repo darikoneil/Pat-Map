@@ -18,7 +18,7 @@ function [params] = structural_learning(params)
 %% (1, Initialize): Here we initialize a cell containing potential neighborhood of each node
 
 fprintf('Initializing Structural Learning');
-[params.neighborhoods] = initialize_neighborhoods(params.num_nodes, params.num_udf, params.edge_constraints); 
+[params.neighborhoods] = initialize_neighborhoods(params.num_neurons, params.num_udf, params.edge_constraints); 
 
 
 %% (2, Learn Neighborhoods: Here we learn the relationships between each node and its neighborhood over the given lambda sequence

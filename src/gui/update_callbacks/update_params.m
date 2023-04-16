@@ -23,7 +23,7 @@ app.IncludeUDFinEnsemblesEditField.Value = double(params.include_UDF_in_random_e
 app.NumberofRandomControlsEditField.Value = double(params.num_controls);
 app.AssessDecodingEditField.Value = double(params.assess_decoding);
 app.AssessClusteringEditField.Value = double(params.assess_clustering);
-app.DeviationsEditField_2.Value = double(params.deviations_ensemble_id);
+app.EnsembleDeviationsEditField.Value = double(params.identify_ensemble_deviations);
 app.SMBOMaxTimeEditField.Value = double(params.smbo_max_time);
 app.SMBOMaxEvaluationsEditField.Value = double(params.smbo_max_eval);
 app.UseTestinEnsembleIdentificationEditField.Value = double(params.include_testing_in_identify);
@@ -38,7 +38,7 @@ app.MaximumsLambdaEditField.Value = double(params.s_lambda_max);
 app.sLambdaDistributionEditField.Value = double(params.s_lambda_distribution);
 % app.MergeNodeClassesEditField.Value = double(params.merge);
 
-app.EdgeConstraintsEditField.Value = logical(params.edge_constraints);
+app.EdgeConstraintsEditField.Value = double(params.edge_constraints);
 app.RankAbsoluteValueofCoefficientsEditField.Value = double(params.absolute);
 % app.NumberofModelsEditField.Value is generated on the fly
 app.params = calculate_number_of_models(params);
@@ -71,7 +71,7 @@ app.sLambdaDistributionEditField_SL.Value = double(params.s_lambda_distribution)
 
 %Structural Learning Column Three
 app.DensityEditField_SL.Value = double(params.density);
-app.UDFUDFInteractionsEditField_SL.Value = logical(params.edge_constraints);
+app.UDFUDFInteractionsEditField_SL.Value = double(params.edge_constraints);
 app.RankAbsoluteValueofCoefficientsEditField_SL.Value = double(params.absolute);
 
 %Parameter Estimation Column One
@@ -95,7 +95,6 @@ app.ImplementationModeEditField_PE.Value = double(params.implementation_mode);
 app.FirstPassModelsEditField.Value = double(params.number_of_seed_models);
 
 %Evaluate Model Column One
-app.TrTstWeighting.Value = double(params.train_test_ratio);
 app.AssessDecoding.Value = double(params.assess_decoding);
 app.AssessClustering.Value = double(params.assess_clustering);
 
@@ -107,8 +106,6 @@ app.NumberofRandomControlsEditField_ID.Value = double(params.num_controls);
 
 %Identify Ensembles Column Two
 app.DeviationsEditField.Value = double(params.identify_ensemble_deviations);
-app.RestrictToTrainingEditField.Value = double(params.include_testing_in_identify);
-
 %Evalaute Ensembles
 % None
 

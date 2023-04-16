@@ -10,9 +10,9 @@ function evaluate_neuronal_contributions_button_pushed(app)
  else
      [log_likelihood_ratio] = calculate_log_likelihood_neuronal(app.params, app.best_model);
      if isempty(app.log_likelihood_by_frame)
-         app.log_likelihood_by_frame = nan(app.params.num_nodes + app.params.num_udf, size(app.params.data, 1));
+         app.log_likelihood_by_frame = nan(app.params.num_neurons + app.params.num_udf, size(app.params.data, 1));
      end
-     app.log_likelihood_by_frame(1:app.params.num_nodes, :) = log_likelihood_ratio;
+     app.log_likelihood_by_frame(1:app.params.num_neurons, :) = log_likelihood_ratio;
       update_log(app, 'Finished Evaluating Neuronal Contributions...');
  end
  

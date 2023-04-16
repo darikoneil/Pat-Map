@@ -318,7 +318,7 @@ params = calculate_number_of_models(params);
 
 %secondary validation
 if params.ignore_dataset_ == false
-    [params.x_train, params.x_valid, params.x_test,params.num_udf,params.num_nodes,params.data,params.udf,params.shuffle_index] = data_segmentation(params.data,params.udf,params.split, params.validation, params.merge,params.random_shuffle);
+    [params.x_train, params.x_valid, params.x_test,params.num_udf,params.num_neurons,params.data,params.udf,params.shuffle_index] = data_segmentation(params.data, params.udf, params.split, params.validation, params.random_shuffle);
     [params.p_lambda_sequence,params.s_lambda_sequence_glm,params.glm_options] = generate_lambda_sequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.p_lambda_distribution,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.s_lambda_distribution,params);
 end
   

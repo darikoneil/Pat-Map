@@ -41,7 +41,9 @@ for one_udf = 1:num_udf
     for one_ensemble = 1:num_udf
         
         ensemble_idx = ensemble_nodes{one_ensemble};
-        
+        if isempty(ensemble_idx)
+             break;
+        end
         marginal_log_likelihood = log_likelihood_by_frame(ensemble_idx, :);
         marginal_log_likelihood = sum(marginal_log_likelihood);
         
