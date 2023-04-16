@@ -5,10 +5,7 @@ function [x_train, x_valid, x_test, num_udf, num_nodes, data, udf, shuffle_index
     
     %Grab udf Size
     [udf_samples, num_udf] = size(udf);
-    
-    %Validate udf
-    assert(data_samples==udf_samples,'Neuronal and udf nodes must have equal number of samples');
-    
+
     %Merge udf & Neuronal Nodes if necessary
     X = [data udf];
     
@@ -56,7 +53,6 @@ function [x_train, x_valid, x_test, num_udf, num_nodes, data, udf, shuffle_index
         x_train = x_train(1:(end-valid_samples), :);
         shuffle_index = [1:data_samples];
     end
-    
         
     %Validate Training DataSet
     assert(min(sum(x_train))>1,'ALL NEURONAL NODES MUST FIRE AT LEAST TWO SPIKES IN TRAINING SET');

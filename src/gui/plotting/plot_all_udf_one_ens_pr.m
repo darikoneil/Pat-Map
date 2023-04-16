@@ -13,8 +13,8 @@ elseif strcmp(dataset, 'TEST')
     perf = app.identified_ensemble_performance.training_performance;  % TEST DOESNT HAVE FULL CURVE
 end
 
-if size(newcolors, 1)<size(app.udf, 2)
-    newcolors = turbo(size(app.udf, 2) + 5);
+if size(newcolors, 1)<size(app.params.udf, 2)
+    newcolors = turbo(size(app.params.udf, 2) + 5);
 end
 
 cla(app.ensemble_all_udf_one_ens_pr);
