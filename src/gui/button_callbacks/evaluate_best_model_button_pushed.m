@@ -6,9 +6,9 @@ if app.params.assess_decoding
     app.model_performance = model_performance;
     % make sure not to overwrite
     if isempty(app.log_likelihood_by_frame)
-        app.log_likelihood_by_frame = nan(app.params.num_nodes + app.params.num_udf, size(app.params.data, 1));
+        app.log_likelihood_by_frame = nan(app.params.num_neurons + app.params.num_udf, size(app.params.data, 1));
     end
-    app.log_likelihood_by_frame( (app.params.num_nodes + 1):end, :) = log_likelihoods_each_frame;
+    app.log_likelihood_by_frame( (app.params.num_neurons + 1):end, :) = log_likelihoods_each_frame;
     plot_model_decoding_evaluation(app);
     update_decoding_text(app);
     plot_structured_prediction_visual(app);

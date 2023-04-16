@@ -1,12 +1,12 @@
 function [params] = structural_learning(params)
-
-% Function for structural learning
-% Darik O'Neil 12-13-2021, Rafael Yuste Laboratory
+%  for structural learning
+%
+% Reviewed Darik A O'Neil 04-15-2023
 %
 % Purpose: Consolidated function for structural learning 
 %
 % To accomplish this we do steps
-% (1, Initialize)
+% (1, Initialize Potential Neighborhoods)
 % (2, Learn Neighborhoods)
 % (3, Learn Structures)
 % (4, Save Model Parameters)
@@ -15,11 +15,11 @@ function [params] = structural_learning(params)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% (1, Initialize Neighborhoods): Here we initialize a cell containing the neighborhoods
-%for each node
+%% (1, Initialize): Here we initialize a cell containing potential neighborhood of each node
 
-[params.variable_groups] = initialize_neighborhoods(size(params.x_train,2),params.hyperedge,params.num_nodes,params.num_udf); 
-%initialization of neighborhoods function
+fprintf('Initializing Structural Learning');
+[params.neighborhoods] = initialize_neighborhoods(params.num_neurons, params.num_udf, params.edge_constraints); 
+
 
 %% (2, Learn Neighborhoods: Here we learn the relationships between each node and its neighborhood over the given lambda sequence
 
@@ -30,9 +30,8 @@ function [params] = structural_learning(params)
 % requires an expensive Intel compiler or some workout I haven't figured
 % out yet. There is a free compiler which ought to do the job for students
 % via intel, but the latest compilers (2021) are not yet commensurable with
-% MATLAB
+% MATLAB. 
 
-%First check if parallel processing permitted
 if params.par_struc
     [params] = learn_neighborhoods_par(params); %Learn in parallel
 else
@@ -40,53 +39,28 @@ else
 end
 
 %% (3, Learn the structures given these relationships):
-fprintf('\n');
-fprintf('Now Learning Structures');
-fprintf('\n');
 
 %preallocate
-params.raw_coef=cell(1,params.num_structures);
-params.learned_structures=cell(1,params.num_structures);
+params.raw_coef=cell(1,params.num_seed_structures);
+params.learned_structures=cell(1,params.num_seed_structures);
 
 wb = CmdLineProgressBar('Learning Structures'); %feedback
 fprintf('\n');
-for i = 1:params.num_structures
-    [params.raw_coef{i}] = learn_structures(params,params.s_lambda_sequence(i)); %learn structures at each s_lambda
-    params.learned_structures{i} = process_structure(params.raw_coef{i},params.density,params.absolute); %binarize
-    wb.print(i,params.num_structures); %feedback update
+for i = 1:params.num_seed_structures
+    [params.raw_coef{i}] = learn_structures(params, params.s_lambda_sequence(i)); %learn structures at each s_lambda
+    params.learned_structures{i} = process_structure(params.raw_coef{i}, params.density, params.absolute); %binarize
+    wb.print(i, params.num_seed_structures); %feedback update
 end
-fprintf('Structural Learning Complete');
-fprintf('\n');
 
-%hotfix Darik 02/01/2022; Where did this check go? Check previous pushes...
-%tmpRem = [];
-%removeRecurrent = ~(diag(ones(1,size(params.x_train,2))));
-%for i = 1:length(params.learned_structures)
-  %  tmp = params.learned_structures{i}.*removeRecurrent;
-  %  if sum(tmp)<2
-  %      tmpRem = [tmpRem i];
- %   end
-%end
 
 %% (4, Save our model parameters): Here we simply save the model parameters and structures 
 
 fprintf('\n')
-fprintf(strcat(num2str(params.num_structures),' Structures Formed'))
-
-%params.learned_structures(tmpRem) = [];
-%params.num_structures = length(params.learned_structures);
-
-%make sure to remove from other structural sequences (s_lambda and raw Coef)
-%params.s_lambda_sequence(tmpRem)=[];
-%params.raw_coef(tmpRem)=[];
-
-%fprintf('\n')
-%fprintf(strcat(num2str(numel(tmpRem)),' Invalid Structures Removed '))
-
+fprintf(strcat(num2str(params.num_seed_structures),' Structures Formed'))
 
 
 save(strcat(params.experiment_directory,'/','model_parameters.mat'),'params');
 fprintf('\n')
-fprintf('Structures Saved');
+fprintf('Structural Learning Complete');
 
 end

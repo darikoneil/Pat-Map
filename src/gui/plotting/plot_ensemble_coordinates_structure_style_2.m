@@ -1,4 +1,4 @@
-function plot_ensemble_coordinates_style_2(app)
+function plot_ensemble_coordinates_structure_style_2(app)
 cla(app.ensemble_coordinates);
 app.ensemble_coordinates.NextPlot = 'replacechildren';
 

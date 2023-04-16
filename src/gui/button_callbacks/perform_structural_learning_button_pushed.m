@@ -6,7 +6,7 @@ function perform_structural_learning_button_pushed(app)
     
     [app.models] = pre_allocate_models(app.params);
     
-    app.FirstPassModelsEditField.Value = app.params.num_structures*app.params.p_lambda_count;
+    app.FirstPassModelsEditField.Value = app.params.num_seed_structures*app.params.p_lambda_count;
     
     app.TotalPassedStructuresEditField.Value = length(app.models)/app.params.p_lambda_count;
     

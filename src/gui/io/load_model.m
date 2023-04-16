@@ -115,6 +115,7 @@ if found_params && app.params.stage >=4
         if isempty(app.optimization_results)
             wrap_seeds_into_optimization(app);
         end
+        plot_optimization_model(app);
     catch
         update_log(app, 'Unable to Retrieve Optimization Results');
     end     

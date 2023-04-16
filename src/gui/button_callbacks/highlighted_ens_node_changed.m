@@ -1,3 +1,3 @@
-function highlighted_node_changed(app)
-    plot_ensemble_graph_structure(app);
+function highlighted_ens_node_changed(app)
+    plot_ensemble_coordinates(app);
 end

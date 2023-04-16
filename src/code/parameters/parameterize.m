@@ -1,7 +1,9 @@
 function [params] = parameterize(varargin)
-
-%Primary validation is done in-line. Seocndary validation
-%functions are constructed below and performed last.
+% Reviewed Darik A ONeil 04-15-2023
+%
+%Primary validation is done in-line. 
+%
+%Secondary validation functions are constructed below and performed last.
 
 %Steps
 
@@ -13,22 +15,12 @@ function [params] = parameterize(varargin)
 %(6, Motif Identification Parameters)
 %(7, Do the actual parsing)
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %% (1, Construct the Parser)
 
 p=inputParser();
 p.KeepUnmatched=1;
 
-
 %% (2, Generate Global Parameters)
-
-%DEPRECATED THINGS
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% NONE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Parameter to ignore parsing on the data itself
 addParameter(p,'ignore_dataset_',false, @(x) islogical(x));
@@ -68,7 +60,7 @@ addParameter(p,'shuffle_index', zeros(1,1), @(x)validateattributes(x,{'double'},
 % CONTAINERS FOR MEASURES, CALCULATIONS, ETC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %scalar with number of ORIGINAL nodes (aka neurons)
-addParameter(p, 'num_nodes', 0, @(x) isscalar(x) && x>=0);
+addParameter(p, 'num_neurons', 0, @(x) isscalar(x) && x>=0);
 
 %scalar with number of udf
 addParameter(p, 'num_udf', 0, @(x) isscalar(x) && x>=0);
@@ -84,30 +76,12 @@ addParameter(p, 'x_valid', []);
 
 %EXPERIMENTAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-addParameter(p,'temporal_steps', 0, @(x) isnumeric(x) && numel(x)==1 && x>=0);
+% addParameter(p,'temporal_steps', 0, @(x) isnumeric(x) && numel(x)==1 && x>=0);
 
-addParameter(p, 'recurrent_edges', false, @(x) islogical(x));
+% addParameter(p, 'recurrent_edges', false, @(x) islogical(x));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %% (3, Structural Learning)
-
-%DEPRECATED THINGS
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Parameter constraining edges to connect to unique nodes 
-% DEPRECATED DAO 03/20/2023 ought only be true
-addParameter(p, 'no_same_neuron_edges',true, @(x) islogical(x) && x==true(1));
-%Parameter constraining simple edges 
-%DEPRECATED DAO 03/20/2023 only be simple
-addParameter(p,'edges','simple', @(x) strcmp(x,'simple'));
-%DEPRECATED DAO 03/20/2023 only be UDF x Neuron & Neuron x Neuron
-%Parameter setting hyperedge constraints
-addParameter(p,'hyperedge',2, @(x) isnumeric(x) && numel(x)==1 && x>1 && x <3);
-%Parameter settings to dictate the merging of UDF and neuronal nodes
-addParameter(p,'merge',true,@(x) islogical(x));
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 % Number of s lambda for structural learning
 addParameter(p,'s_lambda_count',100, @(x) isnumeric(x) && numel(x)==1 && x>=100);
@@ -119,7 +93,7 @@ addParameter(p,'s_lambda_min',1e-5,@(x) isnumeric(x) && numel(x)==1 && x<1 && x>
 addParameter(p,'s_lambda_max',0.5, @(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
 
 %Parameter setting number of structures to feed parameter estimation
-addParameter(p,'num_structures',8,@(x) isnumeric(x) && numel(x)==1 && x>=2);
+addParameter(p,'num_seed_structures', 2, @(x) isnumeric(x) && numel(x)==1 && x>=2);
 
 %distribution for pulling s lambda samples
 addParameter(p,'s_lambda_distribution',true,@(x) islogical(x));
@@ -137,49 +111,57 @@ addParameter(p,'alpha',1,@(x) isnumeric(x) && numel(x)==1 && x>= 0 && x<=1);
 %Parameter to structural learn in parallel
 addParameter(p, 'par_struc', false, @(x) islogical(x));
 
+%Parameter to set edge constraints
+addParameter(p,'edge_constraints', true, @(x) islogical(x));
 
 % CONTAINERS FOR MEASURES, CALCULATIONS, ETC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % cell array with glm data
 addParameter(p, 'glm_array',{}, @(x) iscell(x));
 
-%cell array with learned structures
+% a 1 x N structure cell vector
 addParameter(p, 'learned_structures', {}, @(x) iscell(x));
 
-%cell array with raw coefficients of glm
+% a 1 x N structure cell vector with raw coefficients of structure N
 addParameter(p, 'raw_coef', {}, @(x) iscell(x));
 
-%vector of s lambda sequence
+% 1 x N vector of seed s lambda's
 addParameter(p, 's_lambda_sequence', []);
 
-%vector of s lambda sequence for glm training
+% a 1 x N vector of s lambda for glm training
 addParameter(p, 's_lambda_sequence_glm', []);
 
-%cell array containing all variables vs all others (all but me)
-addParameter(p, 'variable_groups', {}, @(x) iscell(x));
-
+% a 1 x N node cell vector where each cell is a 1 x M index of potential edge partners (i.e., the
+% neighborhood) for each node N
+addParameter(p, 'neighborhoods', {}, @(x) iscell(x));
 
 %EXPERIMENTAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % minimum density
-addParameter(p, 'min_density', 0.05,...
-@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
+%addParameter(p, 'min_density', 0.05,...
+%@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
 
 % max density
-addParameter(p, 'max_density', 0.25,...
-@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
+%addParameter(p, 'max_density', 0.25,...
+%@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
 
 % static density
-addParameter(p,'static_density', false, @(x) islogical(x));
+% addParameter(p,'static_density', false, @(x) islogical(x));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %% (4, Generate Parameter Estimation Parameters): Here we generate the parameter estimation parameters
 
 % DEPRECATED
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Parameter flagging structure type (only loopy supported)
-addParameter(p, 'structure_type','loopy',@(x) strcmp(x,'loopy'));
+%addParameter(p, 'structure_type','loopy',@(x) strcmp(x,'loopy'));
+
+%Parameter setting chunk size for series param estimation implementation
+%addParameter(p,'chunk_size',1,@(x) isnumeric(x) && numel(x)==1 && x>=1);
+
+%Parameter flagging chunk processing 
+%addParameter(p,'chunk',false,@(x) islogical(x));
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Parameter setting space of p_lambda
@@ -211,21 +193,12 @@ addParameter(p, 'print_interval',1000,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 %Parameter setting upper bound on time to converge
 addParameter(p, 'max_time',Inf,@(x) isnumeric(x) && numel(x)==1 && x>=1);
 
-%Parameter setting chunk size for param estimation implementation
-addParameter(p,'chunk_size',1,@(x) isnumeric(x) && numel(x)==1 && x>=1);
-
-%Parameter flagging chunk processing 
-addParameter(p,'chunk',false,@(x) islogical(x));
-
 %Parameter Implementation Mode
 addParameter(p, 'implementation_mode', 1, @(x) isnumeric(x) && numel(x)==1 && x<=4);
-% 1 equals bulk
-% 2 equals parallel
-% 3 equals series
-% 4 equals optimized
-% 5 equals optimized parallel
-% 6 equals optimized series
-
+% 1 is standard
+% 2 is parallel
+% 3 is seed-only
+% 4 is parallel seed-only
 
 %parameter contains temp model paths
 addParameter(p, 'temp_model_paths', {}, @(x) iscell(x));
@@ -235,7 +208,7 @@ addParameter(p, 'train_test_ratio', 1, @(x) isnumeric(x) && isscalar(x) && x>=0 
 
 % CONTAINERS FOR MEASURES, CALCULATIONS, ETC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% sequence of p_lambda
+% sequence of seed p_lambda
 addParameter(p, 'p_lambda_sequence', []);
 
 %% (5, Generate Ensemble Identification Parameters): 
@@ -272,19 +245,19 @@ addParameter(p, 'deviations_ensemble_id', 3, @(x) isscalar(x));
 % DEPRECATED
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Parameter to assess neurons
-addParameter(p, 'assessNeurons', false, @(x) x==false);
+% addParameter(p, 'assessNeurons', false, @(x) x==false);
 % Parameter to assess nodes
-addParameter(p, 'assessNodes',false, @(x) x==false);
+% addParameter(p, 'assessNodes',false, @(x) x==false);
 % Parameter to assess linearity
-addParameter(p, 'assessLinearity', false, @(x) x==false);
+% addParameter(p, 'assessLinearity', false, @(x) x==false);
 % Parameter to assess size
-addParameter(p, 'assessSize', false, @(x) x==false);
+% addParameter(p, 'assessSize', false, @(x) x==false);
 % Parameter for step size
-addParameter(p, 'stepSize', 5, @(x) isnumeric(x) && isscalar(x) && x>=0);
+% addParameter(p, 'stepSize', 5, @(x) isnumeric(x) && isscalar(x) && x>=0);
 % Parameter for num Steps
-addParameter(p, 'numSteps', 5, @(x) isnumeric(x) && isscalar(x) && x>=0);
+% addParameter(p, 'numSteps', 5, @(x) isnumeric(x) && isscalar(x) && x>=0);
 % Parameter to assess multiclass predictions
-addParameter(p, 'assessMulticlass', false, @(x) x==false);
+% addParameter(p, 'assessMulticlass', false, @(x) x==false);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Parameter for current stage
@@ -296,7 +269,6 @@ addParameter(p, 'assess_decoding', true, @(x) islogical(x));
 % Parameter to assess clustering
 addParameter(p, 'assess_clustering', true, @(x) islogical(x));
 
-
 %% (7, Pattern completion parameters (god i hate matlab --sent from my pycharm)
 
 %Parameter determing which overcomp score to invoke for motif analysis
@@ -307,7 +279,6 @@ addParameter(p,'node_score_neurons_only',true,@(x) islogical(x));
 
 % how to generate thresholds
 addParameter(p, 'node_threshold_pattern_complete', 'Ensemble', @(x) ischar(x) && (strcmp(x,'Entire') || strcmp(x,'Ensemble') || strcmp(x,'Shuffling')));
-
 
 %% (8, DATASET PARAMETERS)
 
@@ -327,8 +298,6 @@ addParameter(p,'udf',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 %Parameter containing coords
 addParameter(p,'coords',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 
-
-
 %% (9, SMBO PARAMETERS)
 
 % Parameter indicating max number of objective evaluations
@@ -336,10 +305,6 @@ addParameter(p, 'smbo_max_eval', 30, @(x) isscalar(x));
 
 % Parameter indicating max time allowed for objective evaluation
 addParameter(p, 'smbo_max_time', Inf, @(x) isscalar(x));
-
-% Parameter indicating parallel smbo
-addParameter(p, 'par_smbo', false, @(x) islogical(x));
-
 
 %% Do the parsing & Export the parameter set
 
@@ -353,10 +318,8 @@ params = calculate_number_of_models(params);
 
 %secondary validation
 if params.ignore_dataset_ == false
-    [params.x_train, params.x_valid, params.x_test,params.num_udf,params.num_nodes,params.data,params.udf,params.shuffle_index] = data_segmentation(params.data,params.udf,params.split, params.validation, params.merge,params.random_shuffle);
+    [params.x_train, params.x_valid, params.x_test,params.num_udf,params.num_neurons,params.data,params.udf,params.shuffle_index] = data_segmentation(params.data, params.udf, params.split, params.validation, params.random_shuffle);
     [params.p_lambda_sequence,params.s_lambda_sequence_glm,params.glm_options] = generate_lambda_sequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.p_lambda_distribution,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.s_lambda_distribution,params);
 end
-
-
+  
 end
-

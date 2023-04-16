@@ -1,4 +1,4 @@
-function [x_train, x_valid, x_test, num_udf, num_nodes, data, udf, shuffle_index] = data_segmentation(data, udf, split, valid, merge, random_shuffle)
+function [x_train, x_valid, x_test, num_udf, num_nodes, data, udf, shuffle_index] = data_segmentation(data, udf, split, valid, random_shuffle)
 
     %Grab Data Size
     [data_samples, num_nodes] = size(data);
@@ -10,11 +10,7 @@ function [x_train, x_valid, x_test, num_udf, num_nodes, data, udf, shuffle_index
     assert(data_samples==udf_samples,'Neuronal and udf nodes must have equal number of samples');
     
     %Merge udf & Neuronal Nodes if necessary
-    if merge
-        X = [data udf];
-    else
-        X = [data];
-    end
+    X = [data udf];
     
     if random_shuffle
         %Split into train / test

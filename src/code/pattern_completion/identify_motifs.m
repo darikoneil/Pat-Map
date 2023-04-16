@@ -10,7 +10,7 @@ function [identified_neurons, auc_threshold, node_threshold, node_scores] = iden
 % 
  %% (1,Initialize)
     data=params.data;
-    num_original_nodes= params.num_nodes;
+    num_original_nodes= params.num_neurons;
     num_udf = params.num_udf;
     metric = params.node_score_criterion;
     overcomplete_edges = best_model.theta.G;

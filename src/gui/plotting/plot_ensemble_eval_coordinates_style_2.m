@@ -1,4 +1,4 @@
-function plot_ensemble_evaluation_coordinates_style_2(app)
+function plot_ensemble_eval_coordinates_style_2(app)
 
 
 v = app.StimulusEV.Value;

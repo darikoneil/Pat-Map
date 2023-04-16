@@ -36,11 +36,13 @@ ensemble_performance.hits_pt = cell(num_udf, num_udf);
 ensemble_performance.balanced_accuracy_pt = cell(num_udf, num_udf);
 
 
-ensemble_performance
 for one_udf = 1:num_udf
     for one_ensemble = 1:num_udf
         
         ensemble_idx = ensemble_nodes{one_ensemble};
+        if isempty(ensemble_idx)
+            break;
+        end
         
         marginal_log_likelihood = log_likelihood_by_frame(ensemble_idx, :);
         marginal_log_likelihood = sum(marginal_log_likelihood);

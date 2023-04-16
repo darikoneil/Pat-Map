@@ -10,7 +10,7 @@ udf_id = app.StimulusEV.Value;
 rois = app.rois;
 num_rois = size(rois.xpix, 1);
 best_model = app.best_model;
-edge_mat = best_model.structure(1:length(rois.xpix), 1:length(rois.xpix));;
+edge_mat = best_model.structure(1:length(rois.xpix), 1:length(rois.xpix));
 
 
 ensemble_nodes = app.ensemble_nodes{udf_id};
@@ -55,9 +55,9 @@ for i = 1:length(ensemble_nodes)
 end
 % non_edges
 for neuron_1 = 1:length(ensemble_nodes)
-    for neuron_2 = 1:length(ensemble_nodes)
+    for neuron_2 = 1:length(ensemble_ensemble_edges{neuron_1})
         node_1 = [ensemble_rois.xpix{neuron_1}(ensemble_rois.boundaryOutlines{neuron_1}); ensemble_rois.ypix{neuron_1}(ensemble_rois.boundaryOutlines{neuron_1})]';
-        node_2 = [ensemble_rois.xpix{neuron_2}(ensemble_rois.boundaryOutlines{neuron_2}); ensemble_rois.ypix{neuron_2}(ensemble_rois.boundaryOutlines{neuron_2})]';
+        node_2 = [rois.xpix{ensemble_ensemble_edges{neuron_1}(neuron_2)}(rois.boundaryOutlines{ensemble_ensemble_edges{neuron_1}(neuron_2)}); rois.ypix{ensemble_ensemble_edges{neuron_1}(neuron_2)}(rois.boundaryOutlines{ensemble_ensemble_edges{neuron_1}(neuron_2)})]';
         nearest_pts = find_closest_points_brute(node_1, node_2);
         line(app.ensemble_graph, [nearest_pts(1), nearest_pts(3)], [nearest_pts(2), nearest_pts(4)], 'LineWidth', 0.5, 'Color', ensemble_color(1, :));
     end
@@ -66,7 +66,7 @@ end
 for neuron_1 = 1:length(ensemble_nodes)
     for neuron_2 = 1:length(ensemble_nonensemble_edges{neuron_1})
         node_1 = [ensemble_rois.xpix{neuron_1}(ensemble_rois.boundaryOutlines{neuron_1}); ensemble_rois.ypix{neuron_1}(ensemble_rois.boundaryOutlines{neuron_1})]';
-        node_2 = [rois.xpix{neuron_2}(rois.boundaryOutlines{neuron_2}); rois.ypix{neuron_2}(rois.boundaryOutlines{neuron_2})]';
+        node_2 = [rois.xpix{ensemble_nonensemble_edges{neuron_1}(neuron_2)}(rois.boundaryOutlines{ensemble_nonensemble_edges{neuron_1}(neuron_2)}); rois.ypix{ensemble_nonensemble_edges{neuron_1}(neuron_2)}(rois.boundaryOutlines{ensemble_nonensemble_edges{neuron_1}(neuron_2)})]';
         nearest_pts = find_closest_points_brute(node_1, node_2);
         line(app.ensemble_graph, [nearest_pts(1), nearest_pts(3)], [nearest_pts(2), nearest_pts(4)], 'LineWidth', 0.5, 'Color', [0.75 0.75 0.75]);
     end
