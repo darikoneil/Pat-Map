@@ -507,7 +507,6 @@ classdef PatMap < matlab.apps.AppBase
            retrieve_gui_colors(app);
            load_default_parameters(app);
            update_params(app);
-           b=0;
         end
 
         % Button pushed function: BrowseData
