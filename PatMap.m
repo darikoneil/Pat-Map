@@ -509,6 +509,7 @@ classdef PatMap < matlab.apps.AppBase
            retrieve_gui_colors(app);
            load_default_parameters(app);
            update_params(app);
+           b=0;
         end
 
         % Button pushed function: BrowseData
@@ -1158,6 +1159,21 @@ classdef PatMap < matlab.apps.AppBase
                 app.params.identify_ensemble_deviations;
                 update_params(app);
         end
+
+        % Key press function: UIFigure
+        function KeyPressedAction(app, event)
+            key = event.Key;
+            switch key
+                case 'rightarrow'
+                    update_key_press(app, 1);
+                case 'leftarrow'
+                    update_key_press(app, -1);
+                case 'uparrow'
+                    update_node_press(app, 1);
+                case 'downarrow'
+                    update_node_press(app, -1);
+            end
+        end
     end
 
     % Component initialization
@@ -1173,6 +1189,7 @@ classdef PatMap < matlab.apps.AppBase
             app.UIFigure.Position = [1 30 1920 1020];
             app.UIFigure.Name = 'MATLAB App';
             app.UIFigure.Resize = 'off';
+            app.UIFigure.KeyPressFcn = createCallbackFcn(app, @KeyPressedAction, true);
 
             % Create IOPanel
             app.IOPanel = uipanel(app.UIFigure);
