@@ -25,6 +25,8 @@ edges = 0:(120/20):120;
 udf = discretize(udf, edges);
 
 %% rois
-rois = simulate_rois(size(data, 2));
+
+
+
 
 end
