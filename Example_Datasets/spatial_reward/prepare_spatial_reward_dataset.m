@@ -30,6 +30,7 @@ position = position(subset(1):subset(2));
 
 % formulate data 
 data = bin_events(images, time_bin_size, @sum);
+data(data > 1) = 1;
 
 % forumate udf
 udf = bin_events(position, time_bin_size, @mean);
