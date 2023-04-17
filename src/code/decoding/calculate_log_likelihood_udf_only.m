@@ -1,4 +1,4 @@
-function [log_likelihood_ratio] = calculate_log_likelihood_ratio_udf_only(params, best_model)
+function [log_likelihood_ratio] = calculate_log_likelihood_udf_only(params, best_model)
 
 %% set up
 num_original_nodes = params.num_neurons;

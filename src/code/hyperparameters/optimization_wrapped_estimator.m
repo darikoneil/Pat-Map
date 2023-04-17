@@ -4,7 +4,7 @@ function [likelihood] = optimization_wrapped_estimator(...
 
 [coefficients] = learn_structures(params, s_lambda);
 learned_structure = process_structure(coefficients,...
-    params.density, params.absolute);
+    params.density, params.absolute, params.mode, params.neighborhoods);
 
 model.s_lambda = s_lambda;
 model.p_lambda = p_lambda;
