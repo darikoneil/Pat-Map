@@ -26,16 +26,18 @@ No installation is required. Simply enter PatMap in the matlab terminal.
 
 Version v1.0.1 - 04/20/2023
 * More consistent namespace/conventions + general refactoring
-* Increased verbosity of validation & enhanded data cleaning
+* Increased verbosity of validation & enhanced data cleaning
 * Option to overlay rois over imaging z-projection & graphical structure
 * Improved data segmentation
 * SMBO for hyperparameters (sequential model-based optimization)
 * Live feed of optimization
-* Option to pass a single multi class indicator vector for UDFs
 * Parameter explanations on hover
 * Button tooltips on hover
 * Enhanced visualizer of graphical models
 * Hotkeys
+* Simulated ROI Generation if unavailable
+* Enhanced handling of imbalanced datasets
+* Automatic one-hot encoding of a multi-class indicator vector (UDF)
 
 ##### TODO v2.0.0 - TBD
 * Incorporate temporal interactions from experimental branch
