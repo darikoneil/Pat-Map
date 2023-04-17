@@ -45,3 +45,4 @@ shuffledModels
 /Dep/tensor_toolbox-v3.2.1/
 /Dep/Utilities/
 /Dep/Utility/
+!/example_datasets/spatial_reward/sub-009_ophys.nwb

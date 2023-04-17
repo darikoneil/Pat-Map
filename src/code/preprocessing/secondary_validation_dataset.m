@@ -29,7 +29,7 @@ function [data, udf, nil_neurons, nil_frames] = secondary_validation_dataset(dat
     % check all features are active
     summed_data_features = sum(data, 1);
     
-    nil_neurons = find(summed_data_features < round(0.01*data_samples));
+    nil_neurons = find(summed_data_features < round(0.001*data_samples));
     if ~isempty(nil_neurons)
         data(:, nil_neurons)=[];
     end

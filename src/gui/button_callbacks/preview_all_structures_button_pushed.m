@@ -14,7 +14,7 @@ tempParams.learned_structures = cell(1, numSLambda);
 tempParams.s_lambda_sequence = tempParams.s_lambda_sequence_glm;
 for i = 1:numSLambda
     [tempParams.raw_coef{i}] = learn_structures(tempParams,tempParams.s_lambda_sequence_glm(i)); %learn structures at each s_lambda
-    tempParams.learned_structures{i} = process_structure(tempParams.raw_coef{i},tempParams.density,tempParams.absolute); %binarize
+    tempParams.learned_structures{i} = process_structure(tempParams.raw_coef{i},tempParams.density,tempParams.absolute, tempParams.mode, tempParams.neighborhoods); %binarize
     wb.print(i,numSLambda); %feedback update
 end
 

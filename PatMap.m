@@ -201,8 +201,6 @@ classdef PatMap < matlab.apps.AppBase
         ImplementationModeEditField_PE  matlab.ui.control.NumericEditField
         SMBOMaxTimeEditField_2          matlab.ui.control.NumericEditField
         SMBOMaxTimeEditField_2Label     matlab.ui.control.Label
-        SMBOParallelEditField_2         matlab.ui.control.NumericEditField
-        SMBOParallelEditField_2Label    matlab.ui.control.Label
         OptimizationLabel               matlab.ui.control.Label
         SMBOMaxEvaluationsEditField_2   matlab.ui.control.NumericEditField
         SMBOMaxEvaluationsEditField_2Label  matlab.ui.control.Label
@@ -509,7 +507,6 @@ classdef PatMap < matlab.apps.AppBase
            retrieve_gui_colors(app);
            load_default_parameters(app);
            update_params(app);
-           b=0;
         end
 
         % Button pushed function: BrowseData
@@ -1133,7 +1130,7 @@ classdef PatMap < matlab.apps.AppBase
             update_params(app);
         end
 
-        % Value changed function: SMBOParallelEditField_2
+        % Callback function
         function SMBOParallelEditField_2ValueChanged(app, event)
             app.params.par_smbo = app.SMBOParallelEditField_2.Value;
             update_params(app); 
@@ -1156,7 +1153,7 @@ classdef PatMap < matlab.apps.AppBase
 
         % Value changed function: DeviationsEditField
         function DeviationsEditFieldValueChanged(app, event)
-                app.params.identify_ensemble_deviations;
+                app.params.identify_ensemble_deviations = app.DeviationsEditField.Value;
                 update_params(app);
         end
 
@@ -1165,9 +1162,9 @@ classdef PatMap < matlab.apps.AppBase
             key = event.Key;
             switch key
                 case 'rightarrow'
-                    update_key_press(app, 1);
+                    update_udf_press(app, 1);
                 case 'leftarrow'
-                    update_key_press(app, -1);
+                    update_udf_press(app, -1);
                 case 'uparrow'
                     update_node_press(app, 1);
                 case 'downarrow'
@@ -2750,22 +2747,6 @@ classdef PatMap < matlab.apps.AppBase
             app.SMBOMaxTimeEditField_2Label.HorizontalAlignment = 'right';
             app.SMBOMaxTimeEditField_2Label.Position = [702 131 96 22];
             app.SMBOMaxTimeEditField_2Label.Text = 'SMBO Max Time';
-
-            % Create SMBOParallelEditField_2
-            app.SMBOParallelEditField_2 = uieditfield(app.PEParams, 'numeric');
-            app.SMBOParallelEditField_2.Limits = [0 1];
-            app.SMBOParallelEditField_2.RoundFractionalValues = 'on';
-            app.SMBOParallelEditField_2.ValueDisplayFormat = '%.0f';
-            app.SMBOParallelEditField_2.ValueChangedFcn = createCallbackFcn(app, @SMBOParallelEditField_2ValueChanged, true);
-            app.SMBOParallelEditField_2.FontName = 'Arial';
-            app.SMBOParallelEditField_2.Tooltip = {'If 1, conduct SMBO hyperparameter optimization in parallel. Otherwise, single process'};
-            app.SMBOParallelEditField_2.Position = [802 54 100 22];
-
-            % Create SMBOParallelEditField_2Label
-            app.SMBOParallelEditField_2Label = uilabel(app.PEParams);
-            app.SMBOParallelEditField_2Label.HorizontalAlignment = 'right';
-            app.SMBOParallelEditField_2Label.Position = [715 54 84 22];
-            app.SMBOParallelEditField_2Label.Text = 'SMBO Parallel';
 
             % Create OptimizationLabel
             app.OptimizationLabel = uilabel(app.PEParams);

@@ -15,7 +15,7 @@ function [binary_structure] = process_structure(coefficients, density, absolute,
     
     AbsMat = AbsMat .* possible_edges;
     
-    edge_vector = AbsMat(triu(logical(possible_edges), 1));
+    edge_vector = reshape(tril(AbsMat), [], 1);
     
     switch mode
         case 'threshold'
@@ -39,7 +39,7 @@ function [binary_structure] = process_structure(coefficients, density, absolute,
     
     switch mode
         case 'threshold'
-            % nothing
+            nothing = 0;
         case {'calculated', 'static'}
             if sum(sum(binary_structure)) ~= density_adjusted_edge_count
                 binary_structure = zeros(size(binary_structure)); % set to zero so it drops this structure

@@ -38,7 +38,7 @@ end
 % since matlab doesn't do copy-on-write or views, but the benefits of
 % saving outside of a structure are too great to ignore. 
 for index = 1:length(things_we_need)
-    eval([things_we_need{index} '=app.' things_we_need{index}]);
+    eval([things_we_need{index} '=app.' things_we_need{index} ';']);
 end
 
 % here's the filename
