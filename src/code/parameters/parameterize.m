@@ -135,36 +135,14 @@ addParameter(p, 's_lambda_sequence_glm', []);
 % neighborhood) for each node N
 addParameter(p, 'neighborhoods', {}, @(x) iscell(x));
 
+%container for glm options
+addParameter(p, 'glm_options', []);
+
 %EXPERIMENTAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 addParameter(p, 'mode','threshold', @(x) (strcmp(x,'threshold') || strcmp(x,'calculated') || strcmp(x,'static')));
-% minimum density
-%addParameter(p, 'min_density', 0.05,...
-%@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
-
-% max density
-%addParameter(p, 'max_density', 0.25,...
-%@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
-
-% static density
-% addParameter(p,'static_density', false, @(x) islogical(x));
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% (4, Generate Parameter Estimation Parameters): Here we generate the parameter estimation parameters
-
-% DEPRECATED
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Parameter flagging structure type (only loopy supported)
-%addParameter(p, 'structure_type','loopy',@(x) strcmp(x,'loopy'));
-
-%Parameter setting chunk size for series param estimation implementation
-%addParameter(p,'chunk_size',1,@(x) isnumeric(x) && numel(x)==1 && x>=1);
-
-%Parameter flagging chunk processing 
-%addParameter(p,'chunk',false,@(x) islogical(x));
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Parameter setting space of p_lambda
 addParameter(p, 'p_lambda_distribution',false,@(x) islogical(x));
@@ -215,11 +193,6 @@ addParameter(p, 'p_lambda_sequence', []);
 
 %% (5, Generate Ensemble Identification Parameters): 
 
-%DEPRECATED
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% NONE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Parameter setting number of control "random" ensembles
 addParameter(p,'num_controls',100,@(x) isnumeric(x) && numel(x)==1 && x>=1);
@@ -243,24 +216,6 @@ addParameter(p,'size_random_ensemble','coact',@(x) ischar(x) && (strcmp(x,'max_d
 addParameter(p, 'deviations_ensemble_id', 3, @(x) isscalar(x));
 
 %%  (6, Generate 'Evaluation' Parameters): 
-
-% DEPRECATED
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Parameter to assess neurons
-% addParameter(p, 'assessNeurons', false, @(x) x==false);
-% Parameter to assess nodes
-% addParameter(p, 'assessNodes',false, @(x) x==false);
-% Parameter to assess linearity
-% addParameter(p, 'assessLinearity', false, @(x) x==false);
-% Parameter to assess size
-% addParameter(p, 'assessSize', false, @(x) x==false);
-% Parameter for step size
-% addParameter(p, 'stepSize', 5, @(x) isnumeric(x) && isscalar(x) && x>=0);
-% Parameter for num Steps
-% addParameter(p, 'numSteps', 5, @(x) isnumeric(x) && isscalar(x) && x>=0);
-% Parameter to assess multiclass predictions
-% addParameter(p, 'assessMulticlass', false, @(x) x==false);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Parameter for current stage
 addParameter(p, 'stage', 0, @(x) isnumeric(x) && isscalar(x));
@@ -297,7 +252,6 @@ addParameter(p,'data',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 addParameter(p,'udf',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 
 addParameter(p, 'rois', []);
-
 
 %% (9, SMBO PARAMETERS)
 

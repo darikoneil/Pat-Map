@@ -36,7 +36,6 @@ ensemble_performance.hits_pt = cell(num_udf, num_udf);
 ensemble_performance.balanced_accuracy_pt = cell(num_udf, num_udf);
 
 
-ensemble_performance
 for one_udf = 1:num_udf
     for one_ensemble = 1:num_udf
         

@@ -1,4 +1,4 @@
-function [data, udf, rois] = prepare_spatial_reward_dataset(nwb_file, time_bin_size, spatial_bin_size, subset)
+function [data, udf, rois] = prepare_spatial_reward_dataset(nwb_file, time_bin_size, spatial_bin_size, subset, kept_neurons)
 
 % get data
 dataset = nwbRead(nwb_file);
@@ -38,7 +38,9 @@ spatial_bins = 0:spatial_bin_size:200;
 udf = discretize(udf, spatial_bins);
 
 
-rois = simulate_rois(size(data, 2));
+neurons = randperm(size(data, 2), kept_neurons);
+data = data(:, neurons);
+rois = simulate_rois(length(neurons));
 
 end
 

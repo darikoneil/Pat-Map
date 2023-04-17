@@ -11,7 +11,6 @@ function [params] = structural_learning(params)
 % (3, Learn Structures)
 % (4, Save Model Parameters)
 %
-% The secondary functions invoked in these steps can be found below the primary function
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -46,10 +45,22 @@ params.learned_structures=cell(1,params.num_seed_structures);
 
 wb = CmdLineProgressBar('Learning Structures'); %feedback
 fprintf('\n');
-for i = 1:params.num_seed_structures
-    [params.raw_coef{i}] = learn_structures(params, params.s_lambda_sequence(i)); %learn structures at each s_lambda
-    params.learned_structures{i} = process_structure(params.raw_coef{i}, params.density, params.absolute, params.mode, params.neighborhoods); %binarize
-    wb.print(i, params.num_seed_structures); %feedback update
+
+start_time = tic;
+current_time = tic;
+end_time = start_time + 60*1e7;
+
+while length(params.learned_structures) < params.num_seed_structures  % We use a while loop here because sometimes we'll set the lambda such that it generates empty structures
+    % to protect against infinite looping
+        raw_coef = earn_structures(params, params.s_lambda_sequence(i));
+        learned_structure =  process_structure(raw_coef, params.density, params.absolute, params.mode, params.neighborhoods); %binarize
+        if sum(sum(learned_structure)) >= (params.num_neurons + params.num_udf);
+            params.raw_coef{i} = raw_coef;
+            params.learned_structures{i} = learned_structures;
+            wb.print(i, params.num_seed_structures); %feedback update
+        end
+        current_time = tic;
+        assert(current_time <= end_time, 'Timeout due to inability to generate sufficient structures. Please broaden lambda range'); 	
 end
 
 
