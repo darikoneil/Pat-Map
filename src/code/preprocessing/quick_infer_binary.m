@@ -1,10 +1,12 @@
 function [binary] = quick_infer_binary(data)
 
-binary = zeros(size(data));
+num_samples = size(data, 1);
+num_neurons = size(data, 2);
+binary = zeros(num_samples, num_neurons);
 
-for neuron = 1:size(data,2)
+for neuron = 1:num_neurons
     decon = data(:, neuron);
-    thr = std(decon);
+    thr = 2*std(decon);
     binary(decon > thr, neuron) = 1;
 end
 
