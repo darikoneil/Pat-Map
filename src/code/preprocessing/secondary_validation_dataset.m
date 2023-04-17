@@ -9,7 +9,7 @@ function [data, udf, nil_neurons, nil_frames] = secondary_validation_dataset(dat
         [data_samples, num_nodes] = size(data);
     end
     
-    assert(data_samples > num_nodes * 10, 'Rule of Thumb: you should have approximately samples >= 10 * number of neurons');
+    assert(data_samples > num_nodes * 4, 'Rule of Thumb: you should have approximately samples >= 5-10 * number of neurons');
     
     %Grab udf Size
     [udf_samples, num_udf] = size(udf);

@@ -26,7 +26,8 @@ elseif num_udf > 10
             num_udf_frames(one_udf) = length(udf_frames{one_udf});
         end
         min_class_hits = min(events);
-        target = min_class_hits/(1/(num_udf*2));
+        % target = min_class_hits/(1/(num_udf*2));
+        target = min_class_hits*num_udf;
                
         while sum(num_udf_frames) > target
             for one_udf = 1:num_udf
