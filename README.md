@@ -22,6 +22,13 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 ##### Installation
 No installation is required. Simply enter PatMap in the matlab terminal.
 
+##### Hotkeys
+* 'right arrow' - next UDF
+* 'left arrow' - previous UDF
+* 'up arrow' - highlight next node
+* 'down arrow' - highlight previous node
+* 's' - save
+
 ##### DEV Roadmaps & Changelogs
 
 Version v1.0.1 - 04/20/2023
