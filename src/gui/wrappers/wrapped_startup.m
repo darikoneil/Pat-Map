@@ -26,6 +26,7 @@ addpath(temp_directory);
 % compile params
 params.data = app.data;
 params.udf = app.udf;
+params.rois = app.rois;
 
 %coords
 

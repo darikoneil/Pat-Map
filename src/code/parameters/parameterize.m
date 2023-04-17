@@ -137,6 +137,8 @@ addParameter(p, 'neighborhoods', {}, @(x) iscell(x));
 
 %EXPERIMENTAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+addParameter(p, 'mode','threshold', @(x) (strcmp(x,'threshold') || strcmp(x,'calculated') || strcmp(x,'static')));
 % minimum density
 %addParameter(p, 'min_density', 0.05,...
 %@(x) isnumeric(x) && numel(x)==1 && x<=1 && x>0);
@@ -282,12 +284,11 @@ addParameter(p, 'node_threshold_pattern_complete', 'Ensemble', @(x) ischar(x) &&
 
 %% (8, DATASET PARAMETERS)
 
-%DEPRECATED THINGS
+% nil neurons
+addParameter(p, 'nil_neurons', zeros(1,1), @(x)validateattributes(x, {'double'},{'2d'}));
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% pruned neurons
-addParameter(p, 'nil_idx', zeros(1,1), @(x)validateattributes(x, {'double'},{'2d'}));
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% nil frames
+addParameter(p, 'nil_frames', zeros(1,1), @(x)validateattributes(x, {'double'},{'2d'}));
 
 %Parameter containing data
 addParameter(p,'data',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
@@ -295,8 +296,8 @@ addParameter(p,'data',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 %Parameter containing UDF
 addParameter(p,'udf',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 
-%Parameter containing coords
-addParameter(p,'coords',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
+addParameter(p, 'rois', []);
+
 
 %% (9, SMBO PARAMETERS)
 
@@ -318,8 +319,10 @@ params = calculate_number_of_models(params);
 
 %secondary validation
 if params.ignore_dataset_ == false
+    [params.data, params.udf, params.rois, params.nil_neurons, params.nil_frames] = secondary_validation(params.data, params.udf, params.rois);
     [params.x_train, params.x_valid, params.x_test,params.num_udf,params.num_neurons,params.data,params.udf,params.shuffle_index] = data_segmentation(params.data, params.udf, params.split, params.validation, params.random_shuffle);
     [params.p_lambda_sequence,params.s_lambda_sequence_glm,params.glm_options] = generate_lambda_sequences(params.p_lambda_count,params.p_lambda_min,params.p_lambda_max,params.p_lambda_distribution,params.s_lambda_count,params.s_lambda_min,params.s_lambda_max,params.s_lambda_distribution,params);
+
 end
   
 end

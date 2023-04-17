@@ -48,7 +48,7 @@ wb = CmdLineProgressBar('Learning Structures'); %feedback
 fprintf('\n');
 for i = 1:params.num_seed_structures
     [params.raw_coef{i}] = learn_structures(params, params.s_lambda_sequence(i)); %learn structures at each s_lambda
-    params.learned_structures{i} = process_structure(params.raw_coef{i}, params.density, params.absolute); %binarize
+    params.learned_structures{i} = process_structure(params.raw_coef{i}, params.density, params.absolute, params.mode, params.neighborhoods); %binarize
     wb.print(i, params.num_seed_structures); %feedback update
 end
 
