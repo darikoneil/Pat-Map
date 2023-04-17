@@ -35,6 +35,7 @@ Version v1.0.1 - 04/20/2023
 * Parameter explanations on hover
 * Button tooltips on hover
 * Enhanced visualizer of graphical models
+* Hotkeys
 
 ##### TODO v2.0.0 - TBD
 * Incorporate temporal interactions from experimental branch
