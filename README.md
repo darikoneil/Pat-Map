@@ -13,8 +13,8 @@ Matlab 2020b (Recommended), >=Matlab 2019a (Required)
 PatMap is functional on Windows, Linux, and Mac operating systems.
 
 ##### Included Dependencies:
-* MexCPP
-* QPBO v1.32
+* MexCPP  (modified, must use this repo as source)
+* QPBO v1.32 (modified, must use this repo as source)
 * GLMNet
 * ParWaitBar
 * CmdLineProgressBar
