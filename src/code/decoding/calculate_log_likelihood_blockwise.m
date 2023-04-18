@@ -1,4 +1,4 @@
-function [avg_log_likelihood] = compute_avg_log_likelihood_blockwise(node_potentials, edge_potentials, logZ, ...
+function [frame_log_likelihood] = calculate_log_likelihood_blockwise(node_potentials, edge_potentials, logZ, ...
     samples, blocks)
 %Function to compute frame-wise log_likelihood
 
@@ -52,7 +52,6 @@ end
 
 %subtract partition function
     frame_log_likelihoods = log_likelihood - logZ;  
-    avg_log_likelihood = frame_log_likelihoods ./ sample_count;
  
 %log_likelihood = log_likelihood + reshape(sum(sum(edgeTensor,2),1),[],1); %%add edge effects
 %edgeTensor = sptensor([],[],[nodeCount, nodeCount, sample_count]);

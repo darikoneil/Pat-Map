@@ -5,8 +5,7 @@ function evaluate_neuronal_contributions_button_pushed(app)
  [use_big, chunks] = check_memory_requirements((size(app.params.data,2)*size(app.params.data,2)*size(app.params.data,1)));
  
  if use_big
-     %evaluate_individual_nodes_big(app, chunks);
-     dummy = 0;
+     [log_likelihood_ratio] = calculate_log_likelihood_neuronal_blockwise(app.params, app.best_model, chunks);
  else
      [log_likelihood_ratio] = calculate_log_likelihood_neuronal(app.params, app.best_model);
      if isempty(app.log_likelihood_by_frame)
