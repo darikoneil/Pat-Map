@@ -51,23 +51,30 @@ current_time = tic;
 end_time = start_time + 60*1e7;
 
 i=1;
-while length(params.learned_structures) < params.num_seed_structures  % We use a while loop here because sometimes we'll set the lambda such that it generates empty structures
-        % to protect against infinite looping
-        if i > params.num_seed_structures
-            new = setdiff(params.s_lamnda_sequence_glm(round(0.2*length(params.s_lambda_sequence_glm)):end), params.s_lambda_sequence);
+while length(params.learned_structures) < params.num_seed_structures
+    % We use a while loop here because sometimes we'll set the lambda such that it generates empty structures
+        % to protect against infinite looping   
+        if i > params.num_seed_structures || i > length(params.s_lambda_sequence)
+            new = setdiff(params.s_lambda_sequence_glm(round(0.2*length(params.s_lambda_sequence_glm)):end), params.s_lambda_sequence);
             new_val = new(randperm(length(new),1));
             params.s_lambda_sequence = [params.s_lambda_sequence new_val];
         end
         raw_coef = learn_structures(params, params.s_lambda_sequence(i));
         learned_structure =  process_structure(raw_coef, params.density, params.absolute, params.mode, params.neighborhoods); %binarize
-        if sum(sum(learned_structure)) >= (params.num_neurons + params.num_udf);
+        if sum(sum(learned_structure)) >= (params.num_neurons + params.num_udf)
             params.raw_coef{end+1} = raw_coef;
             params.learned_structures{end+1} = learned_structure;
             wb.print(i, params.num_seed_structures); %feedback update
+        else
+            % if params picked poorly the bracket points could be empty. in this case, switch to fully stochastic
+            if i == 1 || i == 2
+                params.s_lambda_sequence = [];
+                i=0; % so that i starts with 1
+            end
         end
         i=i+1;
         current_time = tic;
-        assert(current_time <= end_time, 'Timeout due to inability to generate sufficient structures. Please broaden lambda range'); 	
+        %assert(current_time <= end_time, 'Timeout due to inability to generate sufficient structures. Please broaden lambda range'); 	
 end
 
 

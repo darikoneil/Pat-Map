@@ -2,7 +2,7 @@ function set_gui_range_limits(app)
 
 num_udf = app.params.num_udf;
 app.StimulusEM.Limits = [1 num_udf];
-app.StimulusEditField.Limits = 1 num_udf];
+app.StimulusEditField.Limits = [1 num_udf];
 app.StimulusEV.Limits=[1 num_udf];
 app.Stimulus_PCN.Limits=[1 num_udf];
 
