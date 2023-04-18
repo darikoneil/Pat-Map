@@ -4,7 +4,7 @@ if nargin<2
     RAM=115;
 end
 
-memoryRequirementInBytes = (elements*8)/1e9;
+memoryRequirementInBytes = (elements*8)*1e9;
 
 if memoryRequirementInBytes>=RAM
     useBIG = logical(1);
