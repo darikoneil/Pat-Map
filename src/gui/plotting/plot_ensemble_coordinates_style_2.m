@@ -4,13 +4,16 @@ app.ensemble_coordinates.NextPlot = 'replacechildren';
 
 % 1
 udf_id = app.StimulusEditField.Value;
+udf_label = app.params.udf_labels{udf_id};
 neuron_id = app.HighlightedEnsNode.Value;
 % 1
-
+app.ensemble_coordinates.Title.String = strcat(udf_label, ': Ensemble Neuron Coordinates');
 rois = app.rois;
 num_rois = size(rois.xpix, 1);
 best_model = app.best_model;
 edge_mat = best_model.structure(1:length(rois.xpix), 1:length(rois.xpix));
+
+
 
 
 ensemble_nodes = app.ensemble_nodes{udf_id};
@@ -123,5 +126,5 @@ hold(app.ensemble_coordinates, 'off');
 chi=get(app.ensemble_coordinates, 'Children');
 %Reverse the stacking order so that the patch overlays the line
 set(app.ensemble_coordinates, 'Children',flipud(chi));
-
+text_spot = text(app.ensemble_coordinates, 75, 142,  'Ensemble Neurons', 'Color', app.newcolors(4,:), 'FontWeight', 'bold', 'FontSize', 14);
 end
