@@ -22,7 +22,7 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 'modified, must use this repo as source
 
 ##### Installation
-No installation is required. Simply enter PatMap in the matlab terminal.
+No installation is required.
 
 
 ##### Launching GUI
