@@ -17,22 +17,21 @@ log_likelihood_ratios_on_off = cell(num_original_nodes*2, 1);
 
 node_ids = [1:num_original_nodes (num_nodes + 1):(num_nodes + num_original_nodes)];
 
-
 wb = CmdLineProgressBar('Conducting Log-Likelihood Ratio Test on each Neuron in Turn');
-    for ii = 1:(num_original_nodes * 2)
-       if ii <= num_original_nodes
-            off_fv = dataset(:, :);
-            off_fv(:, node_ids(ii)) = 0;
-            log_likelihood_ratios_on_off{ii} = calculate_log_likelihood_blockwise(off_fv, node_potentials, edge_potentials,...
-               log_z, blocks); 
-       else
-           on_fv = dataset(:, :);
-           on_fv(:, node_ids(ii)) = 1;
-           log_likelihood_ratios_on_off{ii} = calculate_log_likelihood_blockwise(on_fv, node_potentials, edge_potentials,...
-               log_z, blocks); 
-       end
-        wb.print(ii, num_original_nodes * 2);
-    end
+for ii = 1:(num_original_nodes * 2)
+   if ii <= num_original_nodes
+        off_fv = dataset(:, :);
+        off_fv(:, node_ids(ii)) = 0;
+        log_likelihood_ratios_on_off{ii} = calculate_log_likelihood_blockwise(off_fv, node_potentials, edge_potentials,...
+           log_z, blocks); 
+   else
+       on_fv = dataset(:, :);
+       on_fv(:, node_ids(ii)) = 1;
+       log_likelihood_ratios_on_off{ii} = calculate_log_likelihood_blockwise(on_fv, node_potentials, edge_potentials,...
+           log_z, blocks); 
+   end
+    wb.print(ii, num_original_nodes * 2);
+end
         
 log_likelihood_ratios_on_off = pagetranspose(cell2mat(permute(reshape(log_likelihood_ratios_on_off, num_original_nodes, 2),...
     [3,1,2])));
