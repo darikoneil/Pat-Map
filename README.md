@@ -24,6 +24,10 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 ##### Installation
 No installation is required. Simply enter PatMap in the matlab terminal.
 
+
+##### Launching GUI
+```app = pat_map();```
+
 ##### Hotkeys
 * 'right arrow' - next UDF
 * 'left arrow' - previous UDF
