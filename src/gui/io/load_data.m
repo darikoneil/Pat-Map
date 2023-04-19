@@ -3,9 +3,9 @@ function load_data(app)
 try
     app.data = load(app.file_data,'data');
     app.data = app.data.data;
-    update_log(app, 'Retrieved Data (Spike Matrix)');
+    update_log(app, 'Retrieved Data');
 catch
-    update_log(app, 'Unable to Retrieve Spike Matrix');
+    update_log(app, 'Unable to Retrieve Data');
 end
 
 end

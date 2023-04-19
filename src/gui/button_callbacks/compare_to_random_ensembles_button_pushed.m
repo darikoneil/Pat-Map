@@ -5,4 +5,5 @@ update_log(app, 'Now Comparing to Random Ensembles');
 plot_node_performance_distribution(app);
 update_log(app, 'Finished Comparing to Random Ensembles');
 
+app.RecomparetoRandomEnsemblesButton.Enable='on';
 end

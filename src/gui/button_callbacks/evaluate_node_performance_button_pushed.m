@@ -6,4 +6,6 @@ app.node_performance = calculate_node_performance(app.params, app.log_likelihood
 
 update_log(app, 'Finished Evaluating Node Performance');
 
+    app.ComparetoRandomEnsemblesButton.Enable='on';
+    
 end

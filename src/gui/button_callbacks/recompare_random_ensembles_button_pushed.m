@@ -6,4 +6,9 @@ plot_node_performance_distribution(app);
 plot_ensemble_coordinates(app);
 update_ensemble_text(app);
 update_log(app, 'Recomparing to random ensembles with explicit deviations');
+
+app.StimulusEditField.Enable='on';
+app.BandwidthEditField_ID.Enable='on';
+app.HighlightedEnsNode.Enable='on';
+app.EvaluateButton_EV.Enable='on';
 end
