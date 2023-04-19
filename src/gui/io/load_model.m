@@ -196,4 +196,9 @@ if found_params && app.params.stage >= 9
      
 end
 
+
+%% unlock appropriate tabs
+unlock_buttons(app, params.stage);
+
+
 end

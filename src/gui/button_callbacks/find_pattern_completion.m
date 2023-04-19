@@ -11,4 +11,5 @@ update_pattern_completion_text(app);
 
 update_log(app, 'Finished Searching for Pattern Completion Neurons');
 
+app.Stimulus_PCN.Enable='on';
 end

@@ -26,6 +26,7 @@ function evaluate_neuronal_contributions_button_pushed(app)
       update_log(app, 'Finished Evaluating Neuronal Contributions...');
  end
  
+     app.EvaluateNodePerformanceButton.Enable='on';
 end
  
  

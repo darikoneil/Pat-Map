@@ -1,6 +1,11 @@
 function wrapped_run_all(app)
-    % panel one
-    validate_data_button_pushed(app);
+    
+% panel one
+    if ~app.is_validated
+        validate_data_button_pushed(app);
+    end
+    unlock_buttons(app, params.stage);
+    
     
     % panel two A
     app.TabGroup.SelectedTab = app.SLTab_2;

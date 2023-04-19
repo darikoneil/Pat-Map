@@ -409,22 +409,29 @@ classdef PatMap < matlab.apps.AppBase
 
     
     properties (Access = public)
+        
+        % file handles
         file_data; % Spike Matrix File Location
         file_udf; % UDF File Location
         file_rois; % ROIs File Location
         file_model; % Model File Location
         file_params; % Params File location
-        model_Name = 'DefaultModel.mat'; % Name of Current Model
+        
+        % imported handles
         data; %data
         udf; %user defined features in binary
-        rois; %roi coordinates, can be many forms (see fucntion for details
+        udf_labels; % labels for udf
+        rois; %roi coordinates, can be many forms (see functions for details)
+        
+        % derived
+        roi_style; % indicates current roi style
         params; %params for modeling
-        model_collection; %collection of learned models
-        models; %collection of to be learned models
-        roi_style; % Description
         newcolors; % color scheme
+        is_validated; % whether data validated
         
         % data handles
+        model_collection; %collection of learned models
+        models; %collection of seed models
         best_model; % best model
         model_performance; % best model performance in decoding
         log_likelihood_by_frame;
@@ -507,6 +514,7 @@ classdef PatMap < matlab.apps.AppBase
            retrieve_gui_colors(app);
            load_default_parameters(app);
            update_params(app);
+           a = 0;
         end
 
         % Button pushed function: BrowseData
@@ -1160,6 +1168,7 @@ classdef PatMap < matlab.apps.AppBase
         % Key press function: UIFigure
         function KeyPressedAction(app, event)
             key = event.Key;
+            disp(key);
             switch key
                 case 'rightarrow'
                     update_udf_press(app, 1);
@@ -1169,6 +1178,8 @@ classdef PatMap < matlab.apps.AppBase
                     update_node_press(app, 1);
                 case 'downarrow'
                     update_node_press(app, -1);
+                case 's'
+                    save_all(app);
             end
         end
     end
@@ -2458,6 +2469,7 @@ classdef PatMap < matlab.apps.AppBase
             app.PreviewPassedStructuresButton.ButtonPushedFcn = createCallbackFcn(app, @PreviewPassedStructuresButtonPushed, true);
             app.PreviewPassedStructuresButton.FontName = 'Arial';
             app.PreviewPassedStructuresButton.FontSize = 14;
+            app.PreviewPassedStructuresButton.Enable = 'off';
             app.PreviewPassedStructuresButton.Tooltip = {'Press to preview structural properties of passed structures'};
             app.PreviewPassedStructuresButton.Position = [21 79 190 40];
             app.PreviewPassedStructuresButton.Text = 'Preview Passed Structures';
@@ -2496,6 +2508,7 @@ classdef PatMap < matlab.apps.AppBase
             app.PreviewAllStructuresButton.ButtonPushedFcn = createCallbackFcn(app, @PreviewAllStructuresButtonPushed, true);
             app.PreviewAllStructuresButton.FontName = 'Arial';
             app.PreviewAllStructuresButton.FontSize = 14;
+            app.PreviewAllStructuresButton.Enable = 'off';
             app.PreviewAllStructuresButton.Tooltip = {'Press to preview all structures'' properties'};
             app.PreviewAllStructuresButton.Position = [21 19 190 40];
             app.PreviewAllStructuresButton.Text = 'Preview All Structures';
@@ -2791,6 +2804,7 @@ classdef PatMap < matlab.apps.AppBase
             app.PerformParameterEstimationButton.ButtonPushedFcn = createCallbackFcn(app, @PerformParameterEstimationButtonPushed, true);
             app.PerformParameterEstimationButton.FontName = 'Arial';
             app.PerformParameterEstimationButton.FontSize = 14;
+            app.PerformParameterEstimationButton.Enable = 'off';
             app.PerformParameterEstimationButton.Tooltip = {'Press to perform parameter estimation'};
             app.PerformParameterEstimationButton.Position = [10 139 205 40];
             app.PerformParameterEstimationButton.Text = 'Perform Parameter Estimation';
@@ -2871,6 +2885,7 @@ classdef PatMap < matlab.apps.AppBase
             app.OptimizeButton.ButtonPushedFcn = createCallbackFcn(app, @OptimizeButtonPushed, true);
             app.OptimizeButton.FontName = 'Arial';
             app.OptimizeButton.FontSize = 14;
+            app.OptimizeButton.Enable = 'off';
             app.OptimizeButton.Tooltip = {'Press to launch SMBO hyperparameter optimization'};
             app.OptimizeButton.Position = [11 79 205 40];
             app.OptimizeButton.Text = 'Optimize';
@@ -2892,6 +2907,7 @@ classdef PatMap < matlab.apps.AppBase
             app.PlotModelEditField.HorizontalAlignment = 'center';
             app.PlotModelEditField.FontName = 'Arial';
             app.PlotModelEditField.FontSize = 14;
+            app.PlotModelEditField.Enable = 'off';
             app.PlotModelEditField.Tooltip = {'Select a model to plot its potentials below'};
             app.PlotModelEditField.Position = [175 19 40 40];
             app.PlotModelEditField.Value = 1;
@@ -2917,6 +2933,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BandwidthEditField = uieditfield(app.Potentials_PE, 'numeric');
             app.BandwidthEditField.ValueChangedFcn = createCallbackFcn(app, @BandwidthEditFieldValueChanged, true);
             app.BandwidthEditField.HorizontalAlignment = 'center';
+            app.BandwidthEditField.Enable = 'off';
             app.BandwidthEditField.Tooltip = {'Bandwidth of filter for node potentials'};
             app.BandwidthEditField.Position = [86 7 41 22];
             app.BandwidthEditField.Value = 0.001;
@@ -2931,6 +2948,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BandwidthEditField_2 = uieditfield(app.Potentials_PE, 'numeric');
             app.BandwidthEditField_2.ValueChangedFcn = createCallbackFcn(app, @BandwidthEditField_2ValueChanged, true);
             app.BandwidthEditField_2.HorizontalAlignment = 'center';
+            app.BandwidthEditField_2.Enable = 'off';
             app.BandwidthEditField_2.Tooltip = {'Bandwidth of filter for edge potentials'};
             app.BandwidthEditField_2.Position = [870 10 41 22];
             app.BandwidthEditField_2.Value = 0.001;
@@ -2962,6 +2980,7 @@ classdef PatMap < matlab.apps.AppBase
             app.HighlightedNode.FontName = 'Arial';
             app.HighlightedNode.FontSize = 16;
             app.HighlightedNode.FontWeight = 'bold';
+            app.HighlightedNode.Enable = 'off';
             app.HighlightedNode.Tooltip = {'Select a node to highlight their connections'};
             app.HighlightedNode.Position = [182 19 89 22];
 
@@ -2983,6 +3002,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ReselectBestModelButton.ButtonPushedFcn = createCallbackFcn(app, @ReselectBestModelButtonPushed, true);
             app.ReselectBestModelButton.FontName = 'Arial';
             app.ReselectBestModelButton.FontSize = 14;
+            app.ReselectBestModelButton.Enable = 'off';
             app.ReselectBestModelButton.Position = [11 329 205 40];
             app.ReselectBestModelButton.Text = 'Reselect Best Model';
 
@@ -2991,6 +3011,7 @@ classdef PatMap < matlab.apps.AppBase
             app.EvaluateBestModelButton.ButtonPushedFcn = createCallbackFcn(app, @EvaluateBestModelButtonPushed, true);
             app.EvaluateBestModelButton.FontName = 'Arial';
             app.EvaluateBestModelButton.FontSize = 14;
+            app.EvaluateBestModelButton.Enable = 'off';
             app.EvaluateBestModelButton.Position = [11 279 205 40];
             app.EvaluateBestModelButton.Text = 'Evaluate Best Model';
 
@@ -3416,12 +3437,14 @@ classdef PatMap < matlab.apps.AppBase
             app.StimulusEM.FontName = 'Arial';
             app.StimulusEM.FontSize = 16;
             app.StimulusEM.FontWeight = 'bold';
+            app.StimulusEM.Enable = 'off';
             app.StimulusEM.Position = [342 247 89 22];
             app.StimulusEM.Value = 1;
 
             % Create DecodingButtonGroup
             app.DecodingButtonGroup = uibuttongroup(app.EVModel);
             app.DecodingButtonGroup.SelectionChangedFcn = createCallbackFcn(app, @DecodingButtonGroupSelectionChanged, true);
+            app.DecodingButtonGroup.Enable = 'off';
             app.DecodingButtonGroup.Position = [471 415 454 30];
 
             % Create ROC_Decoding
@@ -3454,6 +3477,7 @@ classdef PatMap < matlab.apps.AppBase
             % Create ViewPerfButtonGroup
             app.ViewPerfButtonGroup = uibuttongroup(app.ViewDecodingPerfPanel);
             app.ViewPerfButtonGroup.SelectionChangedFcn = createCallbackFcn(app, @ViewPerfButtonGroupSelectionChanged, true);
+            app.ViewPerfButtonGroup.Enable = 'off';
             app.ViewPerfButtonGroup.Position = [0 257 439 33];
 
             % Create ViewTrainPerf
@@ -3574,6 +3598,7 @@ classdef PatMap < matlab.apps.AppBase
             app.EvaluateNeuronalContributionsButton = uibutton(app.IDParams, 'push');
             app.EvaluateNeuronalContributionsButton.ButtonPushedFcn = createCallbackFcn(app, @EvaluateNeuronalContributionsButtonPushed, true);
             app.EvaluateNeuronalContributionsButton.FontName = 'Arial';
+            app.EvaluateNeuronalContributionsButton.Enable = 'off';
             app.EvaluateNeuronalContributionsButton.Position = [311 135 190 40];
             app.EvaluateNeuronalContributionsButton.Text = 'Evaluate Neuronal Contributions';
 
@@ -3581,6 +3606,7 @@ classdef PatMap < matlab.apps.AppBase
             app.EvaluateNodePerformanceButton = uibutton(app.IDParams, 'push');
             app.EvaluateNodePerformanceButton.ButtonPushedFcn = createCallbackFcn(app, @EvaluateNodePerformanceButtonPushed, true);
             app.EvaluateNodePerformanceButton.FontName = 'Arial';
+            app.EvaluateNodePerformanceButton.Enable = 'off';
             app.EvaluateNodePerformanceButton.Position = [311 75 190 40];
             app.EvaluateNodePerformanceButton.Text = 'Evaluate Node Performance';
 
@@ -3588,6 +3614,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ComparetoRandomEnsemblesButton = uibutton(app.IDParams, 'push');
             app.ComparetoRandomEnsemblesButton.ButtonPushedFcn = createCallbackFcn(app, @ComparetoRandomEnsemblesButtonPushed, true);
             app.ComparetoRandomEnsemblesButton.FontName = 'Arial';
+            app.ComparetoRandomEnsemblesButton.Enable = 'off';
             app.ComparetoRandomEnsemblesButton.Position = [311 15 190 40];
             app.ComparetoRandomEnsemblesButton.Text = 'Compare to Random Ensembles';
 
@@ -3595,6 +3622,7 @@ classdef PatMap < matlab.apps.AppBase
             app.IdentifyNeuronalEnsemblesRunAllButton = uibutton(app.IDParams, 'push');
             app.IdentifyNeuronalEnsemblesRunAllButton.ButtonPushedFcn = createCallbackFcn(app, @IdentifyNeuronalEnsemblesRunAllButtonPushed, true);
             app.IdentifyNeuronalEnsemblesRunAllButton.FontName = 'Arial';
+            app.IdentifyNeuronalEnsemblesRunAllButton.Enable = 'off';
             app.IdentifyNeuronalEnsemblesRunAllButton.Position = [521 69 220 40];
             app.IdentifyNeuronalEnsemblesRunAllButton.Text = 'Identify Neuronal Ensembles (Run All)';
 
@@ -3602,6 +3630,7 @@ classdef PatMap < matlab.apps.AppBase
             app.RecomparetoRandomEnsemblesButton = uibutton(app.IDParams, 'push');
             app.RecomparetoRandomEnsemblesButton.ButtonPushedFcn = createCallbackFcn(app, @RecomparetoRandomEnsemblesButtonPushed, true);
             app.RecomparetoRandomEnsemblesButton.FontName = 'Arial';
+            app.RecomparetoRandomEnsemblesButton.Enable = 'off';
             app.RecomparetoRandomEnsemblesButton.Position = [521 135 220 40];
             app.RecomparetoRandomEnsemblesButton.Text = 'Recompare to Random Ensembles';
 
@@ -3635,6 +3664,7 @@ classdef PatMap < matlab.apps.AppBase
             app.StimulusEditField.HorizontalAlignment = 'center';
             app.StimulusEditField.FontName = 'Arial';
             app.StimulusEditField.FontSize = 16;
+            app.StimulusEditField.Enable = 'off';
             app.StimulusEditField.Position = [851 15 44 40];
             app.StimulusEditField.Value = 1;
 
@@ -3748,6 +3778,7 @@ classdef PatMap < matlab.apps.AppBase
             app.HighlightedEnsNode.FontName = 'Arial';
             app.HighlightedEnsNode.FontSize = 16;
             app.HighlightedEnsNode.FontWeight = 'bold';
+            app.HighlightedEnsNode.Enable = 'off';
             app.HighlightedEnsNode.Tooltip = {'Select a node to highlight their connections'};
             app.HighlightedEnsNode.Position = [182 19 89 22];
 
@@ -3765,6 +3796,7 @@ classdef PatMap < matlab.apps.AppBase
             app.BandwidthEditField_ID = uieditfield(app.NodePerformance_IDENS, 'numeric');
             app.BandwidthEditField_ID.ValueChangedFcn = createCallbackFcn(app, @BandwidthEditField_IDValueChanged, true);
             app.BandwidthEditField_ID.HorizontalAlignment = 'center';
+            app.BandwidthEditField_ID.Enable = 'off';
             app.BandwidthEditField_ID.Position = [87 8 41 22];
             app.BandwidthEditField_ID.Value = 0.05;
 
@@ -3789,6 +3821,7 @@ classdef PatMap < matlab.apps.AppBase
             app.EvaluateButton_EV = uibutton(app.EnsembleEvalParams, 'push');
             app.EvaluateButton_EV.ButtonPushedFcn = createCallbackFcn(app, @EvaluateButton_EVPushed, true);
             app.EvaluateButton_EV.FontName = 'Arial';
+            app.EvaluateButton_EV.Enable = 'off';
             app.EvaluateButton_EV.Position = [11 308 120 30];
             app.EvaluateButton_EV.Text = 'Evaluate ';
 
@@ -3986,12 +4019,14 @@ classdef PatMap < matlab.apps.AppBase
             app.StimulusEV.FontName = 'Arial';
             app.StimulusEV.FontSize = 16;
             app.StimulusEV.FontWeight = 'bold';
+            app.StimulusEV.Enable = 'off';
             app.StimulusEV.Position = [342 247 89 22];
             app.StimulusEV.Value = 1;
 
             % Create ViewEnsPerfButtonGroup
             app.ViewEnsPerfButtonGroup = uibuttongroup(app.EnsembleEvalParams);
             app.ViewEnsPerfButtonGroup.SelectionChangedFcn = createCallbackFcn(app, @ViewEnsPerfButtonGroupSelectionChanged, true);
+            app.ViewEnsPerfButtonGroup.Enable = 'off';
             app.ViewEnsPerfButtonGroup.Position = [140 307 326 32];
 
             % Create TrainEnsPerf
@@ -4090,6 +4125,7 @@ classdef PatMap < matlab.apps.AppBase
             app.Stimulus_PCN.FontName = 'Arial';
             app.Stimulus_PCN.FontSize = 16;
             app.Stimulus_PCN.FontWeight = 'bold';
+            app.Stimulus_PCN.Enable = 'off';
             app.Stimulus_PCN.Position = [241 435 89 22];
             app.Stimulus_PCN.Value = 1;
 
@@ -4186,6 +4222,7 @@ classdef PatMap < matlab.apps.AppBase
             app.IdentifyPatternCompletionNeuronsButton.ButtonPushedFcn = createCallbackFcn(app, @IdentifyPatternCompletionNeuronsButtonPushed, true);
             app.IdentifyPatternCompletionNeuronsButton.FontName = 'Arial';
             app.IdentifyPatternCompletionNeuronsButton.FontSize = 14;
+            app.IdentifyPatternCompletionNeuronsButton.Enable = 'off';
             app.IdentifyPatternCompletionNeuronsButton.Position = [16 75 243 40];
             app.IdentifyPatternCompletionNeuronsButton.Text = 'Identify Pattern Completion Neurons';
 

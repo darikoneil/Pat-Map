@@ -21,6 +21,12 @@ if app.params.assess_clustering
     update_clustering_text(app);
 end
 
+app.StimulusEM.Enable = 'on';
+app.DecodingButtonGroup.Enable='on';
+app.ViewPerfButtonGroup.Enable='on';
+app.HighlightedNode.Enable='on';
+app.EvaluateNeuronalContributionsButton.Enable='on';
+app.IdentifyNeuronalEnsemblesRunAllButton.Enable='on';
 app.params.stage = 5;
 
 end

@@ -22,5 +22,9 @@ plot_all_ensemble_evals(app);
 
 update_log(app, 'Finished Evaluating Ensembles.');
 
+app.ViewEnsPerfButtonGroup.Enable = 'on';
+app.StimulusEV.Enable='on';
+app.IdentifyPatternCompletionNeuronsButton.Enable='on';
+
 app.params.stage = 8;
 end

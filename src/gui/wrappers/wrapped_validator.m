@@ -10,4 +10,8 @@ set_gui_range_limits(app);
 
 app.params.stage = 1;
 
+app.is_validated = true;
+
+app.ValidateData.Enable = 'off';
+
 end
