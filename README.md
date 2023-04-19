@@ -51,6 +51,7 @@ Version v1.0.1 - 04/20/2023
 * Simulated ROI Generation if unavailable
 * Enhanced handling of imbalanced datasets
 * Automatic one-hot encoding of a multi-class indicator vector (UDF)
+* Support for udf labels
 
 ##### TODO v2.0.0 - TBD
 * Incorporate temporal interactions from experimental branch
