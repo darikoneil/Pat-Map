@@ -44,6 +44,20 @@ if found_params
         update_log(app, 'Unable to Retrieve UDFs');
         app.UDFLamp.Color = [0.87 0.27 0.27];
     end
+    %try udf labels
+    try
+        udf_labels = load(filename, 'udf_labels');
+        update_log(app, 'Located UDF Labels');
+        app.udf_labels = udf_labels.udf_labels;
+    catch
+        update_log(app, 'Unable to Retrieve UDF Labels');
+        try
+            app.udf_labels = simulate_udf_labels(size(app.udf, 2));
+        catch
+            update_log(app, 'Unable to Simulate UDF Labels');
+        end
+    end
+    
     %rois
     
     try
@@ -59,7 +73,9 @@ if found_params
         app.ROIsLamp.Color = [0.87 0.27 0.27];
     end
     
-    
+    if ~isempty(app.params.udf) && ~isempty(app.params.data)
+        set_gui_range_limits(app);
+    end
 end
 
 %% If Stage >= 2
@@ -115,7 +131,7 @@ if found_params && app.params.stage >=4
         if isempty(app.optimization_results)
             wrap_seeds_into_optimization(app);
         end
-        plot_optimization_model(app);
+        plot_optimization_model(app.optimization_plot, app.optimization_results, 'done');
     catch
         update_log(app, 'Unable to Retrieve Optimization Results');
     end     
@@ -198,7 +214,7 @@ end
 
 
 %% unlock appropriate tabs
-unlock_buttons(app, params.stage);
+unlock_buttons(app, app.params.stage);
 
 
 end

@@ -27,8 +27,7 @@ addpath(temp_directory);
 params.data = app.data;
 params.udf = app.udf;
 params.rois = app.rois;
-
-%coords
+params.udf_labels = app.udf_labels;
 
 params.name = name;
 params.data_directory = data_directory;

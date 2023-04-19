@@ -14,6 +14,7 @@ if length(varargin) == 0
         'params',
         'data',
         'udf',
+        'udf_labels',
         'rois',
         'model_collection',
         'models',

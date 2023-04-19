@@ -253,6 +253,10 @@ addParameter(p,'udf',zeros(1,1), @(x)validateattributes(x,{'double'},{'2d'}));
 
 addParameter(p, 'rois', []);
 
+%parameter of udf labels
+addParameter(p, 'udf_labels', {});
+
+
 %% (9, SMBO PARAMETERS)
 
 % Parameter indicating max number of objective evaluations
