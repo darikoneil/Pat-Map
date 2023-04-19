@@ -51,7 +51,7 @@ end
 
 
 %subtract partition function
-    frame_log_likelihoods = log_likelihood - logZ;  
+    frame_log_likelihood = log_likelihood - logZ;  
  
 %log_likelihood = log_likelihood + reshape(sum(sum(edgeTensor,2),1),[],1); %%add edge effects
 %edgeTensor = sptensor([],[],[nodeCount, nodeCount, sample_count]);

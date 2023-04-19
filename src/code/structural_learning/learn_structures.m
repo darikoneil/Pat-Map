@@ -16,21 +16,7 @@ function [coefficients] = learn_structures(params,s_lambda)
         end
         
         %*Note, if any given edge is described as both attractive and
-        %repulsive than the variables are zeros. The frequency of this is
-        %reported*
-        
-         multiplied_coefficients = coefficients .* coefficients';
-         erIdx = find(multiplied_coefficients < 0);
-         
-         if erIdx
-             fprintf('Found %d/%d edges that had contradicting weight signs in both lassos.\n',...
-             length(erIdx), length(find(multiplied_coefficients ~= 0)));
-             summed_negative_values = coefficients + coefficients';
-             summed_negative_values = summed_negative_values(erIdx);
-             fprintf('The mean of the contradicting pairs after summing is %d, with the max summed pair at %d.\n', ...
-             mean(summed_negative_values(:)), max(summed_negative_values(:)));
-             fprintf('Compare with %d, the mean of all coefficient pairs.\n', ...
-             2*mean(coefficients(coefficients ~= 0)));
-         end
+        %repulsive than the variables are zeros. This is because GLM can reveal a directionality. We'll just ignore
+        %these cases.
         
 end
