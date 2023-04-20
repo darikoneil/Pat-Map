@@ -1,5 +1,8 @@
 function unlock_buttons(app, stage)
 
+if nargin == 1
+    stage = app.params.stage;
+end
 
 if stage >= 2
     % current tab

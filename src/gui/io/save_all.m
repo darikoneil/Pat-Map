@@ -31,7 +31,6 @@ if length(varargin) == 0
         'node_threshold',
         'auc_threshold',
         'pattern_completion_nodes',
-        'optimization_results',
         };
 end
 

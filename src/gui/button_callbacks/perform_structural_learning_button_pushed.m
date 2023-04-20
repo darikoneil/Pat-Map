@@ -18,10 +18,7 @@ function perform_structural_learning_button_pushed(app)
     
     update_log(app, 'Structural Learning Complete');
     
-    app.PreviewPassedStructuresButton.Enable='on';
-    
-    app.PreviewAllStructuresButton.Enable='on';
-    
     app.params.stage = 2;
     
+    unlock_buttons(app);
 end

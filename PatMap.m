@@ -4303,7 +4303,7 @@ classdef PatMap < matlab.apps.AppBase
             app.PatternCompletionNeuronsLabel_2.FontSize = 14;
             app.PatternCompletionNeuronsLabel_2.FontWeight = 'bold';
             app.PatternCompletionNeuronsLabel_2.FontColor = [1 0.3098 0.2941];
-            app.PatternCompletionNeuronsLabel_2.Position = [13 10 196 22];
+            app.PatternCompletionNeuronsLabel_2.Position = [13 -2 196 22];
             app.PatternCompletionNeuronsLabel_2.Text = 'Pattern Completion Neurons';
 
             % Create EnsembleNeuronsLabel_2
@@ -4312,7 +4312,7 @@ classdef PatMap < matlab.apps.AppBase
             app.EnsembleNeuronsLabel_2.FontSize = 14;
             app.EnsembleNeuronsLabel_2.FontWeight = 'bold';
             app.EnsembleNeuronsLabel_2.FontColor = [0.0745 0.6235 1];
-            app.EnsembleNeuronsLabel_2.Position = [223 10 132 22];
+            app.EnsembleNeuronsLabel_2.Position = [223 -2 132 22];
             app.EnsembleNeuronsLabel_2.Text = 'Ensemble Neurons';
 
             % Show the figure after all components are created
