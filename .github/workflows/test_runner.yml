@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        release: [R2020b, R2021a, R2022a, ]
+        release: [R2021a, R2021b, R2022a, R2022b, R2023a]
         
     name: Run MATLAB Script
     runs-on: ${{ matrix.os }}
