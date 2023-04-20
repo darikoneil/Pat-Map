@@ -333,6 +333,11 @@ classdef PatMap < matlab.apps.AppBase
         EnsID_IDENS                     matlab.ui.container.Panel
         HighlightedNodeLabel_4          matlab.ui.control.Label
         HighlightedEnsNode              matlab.ui.control.NumericEditField
+        Label                           matlab.ui.control.Label
+        EnsembleEnsembleEdgeLabel       matlab.ui.control.Label
+        EnsembleNonEnsembleEdgeLabel    matlab.ui.control.Label
+        Label_2                         matlab.ui.control.Label
+        EnsembleNeuronsLabel_4          matlab.ui.control.Label
         NodePerformance_IDENS           matlab.ui.container.Panel
         BandwidthEditField_2Label       matlab.ui.control.Label
         BandwidthEditField_ID           matlab.ui.control.NumericEditField
@@ -405,6 +410,8 @@ classdef PatMap < matlab.apps.AppBase
         NodeThresholdLabel              matlab.ui.control.Label
         NodeThresholdDropDown           matlab.ui.control.DropDown
         PCNCoordinates                  matlab.ui.container.Panel
+        PatternCompletionNeuronsLabel_2  matlab.ui.control.Label
+        EnsembleNeuronsLabel_2          matlab.ui.control.Label
     end
 
     
@@ -3757,7 +3764,7 @@ classdef PatMap < matlab.apps.AppBase
             % Create EnsID_IDENS
             app.EnsID_IDENS = uipanel(app.IDEns);
             app.EnsID_IDENS.AutoResizeChildren = 'off';
-            app.EnsID_IDENS.Position = [961 15 900 710];
+            app.EnsID_IDENS.Position = [961 14 900 710];
 
             % Create HighlightedNodeLabel_4
             app.HighlightedNodeLabel_4 = uilabel(app.EnsID_IDENS);
@@ -3778,8 +3785,52 @@ classdef PatMap < matlab.apps.AppBase
             app.HighlightedEnsNode.FontSize = 16;
             app.HighlightedEnsNode.FontWeight = 'bold';
             app.HighlightedEnsNode.Enable = 'off';
-            app.HighlightedEnsNode.Tooltip = {'Select a node to highlight their connections'};
+            app.HighlightedEnsNode.Tooltip = {'Select a node to highlight their connections. Select ''-1'' to view connectivity structure of identified ensemble'};
             app.HighlightedEnsNode.Position = [182 19 89 22];
+
+            % Create Label
+            app.Label = uilabel(app.EnsID_IDENS);
+            app.Label.HorizontalAlignment = 'center';
+            app.Label.VerticalAlignment = 'top';
+            app.Label.FontName = 'Arial';
+            app.Label.FontWeight = 'bold';
+            app.Label.FontColor = [0.0745 0.6235 1];
+            app.Label.Position = [706 21 26 22];
+            app.Label.Text = '___';
+
+            % Create EnsembleEnsembleEdgeLabel
+            app.EnsembleEnsembleEdgeLabel = uilabel(app.EnsID_IDENS);
+            app.EnsembleEnsembleEdgeLabel.FontName = 'Arial';
+            app.EnsembleEnsembleEdgeLabel.FontWeight = 'bold';
+            app.EnsembleEnsembleEdgeLabel.FontColor = [0.0745 0.6235 1];
+            app.EnsembleEnsembleEdgeLabel.Position = [736 19 156 22];
+            app.EnsembleEnsembleEdgeLabel.Text = 'Ensemble-Ensemble Edge';
+
+            % Create EnsembleNonEnsembleEdgeLabel
+            app.EnsembleNonEnsembleEdgeLabel = uilabel(app.EnsID_IDENS);
+            app.EnsembleNonEnsembleEdgeLabel.FontName = 'Arial';
+            app.EnsembleNonEnsembleEdgeLabel.FontWeight = 'bold';
+            app.EnsembleNonEnsembleEdgeLabel.FontColor = [0.749 0.749 0.749];
+            app.EnsembleNonEnsembleEdgeLabel.Position = [713 5 179 22];
+            app.EnsembleNonEnsembleEdgeLabel.Text = 'Ensemble-NonEnsemble Edge';
+
+            % Create Label_2
+            app.Label_2 = uilabel(app.EnsID_IDENS);
+            app.Label_2.HorizontalAlignment = 'center';
+            app.Label_2.VerticalAlignment = 'top';
+            app.Label_2.FontName = 'Arial';
+            app.Label_2.FontWeight = 'bold';
+            app.Label_2.FontColor = [0.749 0.749 0.749];
+            app.Label_2.Position = [683 8 26 22];
+            app.Label_2.Text = '___';
+
+            % Create EnsembleNeuronsLabel_4
+            app.EnsembleNeuronsLabel_4 = uilabel(app.EnsID_IDENS);
+            app.EnsembleNeuronsLabel_4.FontName = 'Arial';
+            app.EnsembleNeuronsLabel_4.FontWeight = 'bold';
+            app.EnsembleNeuronsLabel_4.FontColor = [0.0745 0.6235 1];
+            app.EnsembleNeuronsLabel_4.Position = [778 33 114 22];
+            app.EnsembleNeuronsLabel_4.Text = 'Ensemble Neurons';
 
             % Create NodePerformance_IDENS
             app.NodePerformance_IDENS = uipanel(app.IDEns);
@@ -4246,6 +4297,24 @@ classdef PatMap < matlab.apps.AppBase
             % Create PCNCoordinates
             app.PCNCoordinates = uipanel(app.IDPCN);
             app.PCNCoordinates.Position = [425 17 710 710];
+
+            % Create PatternCompletionNeuronsLabel_2
+            app.PatternCompletionNeuronsLabel_2 = uilabel(app.PCNCoordinates);
+            app.PatternCompletionNeuronsLabel_2.FontName = 'Arial';
+            app.PatternCompletionNeuronsLabel_2.FontSize = 14;
+            app.PatternCompletionNeuronsLabel_2.FontWeight = 'bold';
+            app.PatternCompletionNeuronsLabel_2.FontColor = [1 0.3098 0.2941];
+            app.PatternCompletionNeuronsLabel_2.Position = [13 10 196 22];
+            app.PatternCompletionNeuronsLabel_2.Text = 'Pattern Completion Neurons';
+
+            % Create EnsembleNeuronsLabel_2
+            app.EnsembleNeuronsLabel_2 = uilabel(app.PCNCoordinates);
+            app.EnsembleNeuronsLabel_2.FontName = 'Arial';
+            app.EnsembleNeuronsLabel_2.FontSize = 14;
+            app.EnsembleNeuronsLabel_2.FontWeight = 'bold';
+            app.EnsembleNeuronsLabel_2.FontColor = [0.0745 0.6235 1];
+            app.EnsembleNeuronsLabel_2.Position = [223 10 132 22];
+            app.EnsembleNeuronsLabel_2.Text = 'Ensemble Neurons';
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';

@@ -17,13 +17,6 @@ catch
     udf_labels = [];
 end
 
-try 
-    udf_labels = load(app.file_udf, 'labels');
-    app.udf_labels = udf_labels.labels;
-catch
-    udf_labels = [];
-end
-
 if isempty(app.udf_labels) && ~isempty(app.udf)
     [~, num_udf] = size(app.udf);
     udf_labels = simulate_udf_labels(num_udf);
