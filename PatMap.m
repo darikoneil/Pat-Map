@@ -163,7 +163,7 @@ classdef PatMap < matlab.apps.AppBase
         RunningSL                       matlab.ui.container.Panel
         LearningLabel                   matlab.ui.control.Label
         PerformStructuralLearningButton  matlab.ui.control.Button
-        SeedStructuresEditFieldLabel    matlab.ui.control.Label
+        NumberofSeedStructuresLabel     matlab.ui.control.Label
         FirstPassStructuresEditField    matlab.ui.control.NumericEditField
         PreviewPassedStructuresButton   matlab.ui.control.Button
         TotalPassedStructuresEditFieldLabel  matlab.ui.control.Label
@@ -207,7 +207,7 @@ classdef PatMap < matlab.apps.AppBase
         Learning_PE                     matlab.ui.container.Panel
         LearningLabelPanel_PE           matlab.ui.control.Label
         PerformParameterEstimationButton  matlab.ui.control.Button
-        SeedModelsLabel                 matlab.ui.control.Label
+        NumberofSeedModelsLabel_2       matlab.ui.control.Label
         FirstPassModelsEditField        matlab.ui.control.NumericEditField
         TotalLearnedModelsLabel         matlab.ui.control.Label
         TotalLearnedModelsEditField     matlab.ui.control.NumericEditField
@@ -1174,7 +1174,6 @@ classdef PatMap < matlab.apps.AppBase
         % Key press function: UIFigure
         function KeyPressedAction(app, event)
             key = event.Key;
-            disp(key);
             switch key
                 case 'rightarrow'
                     update_udf_press(app, 1);
@@ -1654,8 +1653,8 @@ classdef PatMap < matlab.apps.AppBase
             app.NumberofSeedModelsLabel = uilabel(app.ParamsPanel);
             app.NumberofSeedModelsLabel.HorizontalAlignment = 'right';
             app.NumberofSeedModelsLabel.FontName = 'Arial';
-            app.NumberofSeedModelsLabel.Position = [317 75 138 22];
-            app.NumberofSeedModelsLabel.Text = 'Number of  Seed Models';
+            app.NumberofSeedModelsLabel.Position = [320 75 135 22];
+            app.NumberofSeedModelsLabel.Text = 'Number of Seed Models';
 
             % Create NumberofSeedModelsEditField
             app.NumberofSeedModelsEditField = uieditfield(app.ParamsPanel, 'numeric');
@@ -2449,13 +2448,13 @@ classdef PatMap < matlab.apps.AppBase
             app.PerformStructuralLearningButton.Position = [21 139 190 40];
             app.PerformStructuralLearningButton.Text = 'Perform Structural Learning';
 
-            % Create SeedStructuresEditFieldLabel
-            app.SeedStructuresEditFieldLabel = uilabel(app.RunningSL);
-            app.SeedStructuresEditFieldLabel.HorizontalAlignment = 'center';
-            app.SeedStructuresEditFieldLabel.FontName = 'Arial';
-            app.SeedStructuresEditFieldLabel.FontSize = 14;
-            app.SeedStructuresEditFieldLabel.Position = [231 139 170 40];
-            app.SeedStructuresEditFieldLabel.Text = 'Seed Structures';
+            % Create NumberofSeedStructuresLabel
+            app.NumberofSeedStructuresLabel = uilabel(app.RunningSL);
+            app.NumberofSeedStructuresLabel.HorizontalAlignment = 'center';
+            app.NumberofSeedStructuresLabel.FontName = 'Arial';
+            app.NumberofSeedStructuresLabel.FontSize = 14;
+            app.NumberofSeedStructuresLabel.Position = [229 139 175 40];
+            app.NumberofSeedStructuresLabel.Text = 'Number of Seed Structures';
 
             % Create FirstPassStructuresEditField
             app.FirstPassStructuresEditField = uieditfield(app.RunningSL, 'numeric');
@@ -2815,13 +2814,13 @@ classdef PatMap < matlab.apps.AppBase
             app.PerformParameterEstimationButton.Position = [10 139 205 40];
             app.PerformParameterEstimationButton.Text = 'Perform Parameter Estimation';
 
-            % Create SeedModelsLabel
-            app.SeedModelsLabel = uilabel(app.Learning_PE);
-            app.SeedModelsLabel.HorizontalAlignment = 'center';
-            app.SeedModelsLabel.FontName = 'Arial';
-            app.SeedModelsLabel.FontSize = 14;
-            app.SeedModelsLabel.Position = [227 139 170 40];
-            app.SeedModelsLabel.Text = 'Seed Models';
+            % Create NumberofSeedModelsLabel_2
+            app.NumberofSeedModelsLabel_2 = uilabel(app.Learning_PE);
+            app.NumberofSeedModelsLabel_2.HorizontalAlignment = 'center';
+            app.NumberofSeedModelsLabel_2.FontName = 'Arial';
+            app.NumberofSeedModelsLabel_2.FontSize = 14;
+            app.NumberofSeedModelsLabel_2.Position = [227 139 170 40];
+            app.NumberofSeedModelsLabel_2.Text = 'Number of Seed Models';
 
             % Create FirstPassModelsEditField
             app.FirstPassModelsEditField = uieditfield(app.Learning_PE, 'numeric');
