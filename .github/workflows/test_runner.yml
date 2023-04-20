@@ -5,7 +5,7 @@ on:
     branches: ["main"]
     
 jobs:
-  patmap_test_runner:
+  my-job:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
@@ -14,7 +14,9 @@ jobs:
     name: Run MATLAB Script
     runs-on: ${{ matrix.os }}
     steps:
-    -uses: actions/checkout@v3
-    -name: Checkout
-     uses: matlab-actions/setup-matlab@v1 ${{ release }}
-     
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v1
+        with:
+          release: ${{ matrix.release }}
