@@ -126,5 +126,5 @@ hold(app.ensemble_coordinates, 'off');
 chi=get(app.ensemble_coordinates, 'Children');
 %Reverse the stacking order so that the patch overlays the line
 set(app.ensemble_coordinates, 'Children',flipud(chi));
-text_spot = text(app.ensemble_coordinates, 75, 142,  'Ensemble Neurons', 'Color', app.newcolors(4,:), 'FontWeight', 'bold', 'FontSize', 14);
+%text_spot = text(app.ensemble_coordinates, 75, 142,  'Ensemble Neurons', 'Color', app.newcolors(4,:), 'FontWeight', 'bold', 'FontSize', 14);
 end

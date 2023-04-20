@@ -1,10 +1,10 @@
 function wrapped_run_all(app)
     
 % panel one
-    if ~app.is_validated
+    if isempty(app.is_validated)
         validate_data_button_pushed(app);
     end
-    unlock_buttons(app, params.stage);
+    unlock_buttons(app, app.params.stage);
     
     
     % panel two A

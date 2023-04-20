@@ -56,6 +56,6 @@ end
 hold(app.pattern_completion_coordinates,'off');
 app.pattern_completion_coordinates.YDir='reverse';
 axis(app.pattern_completion_coordinates,'tight');
-text_spot = text(app.pattern_completion_coordinates, 1, 139,  'Pattern Completion Neurons', 'Color', app.newcolors(3,:), 'FontWeight', 'bold');
-text_spot = text(app.pattern_completion_coordinates, 75, 139,  'Ensemble Neurons', 'Color', app.newcolors(4,:), 'FontWeight', 'bold');
+%text_spot = text(app.pattern_completion_coordinates, 1, 139,  'Pattern Completion Neurons', 'Color', app.newcolors(3,:), 'FontWeight', 'bold');
+%text_spot = text(app.pattern_completion_coordinates, 75, 139,  'Ensemble Neurons', 'Color', app.newcolors(4,:), 'FontWeight', 'bold');
 end
