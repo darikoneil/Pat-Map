@@ -43,20 +43,20 @@ if par_proc
         end
 else %temp short circuit for debug
      wb = CmdLineProgressBar('Conducting Log-Likelihood Ratio Test on each Neuron in Turn');
-        for ii = 1:(num_udf_nodes * 2)
-           if ii <= num_udf_nodes
+        for ii = 1 : num_udf_nodes
                 off_fv = dataset(:, :);
                 off_fv(:, udf_node_ids(ii)) = 0;
                 log_likelihood_ratios_on_off{ii} = calculate_log_likelihood(off_fv, node_potentials, edge_potentials,...
                    log_z); 
-           else
+        wb.print(ii, num_udf_nodes * 2);
+        end
+        for ii = (num_udf_nodes+1):(length(udf_node_ids))
                on_fv = dataset(:, :);
-               on_fv(:, udf_node_ids(ii)) = 1;
+               on_fv(:, udf_node_ids(ii)-num_nodes) = 1;
                log_likelihood_ratios_on_off{ii} = calculate_log_likelihood(on_fv, node_potentials, edge_potentials,...
                    log_z); 
-           end
-            wb.print(ii, num_udf_nodes * 2);
         end
+        wb.print(ii, num_udf_nodes * 2);
 end
     
 log_likelihood_ratios_on_off = pagetranspose(cell2mat(permute(reshape(log_likelihood_ratios_on_off, num_udf_nodes, 2),...

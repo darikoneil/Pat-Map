@@ -126,8 +126,6 @@ if found_params && app.params.stage >=4
         app.BestModelLamp.Color = [0.87 0.27 0.27];
     end
     try
-        optimization_results = load(filename, 'optimization_results');
-        app.optimization_results = optimization_results.optimization_results;
         if isempty(app.optimization_results)
             wrap_seeds_into_optimization(app);
         end
