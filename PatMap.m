@@ -1197,16 +1197,13 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create UIFigure and hide until all components are created
             app.UIFigure = uifigure('Visible', 'off');
-            app.UIFigure.AutoResizeChildren = 'off';
             app.UIFigure.Colormap = [0.2431 0.149 0.6588;0.2431 0.1529 0.6745;0.2471 0.1569 0.6863;0.2471 0.1608 0.698;0.251 0.1647 0.7059;0.251 0.1686 0.7176;0.2549 0.1725 0.7294;0.2549 0.1765 0.7412;0.2588 0.1804 0.749;0.2588 0.1843 0.7608;0.2627 0.1882 0.7725;0.2627 0.1922 0.7843;0.2627 0.1961 0.7922;0.2667 0.2 0.8039;0.2667 0.2039 0.8157;0.2706 0.2078 0.8235;0.2706 0.2157 0.8353;0.2706 0.2196 0.8431;0.2745 0.2235 0.851;0.2745 0.2275 0.8627;0.2745 0.2314 0.8706;0.2745 0.2392 0.8784;0.2784 0.2431 0.8824;0.2784 0.2471 0.8902;0.2784 0.2549 0.898;0.2784 0.2588 0.902;0.2784 0.2667 0.9098;0.2784 0.2706 0.9137;0.2784 0.2745 0.9216;0.2824 0.2824 0.9255;0.2824 0.2863 0.9294;0.2824 0.2941 0.9333;0.2824 0.298 0.9412;0.2824 0.3059 0.9451;0.2824 0.3098 0.949;0.2824 0.3137 0.9529;0.2824 0.3216 0.9569;0.2824 0.3255 0.9608;0.2824 0.3294 0.9647;0.2784 0.3373 0.9686;0.2784 0.3412 0.9686;0.2784 0.349 0.9725;0.2784 0.3529 0.9765;0.2784 0.3569 0.9804;0.2784 0.3647 0.9804;0.2745 0.3686 0.9843;0.2745 0.3765 0.9843;0.2745 0.3804 0.9882;0.2706 0.3843 0.9882;0.2706 0.3922 0.9922;0.2667 0.3961 0.9922;0.2627 0.4039 0.9922;0.2627 0.4078 0.9961;0.2588 0.4157 0.9961;0.2549 0.4196 0.9961;0.251 0.4275 0.9961;0.2471 0.4314 1;0.2431 0.4392 1;0.2353 0.4431 1;0.2314 0.451 1;0.2235 0.4549 1;0.2196 0.4627 0.9961;0.2118 0.4667 0.9961;0.2078 0.4745 0.9922;0.2 0.4784 0.9922;0.1961 0.4863 0.9882;0.1922 0.4902 0.9882;0.1882 0.498 0.9843;0.1843 0.502 0.9804;0.1843 0.5098 0.9804;0.1804 0.5137 0.9765;0.1804 0.5176 0.9725;0.1804 0.5255 0.9725;0.1804 0.5294 0.9686;0.1765 0.5333 0.9647;0.1765 0.5412 0.9608;0.1765 0.5451 0.9569;0.1765 0.549 0.9529;0.1765 0.5569 0.949;0.1725 0.5608 0.9451;0.1725 0.5647 0.9412;0.1686 0.5686 0.9373;0.1647 0.5765 0.9333;0.1608 0.5804 0.9294;0.1569 0.5843 0.9255;0.1529 0.5922 0.9216;0.1529 0.5961 0.9176;0.149 0.6 0.9137;0.149 0.6039 0.9098;0.1451 0.6078 0.9098;0.1451 0.6118 0.9059;0.1412 0.6196 0.902;0.1412 0.6235 0.898;0.1373 0.6275 0.898;0.1373 0.6314 0.8941;0.1333 0.6353 0.8941;0.1294 0.6392 0.8902;0.1255 0.6471 0.8902;0.1216 0.651 0.8863;0.1176 0.6549 0.8824;0.1137 0.6588 0.8824;0.1137 0.6627 0.8784;0.1098 0.6667 0.8745;0.1059 0.6706 0.8706;0.102 0.6745 0.8667;0.098 0.6784 0.8627;0.0902 0.6824 0.8549;0.0863 0.6863 0.851;0.0784 0.6902 0.8471;0.0706 0.6941 0.8392;0.0627 0.698 0.8353;0.0549 0.702 0.8314;0.0431 0.702 0.8235;0.0314 0.7059 0.8196;0.0235 0.7098 0.8118;0.0157 0.7137 0.8078;0.0078 0.7176 0.8;0.0039 0.7176 0.7922;0 0.7216 0.7882;0 0.7255 0.7804;0 0.7294 0.7765;0.0039 0.7294 0.7686;0.0078 0.7333 0.7608;0.0157 0.7333 0.7569;0.0235 0.7373 0.749;0.0353 0.7412 0.7412;0.051 0.7412 0.7373;0.0627 0.7451 0.7294;0.0784 0.7451 0.7216;0.0902 0.749 0.7137;0.102 0.7529 0.7098;0.1137 0.7529 0.702;0.1255 0.7569 0.6941;0.1373 0.7569 0.6863;0.1451 0.7608 0.6824;0.1529 0.7608 0.6745;0.1608 0.7647 0.6667;0.1686 0.7647 0.6588;0.1725 0.7686 0.651;0.1804 0.7686 0.6471;0.1843 0.7725 0.6392;0.1922 0.7725 0.6314;0.1961 0.7765 0.6235;0.2 0.7804 0.6157;0.2078 0.7804 0.6078;0.2118 0.7843 0.6;0.2196 0.7843 0.5882;0.2235 0.7882 0.5804;0.2314 0.7882 0.5725;0.2392 0.7922 0.5647;0.251 0.7922 0.5529;0.2588 0.7922 0.5451;0.2706 0.7961 0.5373;0.2824 0.7961 0.5255;0.2941 0.7961 0.5176;0.3059 0.8 0.5059;0.3176 0.8 0.498;0.3294 0.8 0.4863;0.3412 0.8 0.4784;0.3529 0.8 0.4667;0.3686 0.8039 0.4549;0.3804 0.8039 0.4471;0.3922 0.8039 0.4353;0.4039 0.8039 0.4235;0.4196 0.8039 0.4118;0.4314 0.8039 0.4;0.4471 0.8039 0.3922;0.4627 0.8 0.3804;0.4745 0.8 0.3686;0.4902 0.8 0.3569;0.5059 0.8 0.349;0.5176 0.8 0.3373;0.5333 0.7961 0.3255;0.5451 0.7961 0.3176;0.5608 0.7961 0.3059;0.5765 0.7922 0.2941;0.5882 0.7922 0.2824;0.6039 0.7882 0.2745;0.6157 0.7882 0.2627;0.6314 0.7843 0.251;0.6431 0.7843 0.2431;0.6549 0.7804 0.2314;0.6706 0.7804 0.2235;0.6824 0.7765 0.2157;0.698 0.7765 0.2078;0.7098 0.7725 0.2;0.7216 0.7686 0.1922;0.7333 0.7686 0.1843;0.7451 0.7647 0.1765;0.7608 0.7647 0.1725;0.7725 0.7608 0.1647;0.7843 0.7569 0.1608;0.7961 0.7569 0.1569;0.8078 0.7529 0.1529;0.8157 0.749 0.1529;0.8275 0.749 0.1529;0.8392 0.7451 0.1529;0.851 0.7451 0.1569;0.8588 0.7412 0.1569;0.8706 0.7373 0.1608;0.8824 0.7373 0.1647;0.8902 0.7373 0.1686;0.902 0.7333 0.1765;0.9098 0.7333 0.1804;0.9176 0.7294 0.1882;0.9255 0.7294 0.1961;0.9373 0.7294 0.2078;0.9451 0.7294 0.2157;0.9529 0.7294 0.2235;0.9608 0.7294 0.2314;0.9686 0.7294 0.2392;0.9765 0.7294 0.2431;0.9843 0.7333 0.2431;0.9882 0.7373 0.2431;0.9961 0.7412 0.2392;0.9961 0.7451 0.2353;0.9961 0.7529 0.2314;0.9961 0.7569 0.2275;0.9961 0.7608 0.2235;0.9961 0.7686 0.2196;0.9961 0.7725 0.2157;0.9961 0.7804 0.2078;0.9961 0.7843 0.2039;0.9961 0.7922 0.2;0.9922 0.7961 0.1961;0.9922 0.8039 0.1922;0.9922 0.8078 0.1922;0.9882 0.8157 0.1882;0.9843 0.8235 0.1843;0.9843 0.8275 0.1804;0.9804 0.8353 0.1804;0.9765 0.8392 0.1765;0.9765 0.8471 0.1725;0.9725 0.851 0.1686;0.9686 0.8588 0.1647;0.9686 0.8667 0.1647;0.9647 0.8706 0.1608;0.9647 0.8784 0.1569;0.9608 0.8824 0.1569;0.9608 0.8902 0.1529;0.9608 0.898 0.149;0.9608 0.902 0.149;0.9608 0.9098 0.1451;0.9608 0.9137 0.1412;0.9608 0.9216 0.1373;0.9608 0.9255 0.1333;0.9608 0.9333 0.1294;0.9647 0.9373 0.1255;0.9647 0.9451 0.1216;0.9647 0.949 0.1176;0.9686 0.9569 0.1098;0.9686 0.9608 0.1059;0.9725 0.9686 0.102;0.9725 0.9725 0.0941;0.9765 0.9765 0.0863;0.9765 0.9843 0.0824];
             app.UIFigure.Position = [1 30 1920 1020];
             app.UIFigure.Name = 'MATLAB App';
-            app.UIFigure.Resize = 'off';
             app.UIFigure.KeyPressFcn = createCallbackFcn(app, @KeyPressedAction, true);
 
             % Create IOPanel
             app.IOPanel = uipanel(app.UIFigure);
-            app.IOPanel.AutoResizeChildren = 'off';
             app.IOPanel.Position = [1 821 1920 200];
 
             % Create LoggingConsoleLabel
@@ -1250,18 +1247,15 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create TabGroup
             app.TabGroup = uitabgroup(app.UIFigure);
-            app.TabGroup.AutoResizeChildren = 'off';
             app.TabGroup.SelectionChangedFcn = createCallbackFcn(app, @TabGroupSelectionChanged, true);
             app.TabGroup.Position = [21 31 1880 770];
 
             % Create IOTab
             app.IOTab = uitab(app.TabGroup);
-            app.IOTab.AutoResizeChildren = 'off';
             app.IOTab.Title = 'IO';
 
             % Create ParamsPanel
             app.ParamsPanel = uipanel(app.IOTab);
-            app.ParamsPanel.AutoResizeChildren = 'off';
             app.ParamsPanel.FontName = 'Arial';
             app.ParamsPanel.Position = [951 25 910 700];
 
@@ -1928,12 +1922,10 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create IOModelPanel
             app.IOModelPanel = uipanel(app.IOTab);
-            app.IOModelPanel.AutoResizeChildren = 'off';
             app.IOModelPanel.Position = [21 25 910 700];
 
             % Create NewModelPanel
             app.NewModelPanel = uipanel(app.IOModelPanel);
-            app.NewModelPanel.AutoResizeChildren = 'off';
             app.NewModelPanel.Position = [21 449 870 230];
 
             % Create InitializeNewModelLabel
@@ -2046,7 +2038,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create IOExistingPanel
             app.IOExistingPanel = uipanel(app.IOModelPanel);
-            app.IOExistingPanel.AutoResizeChildren = 'off';
             app.IOExistingPanel.Position = [21 299 870 130];
 
             % Create ImportExistingModelLabel
@@ -2197,27 +2188,22 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create SLTab_2
             app.SLTab_2 = uitab(app.TabGroup);
-            app.SLTab_2.AutoResizeChildren = 'off';
             app.SLTab_2.Title = 'Training';
 
             % Create OptimizationPanel
             app.OptimizationPanel = uipanel(app.SLTab_2);
-            app.OptimizationPanel.AutoResizeChildren = 'off';
             app.OptimizationPanel.Position = [961 15 900 730];
 
             % Create TabGroup2
             app.TabGroup2 = uitabgroup(app.SLTab_2);
-            app.TabGroup2.AutoResizeChildren = 'off';
             app.TabGroup2.Position = [0 15 962 730];
 
             % Create StructuralLearningTab
             app.StructuralLearningTab = uitab(app.TabGroup2);
-            app.StructuralLearningTab.AutoResizeChildren = 'off';
             app.StructuralLearningTab.Title = 'Structural Learning';
 
             % Create SLParams
             app.SLParams = uipanel(app.StructuralLearningTab);
-            app.SLParams.AutoResizeChildren = 'off';
             app.SLParams.Position = [17 478 920 216];
 
             % Create StructuralLearningParametersLabel
@@ -2427,7 +2413,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create RunningSL
             app.RunningSL = uipanel(app.StructuralLearningTab);
-            app.RunningSL.AutoResizeChildren = 'off';
             app.RunningSL.Position = [17 250 640 220];
 
             % Create LearningLabel
@@ -2525,22 +2510,18 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create ParameterSpacePanel_SL
             app.ParameterSpacePanel_SL = uipanel(app.StructuralLearningTab);
-            app.ParameterSpacePanel_SL.AutoResizeChildren = 'off';
             app.ParameterSpacePanel_SL.Position = [677 250 260 220];
 
             % Create DegreesSL
             app.DegreesSL = uipanel(app.StructuralLearningTab);
-            app.DegreesSL.AutoResizeChildren = 'off';
             app.DegreesSL.Position = [18 10 921 230];
 
             % Create ParameterEstimationTab
             app.ParameterEstimationTab = uitab(app.TabGroup2);
-            app.ParameterEstimationTab.AutoResizeChildren = 'off';
             app.ParameterEstimationTab.Title = 'Parameter Estimation';
 
             % Create PEParams
             app.PEParams = uipanel(app.ParameterEstimationTab);
-            app.PEParams.AutoResizeChildren = 'off';
             app.PEParams.Position = [18 481 920 216];
 
             % Create ParameterEstimationSettingsLabel
@@ -2793,7 +2774,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create Learning_PE
             app.Learning_PE = uipanel(app.ParameterEstimationTab);
-            app.Learning_PE.AutoResizeChildren = 'off';
             app.Learning_PE.Position = [19 255 640 220];
 
             % Create LearningLabelPanel_PE
@@ -2919,12 +2899,10 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create ParameterSpacePanel_PE
             app.ParameterSpacePanel_PE = uipanel(app.ParameterEstimationTab);
-            app.ParameterSpacePanel_PE.AutoResizeChildren = 'off';
             app.ParameterSpacePanel_PE.Position = [679 255 260 220];
 
             % Create Potentials_PE
             app.Potentials_PE = uipanel(app.ParameterEstimationTab);
-            app.Potentials_PE.AutoResizeChildren = 'off';
             app.Potentials_PE.FontName = 'Arial';
             app.Potentials_PE.Position = [18 5 921 230];
 
@@ -2964,7 +2942,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create BigDecodingPlot
             app.BigDecodingPlot = uipanel(app.EVModel);
-            app.BigDecodingPlot.AutoResizeChildren = 'off';
             app.BigDecodingPlot.Position = [961 15 900 710];
 
             % Create HighlightedNodeLabel
@@ -2991,7 +2968,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create EVParams
             app.EVParams = uipanel(app.EVModel);
-            app.EVParams.AutoResizeChildren = 'off';
             app.EVParams.Position = [21 315 440 410];
 
             % Create ModelEvaluationLabel
@@ -3521,7 +3497,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create IDParams
             app.IDParams = uipanel(app.IDEns);
-            app.IDParams.AutoResizeChildren = 'off';
             app.IDParams.Position = [21 509 920 216];
 
             % Create IdentificationofNeuronalEnsemblesParametersLabel
@@ -3762,7 +3737,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create EnsID_IDENS
             app.EnsID_IDENS = uipanel(app.IDEns);
-            app.EnsID_IDENS.AutoResizeChildren = 'off';
             app.EnsID_IDENS.Position = [961 14 900 710];
 
             % Create HighlightedNodeLabel_4
@@ -3855,7 +3829,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create EnsembleEvalParams
             app.EnsembleEvalParams = uipanel(app.EVEns);
-            app.EnsembleEvalParams.AutoResizeChildren = 'off';
             app.EnsembleEvalParams.Position = [21 345 478 380];
 
             % Create NeuronalEnsembleEvaluationLabel_EV
@@ -4142,17 +4115,14 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create PCNScatter
             app.PCNScatter = uipanel(app.IDPCN);
-            app.PCNScatter.AutoResizeChildren = 'off';
             app.PCNScatter.Position = [1153 17 710 710];
 
             % Create PCNParams
             app.PCNParams = uipanel(app.IDPCN);
-            app.PCNParams.AutoResizeChildren = 'off';
             app.PCNParams.Position = [23 17 385 708];
 
             % Create Panel_2
             app.Panel_2 = uipanel(app.PCNParams);
-            app.Panel_2.AutoResizeChildren = 'off';
             app.Panel_2.Position = [20 23 343 474];
 
             % Create UDFLabel_4
@@ -4255,7 +4225,6 @@ classdef PatMap < matlab.apps.AppBase
 
             % Create Panel
             app.Panel = uipanel(app.PCNParams);
-            app.Panel.AutoResizeChildren = 'off';
             app.Panel.Position = [23 517 341 174];
 
             % Create PatternCompletionNeuronsLabel
