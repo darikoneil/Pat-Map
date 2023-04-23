@@ -9,8 +9,11 @@ Memory: scales with dataset size; a minimum of 8GB required.
 ##### Licensed Software:
 Matlab 2020b (Recommended), >=Matlab 2019a (Required)
 
-##### Operating System:
-PatMap is functional on Windows, Linux, and Mac operating systems.
+##### Operating System:     
+PatMap has been tested on Windows 10, Ubuntu 20.04 LTS, 
+
+##### Matlab Release Compatibility:     
+PatMap has been tested on Matlab 2020b
 
 ##### Included Dependencies:
 * MexCPP'
@@ -22,8 +25,10 @@ PatMap is functional on Windows, Linux, and Mac operating systems.
 'modified, must use this repo as source
 
 ##### Installation
-No installation is required.
-
+Windows: No installation is required.      
+Ubuntu >= 20.04 LTS:
+Enter the following in your system's terminal     
+`LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/your_path_here/src/third_party/fortran_support_modern_ubuntu/libgfortran.so.3`
 
 ##### Launching GUI
 ```app = pat_map();```
