@@ -1,1 +1,1 @@
-disp('42');
+disp(pwd);
