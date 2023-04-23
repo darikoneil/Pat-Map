@@ -1,4 +1,9 @@
 
+basepath = pwd; %current folder
+
+% Add source functions
+addpath(genpath(strcat(basepath,'\src')));
+
 app = pat_map();
 
 dataset = 'example_datasets/drifting_gratings/visual_cortex';
