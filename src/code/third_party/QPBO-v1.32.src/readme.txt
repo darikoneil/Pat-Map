@@ -1,3 +1,3 @@
-Note: original source was modified for use in this repo
+Original source was modified for use in this repo
 
-- PatMap
+UPDATED: Darik A. O'Neil, 04/23/2023
