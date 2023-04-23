@@ -1,6 +1,7 @@
 disp(pwd);
 
-dir pwd; %current folder
+basepath  = pwd;
+dir basepath; %current folder
 
 
 
