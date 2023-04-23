@@ -5,6 +5,5 @@ basepath = pwd; %current folder
 % Add source functions
 addpath(genpath(strcat(basepath,'\src')));
 
-app = struct();
+dir strcat(basepath,'\src')
 
-generate_components(app);
