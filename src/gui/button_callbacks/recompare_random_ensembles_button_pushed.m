@@ -5,7 +5,7 @@ num_deviations = app.DeviationsEditField.Value;
 plot_node_performance_distribution(app);
 plot_ensemble_coordinates(app);
 update_ensemble_text(app);
-update_log(app, 'Recomparing to random ensembles with explicit deviations');
+update_log(app, 'Finished recomparing to random ensembles with explicit deviations');
 
 app.StimulusEditField.Enable='on';
 app.BandwidthEditField_ID.Enable='on';
