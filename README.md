@@ -22,6 +22,7 @@ PatMap has been tested on:
 Matlab 2020b      
 
 #### Matlab Add-on Dependencies:
+*
 * Parallel Computing Toolbox (optional)
 * Signal Processing Toolbox
 * Statistics and Machine Learning Toolbox
@@ -42,6 +43,10 @@ Matlab 2020b
 **Ubuntu >= 20.04 LTS**:      
 Set the system path for libgfortran3 in your system's terminal before starting matlab:      
 `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/{your_patmap_path_here}/src/third_party/fortran_support_modern_ubuntu/libgfortran.so.3`
+
+**Ubuntu <= 20.04 LTS**:
+Install libgfortran3 if not already present:
+`sudo apt-get install libgfortran3`
 
 ### Using the GUI     
 #### Launching GUI
