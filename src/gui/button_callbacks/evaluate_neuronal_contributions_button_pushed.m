@@ -1,8 +1,12 @@
 function evaluate_neuronal_contributions_button_pushed(app)
   
   update_log(app, 'Evaluating Neuronal Contributions...');
- [user_mem, ~] = memory();
- RAM = user_mem.MaxPossibleArrayBytes/(1024^3)*0.95;
+  if ispc()
+    [user_mem, ~] = memory();
+    RAM = user_mem.MaxPossibleArrayBytes/(1024^3)*0.95;
+  else
+    RAM = 0.95*8192;
+  end
   if app.params.par_proc
       num_workers = gcp('nocreate').NumWorkers;
       RAM = RAM/num_workers;
