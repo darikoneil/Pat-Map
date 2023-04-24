@@ -15,6 +15,12 @@ PatMap has been tested on Windows 10, Ubuntu 20.04 LTS,
 #### Matlab Release Compatibility:     
 PatMap has been tested on Matlab 2020b
 
+#### Matlab Add-on Dependencies:
+* Parallel Computing Toolbox (optional)
+* Signal Processing Toolbox
+* Statistics and Machine Learning Toolbox
+* Symbolic Math Toolbox
+
 #### Included Dependencies:
 * MexCPP'
 * QPBO v1.32'
@@ -42,7 +48,7 @@ Set the system path for libgfortran3 in your system's terminal before starting m
 
 #### DEV Roadmaps & Changelogs
 
-Version v1.0.1 - 04/20/2023
+Version v1.0.1 - 04/25/2023
 * More consistent namespace/conventions + general refactoring
 * Increased verbosity of validation & enhanced data cleaning
 * Option to overlay rois over imaging z-projection & graphical structure
@@ -57,11 +63,14 @@ Version v1.0.1 - 04/20/2023
 * Enhanced handling of imbalanced datasets
 * Automatic one-hot encoding of a multi-class indicator vector (UDF)
 * Support for udf labels
+* Support for resizing/multiple resolutions
 
 #### TODO v2.0.0 - TBD
 * Incorporate temporal interactions from experimental branch
-* Additional methods for dataset segmentation
+* Incorporate feature function generator from experimental branch
+* Trial-based methods for dataset segmentation
 * Support for additional hyperparameters
 
 #### TODO vX.X.X - TBD
 * cross-platform/language migration
+* parallelized option for quadratic pseudoboolean optimization
