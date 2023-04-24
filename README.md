@@ -10,7 +10,7 @@ Memory: scales with dataset size; a minimum of 8GB required.
 Matlab 2020b (Recommended), >=Matlab 2019a (Required)
 
 #### Operating System:     
-PatMap has been tested on Windows 10, Ubuntu 20.04 LTS, 
+PatMap has been tested on Windows 10, Ubuntu 20.04 LTS, Ubuntu 22.04 LTS
 
 #### Matlab Release Compatibility:     
 PatMap has been tested on Matlab 2020b
