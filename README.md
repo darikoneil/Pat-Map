@@ -10,10 +10,16 @@ Memory: scales with dataset size; a minimum of 8GB required.
 Matlab 2020b (Recommended), >=Matlab 2019a (Required)
 
 #### Operating System:     
-PatMap has been tested on Windows 10, Ubuntu 20.04 LTS, Ubuntu 22.04 LTS
+PatMap has been tested on:
+* Windows 10 
+* Ubuntu 18.04 LTS
+* Ubuntu 20.04 LTS
+* Ubuntu 22.04 LTS
+* MacOS El Capitan 10.11
 
 #### Matlab Release Compatibility:     
-PatMap has been tested on Matlab 2020b
+PatMap has been tested on:
+Matlab 2020b      
 
 #### Matlab Add-on Dependencies:
 * Parallel Computing Toolbox (optional)
@@ -30,12 +36,14 @@ PatMap has been tested on Matlab 2020b
 
 'modified, must use this repo as source
 
-#### **Installation**
-Windows: No installation is required.      
-**Ubuntu >= 20.04 LTS**:
+### **Installation**
+**Windows**: No installation is required.      
+
+**Ubuntu >= 20.04 LTS**:      
 Set the system path for libgfortran3 in your system's terminal before starting matlab:      
 `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/{your_patmap_path_here}/src/third_party/fortran_support_modern_ubuntu/libgfortran.so.3`
 
+### Using the GUI     
 #### Launching GUI
 ```app = pat_map();```
 
@@ -46,9 +54,9 @@ Set the system path for libgfortran3 in your system's terminal before starting m
 * 'down arrow' - highlight previous node
 * 's' - save
 
-#### DEV Roadmaps & Changelogs
+### DEV Roadmaps & Changelogs
 
-Version v1.0.1 - 04/25/2023
+#### Version v1.0.1 - 04/25/2023
 * More consistent namespace/conventions + general refactoring
 * Increased verbosity of validation & enhanced data cleaning
 * Option to overlay rois over imaging z-projection & graphical structure
