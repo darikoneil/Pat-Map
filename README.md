@@ -66,11 +66,13 @@ Version v1.0.1 - 04/25/2023
 * Support for resizing/multiple resolutions
 
 #### TODO v2.0.0 - TBD
-* Incorporate temporal interactions from experimental branch
+* Additional constraint options for structural learning
 * Incorporate feature function generator from experimental branch
-* Trial-based methods for dataset segmentation
+* Incorporate temporal interactions from experimental branch
 * Support for additional hyperparameters
+* Trial-based methods for dataset segmentation
 
 #### TODO vX.X.X - TBD
 * cross-platform/language migration
+* parallelized distribution option for franke-wolfe blocks
 * parallelized option for quadratic pseudoboolean optimization
