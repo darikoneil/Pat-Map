@@ -72,7 +72,9 @@ Version v1.0.1 - 04/25/2023
 * Support for additional hyperparameters
 * Trial-based methods for dataset segmentation
 
-#### TODO vX.X.X - TBD
-* cross-platform/language migration
+#### TODO vX.X.X - Aspirational
+* migration of log-likelihood ratio calculations to C++ or semi-vectorized implementation
+* migration of vectorization to C++
 * parallelized distribution option for franke-wolfe blocks
 * parallelized option for quadratic pseudoboolean optimization
+* python implementation
