@@ -15,7 +15,6 @@ PatMap has been tested on:
 * Ubuntu 18.04 LTS
 * Ubuntu 20.04 LTS
 * Ubuntu 22.04 LTS
-* MacOS El Capitan 10.11
 
 #### Matlab Release Compatibility:     
 PatMap has been tested on:
