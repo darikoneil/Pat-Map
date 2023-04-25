@@ -48,6 +48,9 @@ Set the system path for libgfortran3 in your system's terminal before starting m
 Install libgfortran3 if not already present:
 `sudo apt-get install libgfortran3`
 
+**Compiling from Source**: To compile the mex functions from source (e.g., if you corrupt the compiled files or run into segmentation faults), enter the path to your MATLAB mex file in the Makefile. Then enter the repository's directory and enter `make` in your operating system's terminal.
+
+
 ### Using the GUI     
 #### Launching GUI
 ```app = pat_map();```
