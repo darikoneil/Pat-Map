@@ -22,7 +22,6 @@ PatMap has been tested on:
 Matlab 2020b      
 
 #### Matlab Add-on Dependencies:
-*
 * Parallel Computing Toolbox (optional)
 * Signal Processing Toolbox
 * Statistics and Machine Learning Toolbox
