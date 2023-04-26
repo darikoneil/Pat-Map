@@ -28,7 +28,34 @@
 
 **global_cluster_coefficient**: global clustering coefficient of best model structure
 
-**identified_ensemble_performance**: Structure containing a performance metric structure for ensemble decoding on full, training, and test datasets. Each performance metric structure contains:                  
+**identified_ensemble_performance**: Structure containing a performance metric structure for ensemble decoding on full, training, and test datasets. Each performance metric structure contains and M number of user-defined features by N number of user-defined feature cell array:     
+* *pr_baseline*: empirical frequency of user-defined features (prior), used only for visualizing performance                      
+* *fpr*: false positive rate for each threshold             
+* *tpr*: true positive rate for each threshold              
+* *threshold*: thresholds used in roc curve                 
+* *AUC*: area under receiver operating characteristic                 
+* *operating point*: threshold of optimal decoder                     
+* *recall*: recall for each for each threshold              
+* *precision*: precision for each threshold                 
+* *area_precision_recall*: area under precision recall                
+* *fpr_pt*: false positive rate at operating point                    
+* *tpr_pt*: true positive rate at operating point                     
+* *true_positive_pt*: true positives at operating point               
+* *false_positive_pt*: false positives at operating point             
+* *true_negatives_pt*: true negatives at operating point              
+* *false_negatives_pt*: false negatives at operating point                      
+* *accuracy_pt*: accuracy at operating point                
+* *negative_prediction_value_pt*: negative prediction value at operating point                      
+* *specificity_pt*: specificity at operating point                    
+* *false_negative_rate_pt*: false negative rate at operating point              
+* *rate_positive_prediction_pt*: rate of positive prediction at operating point                     
+* *rate_negative_prediction_pt*: rate of negative prediction at operating point                     
+* *hits_pt*: number of hits at operating point              
+* *balanced_accuracy_pt*: balanced accuracy at operating point                  
+* *recall_pt*: recall at operating point                    
+* *precision_pt*: precision at operating point              
+* *thr*: threshold at operating point             
+
 
 **log_likelihood_by_frame**: M node by N sample matrix containing the log-likelihood ratio of models in which the respective node is forced ON or OFF
 
@@ -45,6 +72,12 @@
 **optimization_results**: snapshot of hyperparameter optimization object. 
 
 **node_scores**: M neuron vector containing sum of 11 potentials for each node                      
+
+**node_performance**: M node by N number of user-defined features cell array in which each cell contains the AUC-ROC or AUC-PR of the node in prediction a user-defined feature
+
+**node_threshold**: 3 x number of user-defined features matrix in each which each column contains the threshold 1 standard deviation below the mean node score, the mean node score, and 1 standard deviation above the mean node score.
+
+**params**: Structure containing all parameters and settings                    
 
 **pattern_completion_nodes**: Cell array whose length is equal to the number of user-defined features. Each cell array contains a 1-order index of the identified pattern completion neurons.     
 
