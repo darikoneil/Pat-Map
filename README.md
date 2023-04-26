@@ -18,7 +18,8 @@ PatMap has been tested on:
 
 #### Matlab Release Compatibility:     
 PatMap has been tested on:
-Matlab 2020b      
+Matlab 2020b
+Matlab 2023a
 
 #### Matlab Add-on Dependencies:
 * Parallel Computing Toolbox (optional)
