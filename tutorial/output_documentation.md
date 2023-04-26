@@ -28,10 +28,21 @@
 
 **global_cluster_coefficient**: global clustering coefficient of best model structure
 
+**identified_ensemble_performance**: Structure containing a performance metric structure for ensemble decoding on full, training, and test datasets. Each performance metric structure contains:                  
+
+**log_likelihood_by_frame**: M node by N sample matrix containing the log-likelihood ratio of models in which the respective node is forced ON or OFF
 
 **ensemble_nodes**: Cell array whose length is equal to the number of user-defined features. Each cell array contains a 1-order index of the identified ensembles neurons.      
 
+**model_collection**: Structure containing:                 
+* *models*: M model cell vector containing learned models. Each model is a stucture containing the same fields as the previously described *best_model*                 * *x_train*: M sample by N node training dataset      
+* *x_test*: M sample by N node testing dataset     
+* *x_valid*: M sample by N node validation dataset 
+
 **models**: M seed model cell vector containing seed models. Each model is a stucture containing the same fields as the previously described *best_model*                 
+**model_performance**: Structure containing a performance metric structure for model decoding on full, training, and test datasets. Each performance metric structure contains: 
+
+**optimization_results**: snapshot of hyperparameter optimization object. 
 
 **node_scores**: M neuron vector containing sum of 11 potentials for each node                      
 
