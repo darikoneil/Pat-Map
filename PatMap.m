@@ -6,7 +6,7 @@ classdef PatMap < matlab.apps.AppBase
         IOPanel                         matlab.ui.container.Panel
         LoggingConsoleLabel             matlab.ui.control.Label
         PatMapLabel                     matlab.ui.control.Label
-        v101Label                       matlab.ui.control.Label
+        v102Label                       matlab.ui.control.Label
         LogTextArea                     matlab.ui.control.TextArea
         ExportButton                    matlab.ui.control.Button
         TabGroup                        matlab.ui.container.TabGroup
@@ -505,6 +505,13 @@ classdef PatMap < matlab.apps.AppBase
         pattern_completion_coordinates;
         % Axes Handle PCN graphical structure
         pattern_completion_structure;
+        
+        
+        % root dir for relative paths
+        % must use conversions to absolute because matlab's relative paths
+        % are wonky and they suggest not using relative paths by
+        % rule-of-thumb...
+        root_dir;
     end
     
     properties (Access = private)
@@ -1224,13 +1231,13 @@ classdef PatMap < matlab.apps.AppBase
             app.PatMapLabel.Position = [65 100 119 39];
             app.PatMapLabel.Text = 'PatMap';
 
-            % Create v101Label
-            app.v101Label = uilabel(app.IOPanel);
-            app.v101Label.FontName = 'Arial';
-            app.v101Label.FontSize = 20;
-            app.v101Label.FontWeight = 'bold';
-            app.v101Label.Position = [91 75 61 24];
-            app.v101Label.Text = 'v1.0.1';
+            % Create v102Label
+            app.v102Label = uilabel(app.IOPanel);
+            app.v102Label.FontName = 'Arial';
+            app.v102Label.FontSize = 20;
+            app.v102Label.FontWeight = 'bold';
+            app.v102Label.Position = [91 75 61 24];
+            app.v102Label.Text = 'v1.0.2';
 
             % Create LogTextArea
             app.LogTextArea = uitextarea(app.IOPanel);
@@ -2727,7 +2734,7 @@ classdef PatMap < matlab.apps.AppBase
             app.ImplementationModeEditField_PE.HorizontalAlignment = 'center';
             app.ImplementationModeEditField_PE.FontName = 'Arial';
             app.ImplementationModeEditField_PE.FontSize = 14;
-            app.ImplementationModeEditField_PE.Tooltip = {'Indicates the implementation used for parameter estimation. 1 is standard, 2 is parallel, 3 is in series (saved checkpoints). 4 is self-optimizing, 5 is self-optimizing in parallel, 6 is self optimizing in series'};
+            app.ImplementationModeEditField_PE.Tooltip = {'Indicates the implementation used for parameter estimation. 1 is standard, 2 is parallel, 3 is seed-only, 4 is seed-only parallel'};
             app.ImplementationModeEditField_PE.Position = [129 135 100 22];
             app.ImplementationModeEditField_PE.Value = 1;
 
@@ -2812,7 +2819,7 @@ classdef PatMap < matlab.apps.AppBase
             app.FirstPassModelsEditField.HorizontalAlignment = 'center';
             app.FirstPassModelsEditField.FontName = 'Arial';
             app.FirstPassModelsEditField.FontSize = 14;
-            app.FirstPassModelsEditField.Tooltip = {'Models allocated to be learned'};
+            app.FirstPassModelsEditField.Tooltip = {'"Seed" models allocated to be learned before modeling the relationship between hyperparameters and performance during optimization.'};
             app.FirstPassModelsEditField.Position = [417 139 40 40];
             app.FirstPassModelsEditField.Value = 16;
 
