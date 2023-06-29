@@ -7,7 +7,9 @@ update_log(app, 'Parsing the Model File');
 % load params file first
 try
     params = load(filename,'params');
-    app.params = params.params;  % ends up nested
+    params = params.params;  % ends up nested
+    params = convert_paths_to_absolute(params);
+    app.params = params;
     app.ParamsLamp.Color = [0.35 0.80 0.41];
     update_log(app, 'Located Parameters');
     found_params = true;

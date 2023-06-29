@@ -5,6 +5,10 @@ function save_all(app, varargin)
 
 update_log(app, 'Saving... Please Wait');
 
+absolute_params = app.params;  % hotfix for relative paths
+
+app.params = convert_paths_to_relative(app.params);
+
 % Let's make a list of things we need
 % I mean this is kind of hardcoded anyway here, but I'm leaving it here for
 % now. Later on, if memory requirements looked a bit much I can just create
@@ -42,11 +46,13 @@ for index = 1:length(things_we_need)
 end
 
 % here's the filename
-filename = [app.params.experiment_directory, '\', 'stage' '_' num2str(app.params.stage) '.mat'];
+filename = [absolute_params.experiment_directory, '\', 'stage' '_' num2str(app.params.stage) '.mat'];
 
 % save
 
 save(filename, things_we_need{:});
+
+app.params = absolute_params;
 
 update_log(app, 'Finished Saving.');
 
