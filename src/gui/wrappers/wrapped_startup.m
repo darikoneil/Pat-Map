@@ -7,19 +7,19 @@ filename = app.file_data;
 
 
 data_directory=pwd;
-data_directory = strcat(data_directory, '/');
+data_directory = strcat(data_directory, filesep);
 
 %Source Directory
 %source_directory = uigetdir(pwd,'Select Programs Directory');
 source_directory=pwd;
-source_directory = strcat(source_directory, '/');
+source_directory = strcat(source_directory, filesep);
 
 %Create Experimental Results Folder
-experiment_directory = strcat(source_directory, 'Experiments', '/', name);
+experiment_directory = strcat(source_directory, 'Experiments', filesep, name);
 mkdir(experiment_directory);
 addpath(experiment_directory);
 
-temp_directory = strcat(experiment_directory,'/tmp'); %directory for temporary files
+temp_directory = strcat(experiment_directory, filesep, 'tmp'); %directory for temporary files
 mkdir(temp_directory);
 addpath(temp_directory);
 
