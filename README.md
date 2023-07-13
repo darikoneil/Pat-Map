@@ -5,7 +5,7 @@
 ### PatMap: Identifying Pattern Completion Neurons in Neuronal Ensembles
 Darik A. O'Neil, Alejandro Akrouh, & Rafael Yuste.
 
-PatMap contains code and a simple graphical user interface for detecting pattern completion neurons using the approach utilized in [Identification of Pattern Completion Neurons in Neuronal Ensembles Using Probabilistic Graphical Models](https://www.jneurosci.org/content/41/41/8577).
+PatMap contains code and a simple graphical user interface for detecting pattern completion neurons using the approach utilized in [Identification of Pattern Completion Neurons in Neuronal Ensembles Using Probabilistic Graphical Models](https://www.jneurosci.org/content/41/41/8577) and as decribed in the associated publication [Mapping Neuronal Ensembles and Pattern Completion Neurons through Graphical Models]()
 
 #### Hardware:
 Memory: scales with dataset size; a minimum of 8GB required. 
