@@ -1,3 +1,7 @@
+[![DOI](https://zenodo.org/badge/416769460.svg)](https://zenodo.org/badge/latestdoi/416769460)
+![GitHub](https://img.shields.io/github/license/darikoneil/Pat-Map)
+[![Contributors](https://img.shields.io/github/contributors-anon/darikoneil/Pat-Map)](https://github.com/darikoneil/Pat-Map/graphs/contributors)
+![Maintenance](https://img.shields.io/maintenance/yes/2023)
 ### PatMap: Identifying Pattern Completion Neurons in Neuronal Ensembles
 Darik A. O'Neil, Alejandro Akrouh, & Rafael Yuste.
 
